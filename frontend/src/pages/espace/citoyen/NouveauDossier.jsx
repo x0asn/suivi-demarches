@@ -1,31 +1,56 @@
-import { ArrowLeft, ArrowRight, Clock, FileCheck2, Landmark } from 'lucide-react'
+import { ArrowLeft, ArrowRight, Clock, FileCheck2, Landmark, MapPin, Scale } from 'lucide-react'
 import { useEffect, useState } from 'react'
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { IconeCategorie } from '../../../components/ui/Icones'
 import { Alerte, Bouton, Chargement, ZoneTexte } from '../../../components/ui'
 import { useAuth } from '../../../context/AuthContext'
 import { useToast } from '../../../context/ToastContext'
 import { api } from '../../../lib/api'
 import { libelleDelai } from '../../../lib/icones'
+import { cx } from '../../../lib/utils'
 import AccesRefuse from '../../erreurs/AccesRefuse'
 import NonTrouve from '../../erreurs/NonTrouve'
+
+const memeCommune = (a, b) => a && b && a.trim().toLowerCase() === b.trim().toLowerCase()
+
+/**
+ * Administration proposée par défaut (M08) : celle choisie sur la carte, la seule habilitée,
+ * ou celle de la commune du citoyen quand la règle est « lieu de résidence ».
+ */
+function administrationParDefaut(procedure, demandee, utilisateur) {
+  const services = procedure.services ?? []
+  if (services.some((s) => s.id === demandee)) return demandee
+  if (services.length === 1) return services[0].id
+  if (procedure.competence?.valeur === 'lieu_residence') {
+    return services.find((s) => memeCommune(s.commune, utilisateur.commune))?.id ?? null
+  }
+  return null
+}
 
 /** RF-006 / UC-03 : démarrer une démarche (étape 1 du parcours de dépôt). */
 export default function NouveauDossier() {
   const { slug } = useParams()
+  const [params] = useSearchParams()
+  const serviceDemande = Number(params.get('service')) || null
   const { utilisateur } = useAuth()
   const navigate = useNavigate()
   const toast = useToast()
   const [procedure, setProcedure] = useState(null)
   const [introuvable, setIntrouvable] = useState(false)
   const [champs, setChamps] = useState({ motif: '', precisions: '' })
+  const [serviceId, setServiceId] = useState(null)
   const [erreur, setErreur] = useState(null)
   const [envoi, setEnvoi] = useState(false)
 
   useEffect(() => {
     api(`/procedures/${slug}`)
-      .then((r) => setProcedure(r.data))
+      .then((r) => {
+        setProcedure(r.data)
+        setServiceId(administrationParDefaut(r.data, serviceDemande, utilisateur))
+      })
       .catch(() => setIntrouvable(true))
+    // Le choix par défaut n'est calculé qu'au chargement de la procédure.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [slug])
 
   if (utilisateur.role !== 'citoyen') return <AccesRefuse />
@@ -37,7 +62,7 @@ export default function NouveauDossier() {
     setErreur(null)
     setEnvoi(true)
     try {
-      const r = await api('/dossiers', { method: 'POST', body: { procedure: slug, ...champs } })
+      const r = await api('/dossiers', { method: 'POST', body: { procedure: slug, service_id: serviceId, ...champs } })
       toast.succes('Ajoutez maintenant vos pièces justificatives.', `Dossier ${r.data.reference} créé`)
       navigate(`/espace/dossiers/${r.data.id}`, { replace: true })
     } catch (err) {
@@ -47,6 +72,8 @@ export default function NouveauDossier() {
   }
 
   const obligatoires = procedure.pieces.filter((p) => p.obligatoire).length
+  const administrations = procedure.services ?? []
+  const administration = administrations.find((s) => s.id === serviceId) ?? (administrations.length === 0 ? procedure.service : null)
 
   return (
     <div className="mx-auto max-w-3xl">
@@ -75,13 +102,44 @@ export default function NouveauDossier() {
             <div className="mt-3 flex flex-wrap gap-x-5 gap-y-1 text-sm text-slate-600">
               <span className="flex items-center gap-1.5"><Clock className="size-4 text-slate-400" aria-hidden /> {libelleDelai(procedure.delai_jours)}</span>
               <span className="flex items-center gap-1.5"><FileCheck2 className="size-4 text-slate-400" aria-hidden /> {obligatoires} pièce{obligatoires > 1 ? 's' : ''} obligatoire{obligatoires > 1 ? 's' : ''}</span>
-              {procedure.service && <span className="flex items-center gap-1.5"><Landmark className="size-4 text-slate-400" aria-hidden /> {procedure.service.nom}</span>}
+              {administration && <span className="flex items-center gap-1.5"><Landmark className="size-4 text-slate-400" aria-hidden /> {administration.nom}</span>}
             </div>
           </div>
         </div>
 
         <form onSubmit={commencer} className="space-y-5 p-6" noValidate>
           {erreur && erreur.status !== 422 && <Alerte type="erreur">{erreur.message}</Alerte>}
+
+          {administrations.length > 1 && (
+            <fieldset>
+              <legend className="text-sm font-medium text-slate-900">À quelle administration adressez-vous votre demande ?</legend>
+              {procedure.competence && (
+                <p className={cx('mt-2 flex gap-2 rounded-xl p-3 text-sm ring-1', procedure.competence.depend_du_territoire ? 'bg-or-50 text-slate-700 ring-or-200' : 'bg-brand-50 text-brand-900 ring-brand-100')}>
+                  <Scale className="mt-0.5 size-4 shrink-0" aria-hidden />
+                  <span><b className="font-semibold">{procedure.competence.libelle}.</b> {procedure.competence.explication}</span>
+                </p>
+              )}
+              <div className="mt-3 grid gap-2 sm:grid-cols-2">
+                {administrations.map((s) => {
+                  const choisie = s.id === serviceId
+                  return (
+                    <label key={s.id} className={cx('flex cursor-pointer items-start gap-2.5 rounded-xl px-3 py-2.5 text-sm ring-1 transition', choisie ? 'bg-brand-50 ring-2 ring-brand-600' : 'ring-slate-200 hover:ring-brand-300')}>
+                      <input type="radio" name="service_id" className="mt-1 size-4 accent-brand-700" checked={choisie} onChange={() => setServiceId(s.id)} />
+                      <span className="min-w-0">
+                        <span className="block font-medium text-slate-900">{s.nom}</span>
+                        <span className="flex items-center gap-1 text-slate-500"><MapPin className="size-3.5 shrink-0" aria-hidden /> {s.commune} · {s.region}</span>
+                        {procedure.competence?.valeur === 'lieu_residence' && memeCommune(s.commune, utilisateur.commune) && <span className="mt-1 inline-block rounded-full bg-brand-700 px-2 py-0.5 text-xs font-semibold text-white">Votre commune</span>}
+                      </span>
+                    </label>
+                  )
+                })}
+              </div>
+              {erreur?.champ('service_id') && <p className="mt-2 text-sm text-red-600" role="alert">{erreur.champ('service_id')}</p>}
+              <Link to={`/services?demarche=${slug}`} className="mt-3 inline-flex items-center gap-1.5 text-sm font-semibold text-brand-700 hover:text-brand-800">
+                Voir ces administrations sur la carte, avec la distance <ArrowRight className="size-4" aria-hidden />
+              </Link>
+            </fieldset>
+          )}
           <ZoneTexte
             label="Objet de votre demande"
             rows={3}

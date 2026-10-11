@@ -32,6 +32,10 @@ class UtilisateursDemoSeeder extends Seeder
             ['prenom' => 'Seynabou', 'nom' => 'Cissé', 'email' => 'agent.entreprise@suivi-demarches.sn', 'telephone' => '+221 77 100 00 11', 'role' => Role::Agent, 'service' => 'Guichet unique de création d’entreprise'],
             ['prenom' => 'Lamine', 'nom' => 'Sall', 'email' => 'agent.impots@suivi-demarches.sn', 'telephone' => '+221 77 100 00 12', 'role' => Role::Agent, 'service' => 'Centre des services fiscaux'],
             ['prenom' => 'Astou', 'nom' => 'Ndour', 'email' => 'agent.bourses@suivi-demarches.sn', 'telephone' => '+221 77 100 00 13', 'role' => Role::Agent, 'service' => 'Direction des bourses — Enseignement supérieur'],
+            ['prenom' => 'Ndeye', 'nom' => 'Gueye', 'email' => 'agent.saint-louis@suivi-demarches.sn', 'telephone' => '+221 77 100 00 14', 'role' => Role::Agent, 'service' => 'Mairie de Saint-Louis'],
+            ['prenom' => 'Malick', 'nom' => 'Diatta', 'email' => 'agent.ziguinchor@suivi-demarches.sn', 'telephone' => '+221 77 100 00 15', 'role' => Role::Agent, 'service' => 'Mairie de Ziguinchor'],
+            ['prenom' => 'Coumba', 'nom' => 'Niang', 'email' => 'agent.tribunal-thies@suivi-demarches.sn', 'telephone' => '+221 77 100 00 16', 'role' => Role::Agent, 'service' => 'Tribunal de grande instance de Thiès'],
+            ['prenom' => 'Abdou', 'nom' => 'Wade', 'email' => 'agent.tribunal-saint-louis@suivi-demarches.sn', 'telephone' => '+221 77 100 00 17', 'role' => Role::Agent, 'service' => 'Tribunal de grande instance de Saint-Louis'],
             ['prenom' => 'Fatou', 'nom' => 'Ba', 'email' => 'citoyen@suivi-demarches.sn', 'telephone' => '+221 77 200 00 01', 'role' => Role::Citoyen, 'region' => 'Dakar', 'commune' => 'Diamniadio'],
             ['prenom' => 'Moussa', 'nom' => 'Sarr', 'email' => 'citoyen2@suivi-demarches.sn', 'telephone' => '+221 77 200 00 02', 'role' => Role::Citoyen, 'region' => 'Dakar', 'commune' => 'Pikine'],
         ];

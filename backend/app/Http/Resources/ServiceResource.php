@@ -26,7 +26,13 @@ class ServiceResource extends JsonResource
             'longitude' => $this->longitude,
             'actif' => $this->actif,
             'procedures_count' => $this->whenCounted('procedures'),
-            'procedures' => ProcedureResource::collection($this->whenLoaded('procedures')),
+            // Démarches traitées par ce service, avec leur règle de compétence (M08).
+            'demarches' => $this->whenLoaded('procedures', fn () => $this->procedures->map(fn ($p) => [
+                'id' => $p->id,
+                'titre' => $p->titre,
+                'slug' => $p->slug,
+                'regle' => $p->regle_competence?->value,
+            ])->values()),
         ];
     }
 }

@@ -17,6 +17,8 @@ class StoreDossierRequest extends FormRequest
     {
         return [
             'procedure' => ['required', 'string'],
+            // Administration choisie par le citoyen parmi celles habilitées (vérifiée dans le contrôleur).
+            'service_id' => ['nullable', 'integer'],
             'motif' => ['nullable', 'string', 'max:2000'],
             'precisions' => ['nullable', 'string', 'max:2000'],
         ];
@@ -24,6 +26,6 @@ class StoreDossierRequest extends FormRequest
 
     public function attributes(): array
     {
-        return ['procedure' => 'procédure', 'motif' => 'objet de la demande'];
+        return ['procedure' => 'procédure', 'service_id' => 'administration', 'motif' => 'objet de la demande'];
     }
 }

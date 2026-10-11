@@ -6,10 +6,9 @@ import {
   Clock,
   FileCheck2,
   Info,
-  Mail,
   MapPin,
-  Phone,
   Printer,
+  Scale,
   Timer,
   UsersRound,
   Wallet,
@@ -50,6 +49,7 @@ export default function ProcedureDetail() {
   }, [slug])
 
   const { procedure, chargement, introuvable } = etat
+  const administrations = procedure?.services ?? []
   if (chargement) return <Chargement texte="Chargement de la procédure…" />
   if (introuvable) {
     return (
@@ -196,24 +196,34 @@ export default function ProcedureDetail() {
             </div>
           </div>
 
-          {procedure.service && (
+          {administrations.length > 0 && (
             <div className="carte p-6">
-              <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Service compétent</p>
-              <div className="mt-3 flex items-start gap-3">
-                <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-slate-100 text-slate-700"><IconeService type={procedure.service.type} className="size-5" /></span>
-                <div className="min-w-0">
-                  <p className="font-semibold text-slate-900">{procedure.service.nom}</p>
-                  <p className="text-sm text-slate-500">{procedure.service.type_libelle}</p>
+              <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Où faire cette démarche ?</p>
+              {procedure.competence && (
+                <div className={`mt-3 rounded-xl p-3 text-sm ring-1 ${procedure.competence.depend_du_territoire ? 'bg-or-50 text-slate-700 ring-or-200' : 'bg-brand-50 text-brand-900 ring-brand-100'}`}>
+                  <p className="flex items-center gap-2 font-semibold text-slate-900"><Scale className="size-4 shrink-0" aria-hidden /> {procedure.competence.libelle}</p>
+                  <p className="mt-1">{procedure.competence.explication}</p>
                 </div>
-              </div>
-              <ul className="mt-5 space-y-2.5 text-sm text-slate-600">
-                {procedure.service.adresse && <li className="flex gap-2.5"><MapPin className="mt-0.5 size-4 shrink-0 text-slate-400" aria-hidden />{procedure.service.adresse}, {procedure.service.commune}</li>}
-                {procedure.service.horaires && <li className="flex gap-2.5"><Clock className="mt-0.5 size-4 shrink-0 text-slate-400" aria-hidden />{procedure.service.horaires}</li>}
-                {procedure.service.telephone && <li className="flex gap-2.5"><Phone className="mt-0.5 size-4 shrink-0 text-slate-400" aria-hidden /><a href={`tel:${procedure.service.telephone.replace(/\s/g, '')}`} className="hover:text-brand-700">{procedure.service.telephone}</a></li>}
-                {procedure.service.email && <li className="flex gap-2.5"><Mail className="mt-0.5 size-4 shrink-0 text-slate-400" aria-hidden /><span className="truncate">{procedure.service.email}</span></li>}
+              )}
+              <p className="mt-4 text-sm font-medium text-slate-900">
+                {administrations.length} administration{administrations.length > 1 ? 's' : ''} habilitée{administrations.length > 1 ? 's' : ''}
+              </p>
+              <ul className="mt-2 divide-y divide-slate-100">
+                {administrations.slice(0, 4).map((s) => (
+                  <li key={s.id}>
+                    <Link to={`/services?demarche=${procedure.slug}&service=${s.id}`} className="group flex items-center gap-3 py-2.5">
+                      <span className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-slate-100 text-slate-700"><IconeService type={s.type} className="size-4" /></span>
+                      <span className="min-w-0 flex-1">
+                        <span className="block truncate text-sm font-semibold text-slate-900 group-hover:text-brand-700">{s.nom}</span>
+                        <span className="flex items-center gap-1 text-xs text-slate-500"><MapPin className="size-3 shrink-0" aria-hidden /> {s.commune} · {s.region}</span>
+                      </span>
+                      <ChevronRight className="size-4 shrink-0 text-slate-300 group-hover:text-brand-600" aria-hidden />
+                    </Link>
+                  </li>
+                ))}
               </ul>
-              <Link to={`/services?service=${procedure.service.id}`} className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-brand-700 hover:text-brand-800">
-                Voir sur la carte <ArrowRight className="size-4" aria-hidden />
+              <Link to={`/services?demarche=${procedure.slug}`} className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-brand-700 hover:text-brand-800">
+                {administrations.length > 4 ? `Voir les ${administrations.length} administrations sur la carte` : 'Carte, distance et itinéraire'} <ArrowRight className="size-4" aria-hidden />
               </Link>
             </div>
           )}

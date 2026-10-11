@@ -397,7 +397,7 @@ function PartoutAuSenegal() {
               </div>
             </dl>
           )}
-          <Bouton vers="/services" variante="or" taille="lg" className="mt-8" iconeDroite={ArrowRight}>Trouver un service près de chez moi</Bouton>
+          <Bouton vers="/services" variante="or" taille="lg" className="mt-8" iconeDroite={ArrowRight}>Trouver l’administration compétente</Bouton>
         </div>
 
         <div className="rounded-3xl bg-white/[0.06] p-6 ring-1 ring-white/10 backdrop-blur-sm sm:p-7">

@@ -40,13 +40,13 @@ class ProcedureController extends Controller
 
     public function show(Procedure $procedure): JsonResponse
     {
-        return $this->succes(new ProcedureResource($procedure->load(['categorie', 'service', 'pieces', 'etapes'])));
+        return $this->succes(new ProcedureResource($procedure->load(['categorie', 'service', 'services', 'pieces', 'etapes'])));
     }
 
     public function store(ProcedureRequest $request): JsonResponse
     {
         $procedure = DB::transaction(function () use ($request) {
-            $procedure = new Procedure($request->safe()->except(['pieces', 'etapes']));
+            $procedure = new Procedure($request->safe()->except(['pieces', 'etapes', 'service_ids']));
             $procedure->slug = $this->slugUnique($request->titre);
             $procedure->statut = 'brouillon';
             $procedure->save();
@@ -58,7 +58,7 @@ class ProcedureController extends Controller
         Journal::enregistrer('admin.procedure.creee', $procedure, ['titre' => $procedure->titre]);
 
         return $this->succes(
-            new ProcedureResource($procedure->load(['categorie', 'service', 'pieces', 'etapes'])),
+            new ProcedureResource($procedure->load(['categorie', 'service', 'services', 'pieces', 'etapes'])),
             'La procédure a été créée en brouillon.',
             201
         );
@@ -67,7 +67,7 @@ class ProcedureController extends Controller
     public function update(ProcedureRequest $request, Procedure $procedure): JsonResponse
     {
         DB::transaction(function () use ($request, $procedure) {
-            $procedure->fill($request->safe()->except(['pieces', 'etapes']));
+            $procedure->fill($request->safe()->except(['pieces', 'etapes', 'service_ids']));
             if ($procedure->isDirty('titre')) {
                 $procedure->slug = $this->slugUnique($procedure->titre, $procedure->id);
             }
@@ -79,7 +79,7 @@ class ProcedureController extends Controller
         Journal::enregistrer('admin.procedure.modifiee', $procedure, ['titre' => $procedure->titre]);
 
         return $this->succes(
-            new ProcedureResource($procedure->load(['categorie', 'service', 'pieces', 'etapes'])),
+            new ProcedureResource($procedure->load(['categorie', 'service', 'services', 'pieces', 'etapes'])),
             'La procédure a été mise à jour.'
         );
     }
@@ -109,9 +109,17 @@ class ProcedureController extends Controller
         return $this->succes(new ProcedureResource($procedure->load(['categorie', 'service'])), $messages[$procedure->statut]);
     }
 
-    /** Les pièces et étapes sont remplacées dans l'ordre reçu. */
+    /** Les pièces et étapes sont remplacées dans l'ordre reçu ; les administrations habilitées sont mises à jour. */
     private function synchroniser(Procedure $procedure, ProcedureRequest $request): void
     {
+        if ($request->has('service_ids')) {
+            // Le service de référence reste toujours habilité.
+            $procedure->services()->sync(array_unique(array_filter([
+                ...$request->input('service_ids', []),
+                $procedure->service_id,
+            ])));
+        }
+
         if ($request->has('pieces')) {
             $procedure->pieces()->delete();
             foreach (array_values($request->input('pieces', [])) as $i => $piece) {

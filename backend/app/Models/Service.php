@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Service extends Model
@@ -32,9 +33,10 @@ class Service extends Model
         ];
     }
 
-    public function procedures(): HasMany
+    /** Démarches que ce service est habilité à traiter (M08). */
+    public function procedures(): BelongsToMany
     {
-        return $this->hasMany(Procedure::class);
+        return $this->belongsToMany(Procedure::class);
     }
 
     public function agents(): HasMany

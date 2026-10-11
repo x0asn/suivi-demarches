@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests\Admin;
 
+use App\Enums\RegleCompetence;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 /** RF-017 : création / modification d'une procédure, avec ses pièces et ses étapes. */
 class ProcedureRequest extends FormRequest
@@ -18,6 +20,10 @@ class ProcedureRequest extends FormRequest
             'titre' => ['required', 'string', 'max:255'],
             'categorie_id' => ['required', 'integer', 'exists:categories,id'],
             'service_id' => ['nullable', 'integer', 'exists:services,id'],
+            // M08 : administrations habilitées et règle qui désigne celle qui est compétente.
+            'regle_competence' => ['sometimes', 'required', Rule::enum(RegleCompetence::class)],
+            'service_ids' => ['sometimes', 'array', 'max:200'],
+            'service_ids.*' => ['integer', 'distinct', 'exists:services,id'],
             'resume' => ['required', 'string', 'max:500'],
             'description' => ['nullable', 'string', 'max:5000'],
             'conditions' => ['nullable', 'string', 'max:5000'],
@@ -40,7 +46,9 @@ class ProcedureRequest extends FormRequest
     {
         return [
             'categorie_id' => 'catégorie',
-            'service_id' => 'service compétent',
+            'service_id' => 'service de référence',
+            'regle_competence' => 'règle de compétence',
+            'service_ids' => 'administrations habilitées',
             'resume' => 'résumé',
             'delai_jours' => 'délai',
             'cout' => 'coût',

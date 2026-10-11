@@ -31,7 +31,7 @@ class ProcedureController extends Controller
             ->withCount('pieces')
             ->recherche($request->q)
             ->when($request->categorie, fn ($q, $slug) => $q->whereHas('categorie', fn ($c) => $c->where('slug', $slug)))
-            ->when($request->service, fn ($q, $id) => $q->where('service_id', $id))
+            ->when($request->service, fn ($q, $id) => $q->whereHas('services', fn ($s) => $s->whereKey($id)))
             // « Les plus demandées » : classement réel selon le nombre de dossiers déposés (hors brouillons).
             ->when($request->tri === 'populaires', fn ($q) => $q
                 ->withCount(['dossiers' => fn ($d) => $d->whereNotNull('soumis_at')])
@@ -45,7 +45,7 @@ class ProcedureController extends Controller
     public function show(string $slug): JsonResponse
     {
         $procedure = Procedure::publiees()
-            ->with(['categorie', 'service', 'pieces', 'etapes'])
+            ->with(['categorie', 'service', 'pieces', 'etapes', 'services' => fn ($q) => $q->where('actif', true)->orderBy('region')->orderBy('nom')])
             ->where('slug', $slug)
             ->firstOrFail();
 

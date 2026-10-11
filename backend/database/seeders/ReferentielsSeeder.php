@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Enums\RegleCompetence;
 use App\Models\Categorie;
 use App\Models\Procedure;
 use App\Models\Service;
@@ -21,6 +22,7 @@ class ReferentielsSeeder extends Seeder
     {
         $categories = $this->categories();
         $services = $this->services();
+        $competences = $this->competences();
 
         foreach ($this->procedures() as $p) {
             $procedure = Procedure::updateOrCreate(
@@ -39,7 +41,10 @@ class ReferentielsSeeder extends Seeder
             );
             $procedure->statut = $p['statut'] ?? 'publiee';
             $procedure->publiee_at = $procedure->statut === 'publiee' ? now()->subDays(rand(20, 120)) : null;
+            [$regle, $habilites] = $competences[$p['titre']] ?? [RegleCompetence::Nationale, [$p['service']]];
+            $procedure->regle_competence = $regle;
             $procedure->save();
+            $procedure->services()->sync(array_map(fn (string $cle) => $services[$cle]->id, array_unique([$p['service'], ...$habilites])));
 
             $procedure->pieces()->delete();
             foreach ($p['pieces'] as $i => $piece) {
@@ -93,6 +98,8 @@ class ReferentielsSeeder extends Seeder
             'mairie-saint-louis' => ['Mairie de Saint-Louis', 'mairie', 'Île de Saint-Louis', 'Saint-Louis', 'Saint-Louis', '+221 33 800 30 10', 'Lun–Ven 8h–16h', 16.0244, -16.5043],
             'mairie-ziguinchor' => ['Mairie de Ziguinchor', 'mairie', 'Centre-ville', 'Ziguinchor', 'Ziguinchor', '+221 33 800 40 10', 'Lun–Ven 8h–16h', 12.5657, -16.2719],
             'tribunal-dakar' => ['Tribunal de grande instance de Dakar', 'tribunal', 'Boulevard Djily Mbaye', 'Dakar-Plateau', 'Dakar', '+221 33 800 50 10', 'Lun–Ven 8h–15h', 14.6702, -17.4325],
+            'tribunal-thies' => ['Tribunal de grande instance de Thiès', 'tribunal', 'Avenue Lamine Guèye', 'Thiès', 'Thiès', '+221 33 800 50 30', 'Lun–Ven 8h–15h', 14.7910, -16.9359],
+            'tribunal-saint-louis' => ['Tribunal de grande instance de Saint-Louis', 'tribunal', 'Île de Saint-Louis', 'Saint-Louis', 'Saint-Louis', '+221 33 800 50 40', 'Lun–Ven 8h–15h', 16.0290, -16.5050],
             'tribunal-instance-dakar' => ["Tribunal d'instance de Dakar", 'tribunal', 'Centre-ville', 'Dakar-Plateau', 'Dakar', '+221 33 800 50 20', 'Lun–Ven 8h–15h', 14.6728, -17.4360],
             'police-identite' => ["Direction de l'identification et des titres", 'police', 'Dieuppeul', 'Dakar', 'Dakar', '+221 33 800 60 10', 'Lun–Sam 8h–17h', 14.7213, -17.4598],
             'urbanisme' => ["Service régional de l'urbanisme", 'ministere', 'Sphère ministérielle', 'Diamniadio', 'Dakar', '+221 33 800 70 10', 'Lun–Ven 8h–16h', 14.7212, -17.1925],
@@ -111,6 +118,28 @@ class ReferentielsSeeder extends Seeder
         }
 
         return $resultat;
+    }
+
+    /**
+     * Compétence des administrations (M08) : pour chaque démarche, la règle applicable et
+     * les administrations habilitées. Illustratif, à vérifier auprès des administrations.
+     *
+     * @return array<string, array{0: RegleCompetence, 1: list<string>}>
+     */
+    private function competences(): array
+    {
+        $mairies = ['mairie-plateau', 'mairie-diamniadio', 'mairie-pikine', 'mairie-thies', 'mairie-saint-louis', 'mairie-ziguinchor'];
+        $tribunaux = ['tribunal-dakar', 'tribunal-thies', 'tribunal-saint-louis'];
+
+        return [
+            "Extrait d'acte de naissance" => [RegleCompetence::LieuNaissance, $mairies],
+            'Certificat de résidence' => [RegleCompetence::LieuResidence, $mairies],
+            'Certificat de vie et d’entretien' => [RegleCompetence::LieuResidence, $mairies],
+            'Légalisation de signature' => [RegleCompetence::Nationale, $mairies],
+            'Bulletin n°3 du casier judiciaire' => [RegleCompetence::LieuNaissance, $tribunaux],
+            'Certificat de nationalité sénégalaise' => [RegleCompetence::LieuResidence, ['tribunal-instance-dakar']],
+            'Autorisation de construire' => [RegleCompetence::LieuBien, ['urbanisme']],
+        ];
     }
 
     private function procedures(): array

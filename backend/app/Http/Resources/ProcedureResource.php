@@ -26,6 +26,9 @@ class ProcedureResource extends JsonResource
             'updated_at' => $this->updated_at?->toIso8601String(),
             'categorie' => new CategorieResource($this->whenLoaded('categorie')),
             'service' => new ServiceResource($this->whenLoaded('service')),
+            // M08 : règle de compétence et administrations habilitées à traiter la démarche.
+            'competence' => $this->regle_competence?->versTableau(),
+            'services' => ServiceResource::collection($this->whenLoaded('services')),
             'pieces_count' => $this->whenCounted('pieces'),
             'dossiers_count' => $this->whenCounted('dossiers'),
             'pieces' => $this->whenLoaded('pieces', fn () => $this->pieces->map(fn ($p) => [

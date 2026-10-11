@@ -1,6 +1,6 @@
 # Matrice de traçabilité — exigences → réalisation → preuve
 
-Les tests se trouvent dans `backend/tests/` (`Feature/` pour les parcours, `Unit/` pour les règles du workflow). Commande : `php artisan test` (68 tests, tous réussis).
+Les tests se trouvent dans `backend/tests/` (`Feature/` pour les parcours, `Unit/` pour les règles du workflow). Commande : `php artisan test` (77 tests, tous réussis).
 
 ## Exigences fonctionnelles
 
@@ -11,7 +11,7 @@ Les tests se trouvent dans `backend/tests/` (`Feature/` pour les parcours, `Unit
 | RF-003 Gérer son profil | Page *Mon profil* · `PATCH /profile` | `ProfilTest::test_rf003_*` |
 | RF-004 Consulter le catalogue | Pages *Procédures* et fiche procédure | `CatalogueTest::test_rf004_*` |
 | RF-005 Rechercher une procédure | Recherche (accueil, catalogue), filtres par catégorie | `test_rf005_la_recherche_retourne_les_procedures_correspondantes` |
-| RF-006 Créer un dossier | *Nouvelle démarche* · `POST /dossiers` | `ParcoursDossierTest::test_rf006_*` |
+| RF-006 Créer un dossier | *Nouvelle démarche*, avec choix de l'administration compétente · `POST /dossiers` | `ParcoursDossierTest::test_rf006_*`, `CompetenceTest::test_rf006_*` |
 | RF-007 Déposer une demande | Bouton *Soumettre ma demande* | `test_rf007_soumission_horodatee_et_notifications` |
 | RF-008 Ajouter une pièce | Dépôt par glisser-déposer avec progression | `test_rf008_format_et_taille_des_pieces_controles`, `test_rf008_les_fichiers_sont_stockes_avec_un_nom_non_previsible` |
 | RF-009 Consulter le statut | Frise d'avancement + historique du dossier | `test_parcours_complet_jusqu_a_la_validation` |
@@ -26,7 +26,7 @@ Les tests se trouvent dans `backend/tests/` (`Feature/` pour les parcours, `Unit
 | RF-018 Gérer utilisateurs et rôles | *Administration > Utilisateurs* | `GestionUtilisateursTest::test_rf018_*`, `test_rnf001_*` |
 | RF-019 Consulter les statistiques | *Statistiques* (filtres période, service, statut ; export CSV) | `test_rf019_*`, `test_rg012_indicateurs_coherents_avec_les_donnees` |
 | RF-020 Gérer les notifications | *Administration > Modèles de notification* | `test_rf020_un_modele_desactive_ne_produit_pas_de_notification` |
-| RF-021 Rechercher un service | *Services & carte* (liste + carte) | `CatalogueTest::test_rf021_recherche_de_services_par_commune` |
+| RF-021 Rechercher un service | *Administrations à proximité* : position GPS, distance, démarches traitées, règle de compétence, itinéraire | `CatalogueTest::test_rf021_recherche_de_services_par_commune`, `CompetenceTest::test_rf021_*` |
 | RF-022 Journaliser les actions sensibles | *Journal d'audit* | `test_rf022_l_admin_consulte_le_journal`, assertions `journal_actions` dans chaque module |
 
 ## Règles de gestion

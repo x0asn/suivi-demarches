@@ -82,10 +82,22 @@ class DossierController extends Controller
             return $this->erreur('Cette procédure n’est pas disponible en ligne.', 422, ['procedure' => ['Procédure introuvable ou non publiée.']]);
         }
 
-        $dossier = DB::transaction(function () use ($request, $procedure, $donnees) {
+        // M08 : le dossier est adressé à une administration habilitée à traiter cette démarche.
+        $habilites = $procedure->services()->where('actif', true)->pluck('services.id');
+        $serviceId = $donnees['service_id'] ?? ($habilites->count() === 1 ? $habilites->first() : null);
+        if ($habilites->isNotEmpty() && ! $habilites->contains($serviceId)) {
+            return $this->erreur('Choisissez l’administration compétente pour votre demande.', 422, [
+                'service_id' => [$serviceId
+                    ? 'Cette administration n’est pas habilitée à traiter cette démarche.'
+                    : 'Indiquez à quelle administration vous adressez votre demande.'],
+            ]);
+        }
+        $serviceId ??= $procedure->service_id;
+
+        $dossier = DB::transaction(function () use ($request, $procedure, $donnees, $serviceId) {
             $dossier = new Dossier(['motif' => $donnees['motif'] ?? null, 'precisions' => $donnees['precisions'] ?? null]);
             $dossier->procedure_id = $procedure->id;
-            $dossier->service_id = $procedure->service_id;
+            $dossier->service_id = $serviceId;
             $dossier->citoyen_id = $request->user()->id;
             $dossier->statut = StatutDossier::Brouillon;
             $dossier->save();

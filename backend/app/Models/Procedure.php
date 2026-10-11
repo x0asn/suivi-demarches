@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use App\Enums\RegleCompetence;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Procedure extends Model
@@ -15,8 +17,13 @@ class Procedure extends Model
     public const STATUTS = ['brouillon', 'publiee', 'desactivee'];
 
     protected $fillable = [
-        'categorie_id', 'service_id', 'titre', 'slug', 'resume', 'description', 'conditions',
+        'categorie_id', 'service_id', 'regle_competence', 'titre', 'slug', 'resume', 'description', 'conditions',
         'public_concerne', 'delai_jours', 'cout',
+    ];
+
+    /** Sans précision, une démarche peut être traitée par toute administration habilitée. */
+    protected $attributes = [
+        'regle_competence' => 'nationale',
     ];
 
     protected function casts(): array
@@ -24,7 +31,18 @@ class Procedure extends Model
         return [
             'delai_jours' => 'integer',
             'publiee_at' => 'datetime',
+            'regle_competence' => RegleCompetence::class,
         ];
+    }
+
+    protected static function booted(): void
+    {
+        // Le service de référence fait toujours partie des administrations habilitées.
+        static::saved(function (self $procedure) {
+            if ($procedure->service_id) {
+                $procedure->services()->syncWithoutDetaching([$procedure->service_id]);
+            }
+        });
     }
 
     public function categorie(): BelongsTo
@@ -35,6 +53,12 @@ class Procedure extends Model
     public function service(): BelongsTo
     {
         return $this->belongsTo(Service::class);
+    }
+
+    /** Administrations habilitées à traiter cette démarche (M08). */
+    public function services(): BelongsToMany
+    {
+        return $this->belongsToMany(Service::class);
     }
 
     public function pieces(): HasMany

@@ -16,6 +16,7 @@ function EnTete() {
   const liens = [
     { vers: '/', libelle: 'Accueil', exact: true },
     { vers: '/procedures', libelle: 'Procédures' },
+    { vers: '/services', libelle: 'Administrations à proximité' },
     { vers: suivi.vers, state: suivi.state, libelle: 'Suivre un dossier', suivi: true },
   ]
 
@@ -122,7 +123,7 @@ function PiedDePage() {
           <h2 className="text-sm font-semibold text-slate-900">Démarches</h2>
           <ul className="mt-4 space-y-2.5">
             <li><Link to="/procedures" className={lien}>Toutes les procédures</Link></li>
-            <li><Link to="/services" className={lien}>Services et points d’accueil</Link></li>
+            <li><Link to="/services" className={lien}>Administrations à proximité</Link></li>
             <li><Link to="/#fonctionnement" className={lien}>Comment ça marche</Link></li>
           </ul>
         </div>

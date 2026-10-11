@@ -42,7 +42,7 @@ Autres dossiers :
 
 | Dossier | Contenu |
 |---|---|
-| `app/Enums/` | Listes fermées : rôles, statuts de dossier, statuts de document. Les transitions autorisées du workflow sont dans `StatutDossier` |
+| `app/Enums/` | Listes fermées : rôles, statuts de dossier, statuts de document, règles de compétence. Les transitions autorisées du workflow sont dans `StatutDossier` |
 | `app/Policies/` | Qui a le droit de voir ou de traiter un dossier, une réclamation (RG-006, RG-008) |
 | `app/Http/Controllers/Api/Admin/` | Contrôleurs réservés à l'administrateur |
 | `database/migrations/` | Structure des tables |
@@ -62,6 +62,10 @@ Conventions :
   écrit l'historique, journalise et notifie.
 - **Format de réponse.** Toutes les réponses ont la même forme (`success`, `message`, `data`, `meta`),
   produite par `Controller::succes()` et `Controller::erreur()`.
+- **Compétence des administrations.** Une démarche est reliée à toutes les administrations habilitées à la
+  traiter (table `procedure_service`) et porte une règle (`Enums/RegleCompetence`) : toute administration,
+  lieu de résidence, lieu de naissance ou lieu du bien. Le citoyen choisit l'administration au dépôt, et
+  l'API refuse une administration non habilitée.
 - **Style.** `vendor/bin/pint` applique le style de code Laravel.
 
 ## Frontend (`frontend/src/`)
@@ -106,6 +110,8 @@ Conventions :
 - Aucun écran n'appelle `fetch` directement : tous les échanges passent par `lib/api.js`, qui ajoute
   le jeton de connexion et uniformise les erreurs.
 - Les libellés et couleurs des statuts sont définis une seule fois, dans `lib/dossiers.js`.
+- La position GPS du citoyen reste dans son navigateur : les distances sont calculées dans `lib/geo.js`
+  et rien n'est envoyé au serveur.
 
 ## Documentation (`docs/`)
 

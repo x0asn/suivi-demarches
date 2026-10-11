@@ -49,8 +49,8 @@ Les routes publiques d'authentification sont limitées à 10 requêtes par minut
 | GET | `/procedures` | Public | q, categorie (slug), service, par_page | Catalogue paginé, procédures publiées (RF-004, RF-005) |
 | GET | `/procedures/{slug}` | Public | — | Fiche : conditions, pièces, étapes, service |
 | GET | `/categories` | Public | — | Catégories et nombre de procédures |
-| GET | `/services` | Public | q, type, region | Services, régions, types (RF-021) |
-| GET | `/services/{id}` | Public | — | Service et ses procédures |
+| GET | `/services` | Public | q, type, region, demarche (slug) | Administrations avec les démarches qu'elles traitent. Avec `demarche` : uniquement les administrations habilitées, et la règle de compétence (RF-021) |
+| GET | `/services/{id}` | Public | — | Administration et démarches traitées |
 
 ## Dossiers — M03
 
@@ -58,7 +58,7 @@ Les routes publiques d'authentification sont limitées à 10 requêtes par minut
 |---|---|---|---|---|
 | GET | `/dossiers` | Connecté | statut (`en_cours`, `termines` ou un statut), q | Mes dossiers (RF-011) |
 | GET | `/dossiers/resume` | Citoyen | — | Compteurs du tableau de bord |
-| POST | `/dossiers` | Citoyen | procedure (slug), motif?, precisions? | Créer un brouillon (RF-006) |
+| POST | `/dossiers` | Citoyen | procedure (slug), service_id?, motif?, precisions? | Créer un brouillon (RF-006). `service_id` est obligatoire quand plusieurs administrations sont habilitées, et doit en faire partie |
 | GET | `/dossiers/{id}` | Autorisé | — | Dossier complet : pièces, historique, échanges, permissions (RF-009) |
 | PATCH | `/dossiers/{id}` | Propriétaire, brouillon ou correction | motif?, precisions? | Modifier |
 | DELETE | `/dossiers/{id}` | Propriétaire, brouillon | — | Supprimer le brouillon |

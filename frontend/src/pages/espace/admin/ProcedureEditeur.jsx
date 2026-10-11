@@ -4,13 +4,15 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import { Alerte, Badge, Bouton, Champ, Chargement, Modale, Selecteur, ZoneTexte } from '../../../components/ui'
 import { useToast } from '../../../context/ToastContext'
 import { api } from '../../../lib/api'
-import { STATUTS_PROCEDURE } from '../../../lib/procedures'
+import { REGLES_COMPETENCE, STATUTS_PROCEDURE } from '../../../lib/procedures'
 import NonTrouve from '../../erreurs/NonTrouve'
 
 const VIDE = {
   titre: '',
   categorie_id: '',
   service_id: '',
+  regle_competence: 'nationale',
+  service_ids: [],
   resume: '',
   description: '',
   conditions: '',
@@ -93,6 +95,8 @@ export default function ProcedureEditeur() {
           titre: p.titre,
           categorie_id: p.categorie?.id ?? '',
           service_id: p.service?.id ?? '',
+          regle_competence: p.competence?.valeur ?? 'nationale',
+          service_ids: (p.services ?? []).map((s) => s.id),
           resume: p.resume ?? '',
           description: p.description ?? '',
           conditions: p.conditions ?? '',
@@ -210,7 +214,7 @@ export default function ProcedureEditeur() {
               <option value="">Choisir…</option>
               {categories.map((c) => <option key={c.id} value={c.id}>{c.nom}</option>)}
             </Selecteur>
-            <Selecteur label="Service compétent" name="service_id" value={champs.service_id} onChange={modifier} erreur={err('service_id')} aide="Les agents de ce service traiteront les dossiers.">
+            <Selecteur label="Service de référence" name="service_id" value={champs.service_id} onChange={modifier} erreur={err('service_id')} aide="Service responsable de la démarche. Il est toujours habilité à la traiter.">
               <option value="">Non défini</option>
               {services.map((s) => <option key={s.id} value={s.id}>{s.nom}</option>)}
             </Selecteur>
@@ -220,6 +224,51 @@ export default function ProcedureEditeur() {
             <Champ className="sm:col-span-2" label="Public concerné" name="public_concerne" value={champs.public_concerne} onChange={modifier} erreur={err('public_concerne')} />
             <Champ label="Délai indicatif (jours)" name="delai_jours" type="number" min={0} max={365} value={champs.delai_jours} onChange={modifier} erreur={err('delai_jours')} />
             <Champ label="Coût" name="cout" value={champs.cout} onChange={modifier} erreur={err('cout')} placeholder="Ex. : Gratuit, Timbre fiscal" />
+          </div>
+        </section>
+
+        <section className="carte">
+          <div className="border-b border-slate-100 px-6 py-5">
+            <h2 className="font-semibold text-slate-900">Compétence des administrations</h2>
+            <p className="text-sm text-slate-500">Quelles administrations peuvent traiter cette démarche, et laquelle est compétente pour un citoyen donné.</p>
+          </div>
+          <div className="space-y-5 p-6">
+            <Selecteur
+              label="Règle de compétence"
+              name="regle_competence"
+              value={champs.regle_competence}
+              onChange={modifier}
+              erreur={err('regle_competence')}
+              aide={REGLES_COMPETENCE.find((r) => r.valeur === champs.regle_competence)?.aide}
+            >
+              {REGLES_COMPETENCE.map((r) => <option key={r.valeur} value={r.valeur}>{r.libelle}</option>)}
+            </Selecteur>
+            <fieldset>
+              <legend className="text-sm font-medium text-slate-900">Administrations habilitées</legend>
+              <p className="mt-0.5 text-sm text-slate-500">Le citoyen choisira parmi elles au moment de déposer sa demande. Les agents de l’administration choisie traiteront le dossier.</p>
+              {err('service_ids') && <p className="mt-1.5 text-sm text-red-600" role="alert">{err('service_ids')}</p>}
+              <div className="mt-3 grid gap-2 sm:grid-cols-2">
+                {services.map((s) => {
+                  const reference = String(s.id) === String(champs.service_id)
+                  const coche = reference || champs.service_ids.includes(s.id)
+                  return (
+                    <label key={s.id} className={`flex items-start gap-2.5 rounded-xl px-3 py-2.5 text-sm ring-1 ${coche ? 'bg-brand-50 ring-brand-300' : 'ring-slate-200'}`}>
+                      <input
+                        type="checkbox"
+                        className="mt-0.5 size-4 rounded accent-brand-700"
+                        checked={coche}
+                        disabled={reference}
+                        onChange={(e) => majListe('service_ids', (l) => (e.target.checked ? [...l, s.id] : l.filter((x) => x !== s.id)))}
+                      />
+                      <span>
+                        <span className="block font-medium text-slate-900">{s.nom}</span>
+                        <span className="text-slate-500">{s.commune}{s.region ? ` · ${s.region}` : ''}{reference ? ' · service de référence' : ''}</span>
+                      </span>
+                    </label>
+                  )
+                })}
+              </div>
+            </fieldset>
           </div>
         </section>
 

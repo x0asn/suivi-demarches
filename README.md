@@ -15,7 +15,7 @@ Filière Développement Front-End · Promo 6 · 2025–2026
 
 | Acteur | Ce qu'il peut faire |
 |---|---|
-| **Citoyen** | Créer un compte (avec sa région du Sénégal et sa commune), consulter et rechercher les procédures, déposer un dossier avec ses pièces, suivre l'avancement (frise + historique), recevoir des notifications, échanger avec l'administration, déposer une réclamation |
+| **Citoyen** | Créer un compte (avec sa région du Sénégal et sa commune), consulter et rechercher les procédures, trouver l'administration compétente près de lui (position GPS, distance, itinéraire), déposer un dossier avec ses pièces, suivre l'avancement (frise + historique), recevoir des notifications, échanger avec l'administration, déposer une réclamation |
 | **Agent** | Voir la file de travail de **son** service, prendre un dossier en charge, accepter / refuser / faire corriger chaque pièce, faire avancer le dossier dans le circuit, écrire au citoyen ou laisser une note interne |
 | **Administrateur** | Gérer les utilisateurs et leurs rôles, les procédures (rédaction, publication), les services, les modèles de notification, consulter le journal d'audit et les statistiques |
 | **Responsable** | Consulter les indicateurs de pilotage et l'ensemble des dossiers |
@@ -29,7 +29,7 @@ Les dix modules du cahier des charges (M01 à M10) sont réalisés. Voir [docs/T
 | Interface | React 19 + Vite, React Router, Tailwind CSS 3, icônes Lucide, carte Leaflet / OpenStreetMap |
 | API | Laravel 12 (PHP 8.2), authentification par jeton (Laravel Sanctum) |
 | Base de données | MySQL 8 (via Laragon) |
-| Tests | PHPUnit — 68 tests automatisés |
+| Tests | PHPUnit — 77 tests automatisés |
 
 ## 3. Installation (première fois)
 
