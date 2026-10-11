@@ -60,10 +60,36 @@ export default {
           '0%, 100%': { transform: 'translateY(0)' },
           '50%': { transform: 'translateY(-8px)' },
         },
+        // Assistant : ouverture et fermeture de la fenêtre, arrivée des messages, points d'attente.
+        'assistant-ouvre': {
+          from: { opacity: '0', transform: 'translateY(18px) scale(0.94)' },
+          to: { opacity: '1', transform: 'none' },
+        },
+        'assistant-ferme': {
+          from: { opacity: '1', transform: 'none' },
+          to: { opacity: '0', transform: 'translateY(14px) scale(0.95)' },
+        },
+        message: {
+          from: { opacity: '0', transform: 'translateY(10px)' },
+          to: { opacity: '1', transform: 'none' },
+        },
+        point: {
+          '0%, 60%, 100%': { opacity: '0.35', transform: 'translateY(0)' },
+          '30%': { opacity: '1', transform: 'translateY(-4px)' },
+        },
+        halo: {
+          '0%': { opacity: '0.6', transform: 'scale(1)' },
+          '70%, 100%': { opacity: '0', transform: 'scale(1.9)' },
+        },
       },
       animation: {
         apparition: 'apparition 0.5s cubic-bezier(0.22, 1, 0.36, 1) both',
         flotte: 'flotte 6s ease-in-out infinite',
+        'assistant-ouvre': 'assistant-ouvre 0.32s cubic-bezier(0.22, 1, 0.36, 1) both',
+        'assistant-ferme': 'assistant-ferme 0.18s ease-in both',
+        message: 'message 0.35s cubic-bezier(0.22, 1, 0.36, 1) both',
+        point: 'point 1.2s ease-in-out infinite',
+        halo: 'halo 2.6s ease-out infinite',
       },
     },
   },
