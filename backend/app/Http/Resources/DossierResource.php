@@ -18,6 +18,8 @@ class DossierResource extends JsonResource
         return [
             'id' => $this->id,
             'reference' => $this->reference,
+            // Réservé au citoyen propriétaire : permet le suivi sans compte.
+            'code_suivi' => $user && $user->id === $this->citoyen_id ? $this->code_suivi : null,
             'statut' => $this->statut->value,
             'statut_libelle' => $this->statut->libelle(),
             'motif' => $this->motif,

@@ -1,6 +1,6 @@
 # Matrice de traçabilité — exigences → réalisation → preuve
 
-Les tests se trouvent dans `backend/tests/` (`Feature/` pour les parcours, `Unit/` pour les règles du workflow). Commande : `php artisan test` (77 tests, tous réussis).
+Les tests se trouvent dans `backend/tests/` (`Feature/` pour les parcours, `Unit/` pour les règles du workflow). Commande : `php artisan test` (92 tests, tous réussis).
 
 ## Exigences fonctionnelles
 
@@ -12,9 +12,9 @@ Les tests se trouvent dans `backend/tests/` (`Feature/` pour les parcours, `Unit
 | RF-004 Consulter le catalogue | Pages *Procédures* et fiche procédure | `CatalogueTest::test_rf004_*` |
 | RF-005 Rechercher une procédure | Recherche (accueil, catalogue), filtres par catégorie | `test_rf005_la_recherche_retourne_les_procedures_correspondantes` |
 | RF-006 Créer un dossier | *Nouvelle démarche*, avec choix de l'administration compétente · `POST /dossiers` | `ParcoursDossierTest::test_rf006_*`, `CompetenceTest::test_rf006_*` |
-| RF-007 Déposer une demande | Bouton *Soumettre ma demande* | `test_rf007_soumission_horodatee_et_notifications` |
+| RF-007 Déposer une demande | Bouton *Soumettre ma demande* ; accusé de réception PDF avec QR code | `test_rf007_soumission_horodatee_et_notifications`, `SuiviPublicTest::test_rf007_accuse_de_reception_en_pdf_pour_un_dossier_soumis` |
 | RF-008 Ajouter une pièce | Dépôt par glisser-déposer avec progression | `test_rf008_format_et_taille_des_pieces_controles`, `test_rf008_les_fichiers_sont_stockes_avec_un_nom_non_previsible` |
-| RF-009 Consulter le statut | Frise d'avancement + historique du dossier | `test_parcours_complet_jusqu_a_la_validation` |
+| RF-009 Consulter le statut | Frise d'avancement + historique du dossier ; page *Suivre un dossier* sans compte (référence + code de suivi, ou QR code) | `test_parcours_complet_jusqu_a_la_validation`, `SuiviPublicTest::test_rf009_*`, `test_rnf002_le_suivi_public_ne_revele_aucune_donnee_personnelle` |
 | RF-010 Recevoir une notification | Cloche, page *Notifications* | `test_rf010_notifications_consultables_et_marquees_lues` |
 | RF-011 Consulter ses dossiers | *Mes dossiers* avec onglets par statut | `test_rg008_un_citoyen_ne_voit_pas_le_dossier_d_un_autre` |
 | RF-012 Soumettre une réclamation | Page *Réclamations* | `ReclamationsStatistiquesTest::test_rf012_*` |

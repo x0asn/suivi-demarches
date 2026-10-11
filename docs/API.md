@@ -51,6 +51,8 @@ Les routes publiques d'authentification sont limitées à 10 requêtes par minut
 | GET | `/categories` | Public | — | Catégories et nombre de procédures |
 | GET | `/services` | Public | q, type, region, demarche (slug) | Administrations avec les démarches qu'elles traitent. Avec `demarche` : uniquement les administrations habilitées, et la règle de compétence (RF-021) |
 | GET | `/services/{id}` | Public | — | Administration et démarches traitées |
+| GET | `/suivi` | Public (12 essais/min) | reference, code | Avancement d'un dossier sans compte : statut et étapes, aucune donnée personnelle (RF-009) |
+| POST | `/assistant` | Public (20 questions/min) | messages [{role, content}] | Réponse de l'assistant au fil de l'eau (`text/event-stream`) : événements `texte`, puis `fin` avec `mode` = `ia` ou `secours` |
 
 ## Dossiers — M03
 
@@ -62,6 +64,7 @@ Les routes publiques d'authentification sont limitées à 10 requêtes par minut
 | GET | `/dossiers/{id}` | Autorisé | — | Dossier complet : pièces, historique, échanges, permissions (RF-009) |
 | PATCH | `/dossiers/{id}` | Propriétaire, brouillon ou correction | motif?, precisions? | Modifier |
 | DELETE | `/dossiers/{id}` | Propriétaire, brouillon | — | Supprimer le brouillon |
+| GET | `/dossiers/{id}/accuse` | Personnes habilitées à voir le dossier | — | Accusé de réception en PDF, avec QR code de suivi (dossier soumis uniquement) |
 | POST | `/dossiers/{id}/soumettre` | Propriétaire | — | Soumettre (RF-007, RG-004) |
 | PATCH | `/dossiers/{id}/status` | Agent du service | statut, commentaire? | Changer le statut (RF-015) |
 | POST | `/dossiers/{id}/observations` | Citoyen ou agent | contenu, interne? | Message ou note interne (RF-016) |

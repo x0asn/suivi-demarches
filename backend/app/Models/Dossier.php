@@ -30,11 +30,36 @@ class Dossier extends Model
 
     protected static function booted(): void
     {
+        static::creating(function (Dossier $dossier) {
+            $dossier->code_suivi ??= self::nouveauCodeSuivi();
+        });
+
         // RG-002 : la référence est dérivée de l'identifiant, donc unique par construction.
         static::created(function (Dossier $dossier) {
             $dossier->reference = sprintf('DEM-%s-%05d', $dossier->created_at->format('Y'), $dossier->id);
             $dossier->saveQuietly();
         });
+    }
+
+    /**
+     * Code de suivi aléatoire, exigé avec la référence pour suivre un dossier sans compte.
+     * Sans les caractères qui se confondent à la lecture (0/O, 1/I).
+     */
+    public static function nouveauCodeSuivi(): string
+    {
+        $alphabet = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+        $code = '';
+        for ($i = 0; $i < 8; $i++) {
+            $code .= $alphabet[random_int(0, strlen($alphabet) - 1)];
+        }
+
+        return $code;
+    }
+
+    /** Adresse publique de suivi, encodée dans le QR code de l'accusé de réception. */
+    public function lienSuivi(): string
+    {
+        return config('app.frontend_url').'/suivi?'.http_build_query(['ref' => $this->reference, 'code' => $this->code_suivi]);
     }
 
     public function procedure(): BelongsTo

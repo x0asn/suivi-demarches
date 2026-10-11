@@ -29,7 +29,7 @@ Les dix modules du cahier des charges (M01 à M10) sont réalisés. Voir [docs/T
 | Interface | React 19 + Vite, React Router, Tailwind CSS 3, icônes Lucide, carte Leaflet / OpenStreetMap |
 | API | Laravel 12 (PHP 8.2), authentification par jeton (Laravel Sanctum) |
 | Base de données | MySQL 8 (via Laragon) |
-| Tests | PHPUnit — 77 tests automatisés |
+| Tests | PHPUnit — 92 tests automatisés |
 
 ## 3. Installation (première fois)
 
@@ -67,7 +67,24 @@ cd frontend && npm run dev
 
 Pour repartir de données propres (avant une répétition ou la soutenance) : **`reinitialiser-demo.bat`**.
 
-## 5. Comptes de démonstration
+## 5. Assistant IA
+
+La bulle « Besoin d'aide ? » répond aux questions des citoyens à partir du catalogue des procédures.
+
+- **Sans clé d'API**, l'assistant fonctionne en *mode guidé* : il retrouve la démarche par mots-clés et
+  affiche ses pièces, son délai et l'administration compétente. Aucune connexion internet n'est nécessaire.
+- **Avec une clé d'API**, il comprend les questions posées librement et répond en langage simple.
+
+Pour activer l'IA : créer une clé sur https://console.anthropic.com, puis la coller dans `backend/.env` :
+
+```
+ANTHROPIC_API_KEY=sk-ant-...
+```
+
+Le modèle et le niveau de réflexion se règlent avec `ASSISTANT_MODELE` et `ASSISTANT_EFFORT`.
+La clé est un secret : elle ne doit jamais être publiée ni versionnée.
+
+## 6. Comptes de démonstration
 
 Mot de passe commun : **`Demo2026`**. Sur la page de connexion, un encadré permet de remplir les identifiants en un clic.
 
@@ -82,7 +99,7 @@ Mot de passe commun : **`Demo2026`**. Sur la page de connexion, un encadré perm
 
 Chaque service a un agent (`agent.diamniadio@…`, `agent.pikine@…`, `agent.thies@…`, etc.).
 
-## 6. Scénario de démonstration (§28 du cahier des charges)
+## 7. Scénario de démonstration (§28 du cahier des charges)
 
 1. **Accueil** → rechercher « naissance » → ouvrir *Extrait d'acte de naissance* : conditions, pièces, étapes, service.
 2. Se connecter en **citoyen** → *Commencer ma démarche* → le dossier reçoit une référence `DEM-2026-xxxxx`.
@@ -94,7 +111,7 @@ Chaque service a un agent (`agent.diamniadio@…`, `agent.pikine@…`, `agent.th
 
 Scénario de secours : le compte citoyen de démonstration possède déjà des dossiers à toutes les étapes.
 
-## 7. Tests
+## 8. Tests
 
 ```bash
 cd backend
@@ -103,7 +120,7 @@ php artisan test
 
 Les noms des tests reprennent les codes du cahier des charges (`test_rf001_…`, `test_rg006_…`) : ils servent de preuves dans la matrice de traçabilité.
 
-## 8. Sécurité (§17)
+## 9. Sécurité (§17)
 
 - Mots de passe hachés (bcrypt), jamais stockés en clair ; jetons révoqués à la déconnexion et à la désactivation d'un compte.
 - Droits vérifiés **côté serveur** (middleware de rôle + politiques d'accès) : un citoyen ne voit que ses dossiers, un agent que ceux de son service.
@@ -111,13 +128,13 @@ Les noms des tests reprennent les codes du cahier des charges (`test_rf001_…`,
 - Limitation des tentatives de connexion, messages d'erreur génériques, journal d'audit des actions sensibles.
 - Le fichier `.env` (secrets) n'est jamais versionné.
 
-## 9. Données de démonstration
+## 10. Données de démonstration
 
 Les procédures, pièces, délais, coûts et coordonnées des services sont **illustratifs** : ils doivent
 être vérifiés auprès des administrations concernées avant toute utilisation réelle (principe de rigueur, §4).
 Les photos proviennent d'Unsplash (licence libre).
 
-## 10. Documentation
+## 11. Documentation
 
 - [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) — organisation du code, dossier par dossier
 - [docs/API.md](docs/API.md) — contrats de l'API REST

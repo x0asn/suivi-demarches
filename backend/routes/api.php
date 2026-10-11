@@ -1,10 +1,12 @@
 <?php
 
+use App\Http\Controllers\Api\AccuseController;
 use App\Http\Controllers\Api\Admin\JournalController;
 use App\Http\Controllers\Api\Admin\ModeleNotificationController;
 use App\Http\Controllers\Api\Admin\ProcedureController as AdminProcedureController;
 use App\Http\Controllers\Api\Admin\ServiceController as AdminServiceController;
 use App\Http\Controllers\Api\Admin\UserController;
+use App\Http\Controllers\Api\AssistantController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\DocumentController;
 use App\Http\Controllers\Api\DossierController;
@@ -15,6 +17,7 @@ use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\ReclamationController;
 use App\Http\Controllers\Api\ServiceController;
 use App\Http\Controllers\Api\StatistiqueController;
+use App\Http\Controllers\Api\SuiviController;
 use App\Http\Controllers\Api\TraitementController;
 use App\Support\Regions;
 use Illuminate\Support\Facades\Route;
@@ -42,6 +45,12 @@ Route::get('regions', fn () => response()->json(['success' => true, 'message' =>
 Route::get('services', [ServiceController::class, 'index']);
 Route::get('services/{service}', [ServiceController::class, 'show']);
 
+// ---- Suivi d'un dossier sans compte : référence + code de suivi (limité contre les essais répétés) ----
+Route::get('suivi', [SuiviController::class, 'show'])->middleware('throttle:12,1');
+
+// ---- Assistant IA : ouvert à tous, limité pour maîtriser le coût ----
+Route::post('assistant', [AssistantController::class, 'repondre'])->middleware('throttle:20,1');
+
 // ---- Routes authentifiées ----
 Route::middleware(['auth:sanctum', 'actif'])->group(function () {
     Route::post('auth/logout', [AuthController::class, 'logout']);
@@ -53,6 +62,7 @@ Route::middleware(['auth:sanctum', 'actif'])->group(function () {
     // ---- M03 Dossiers (les droits fins sont vérifiés par DossierPolicy) ----
     Route::get('dossiers/resume', [DossierController::class, 'resume']);
     Route::apiResource('dossiers', DossierController::class);
+    Route::get('dossiers/{dossier}/accuse', [AccuseController::class, 'telecharger']);
     Route::post('dossiers/{dossier}/soumettre', [DossierController::class, 'soumettre']);
     Route::patch('dossiers/{dossier}/status', [DossierController::class, 'changerStatut']);
     Route::post('dossiers/{dossier}/observations', [ObservationController::class, 'store']);

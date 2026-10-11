@@ -4,6 +4,7 @@ import {
   CalendarDays,
   CheckCircle2,
   Circle,
+  Download,
   FileCheck2,
   History,
   Landmark,
@@ -21,7 +22,7 @@ import { ApercuDocument, BadgeDocument, BadgeStatut, BoutonApercu, FilEchanges, 
 import { Bouton, Chargement, Modale, ZoneTexte } from '../../../components/ui'
 import { useAuth } from '../../../context/AuthContext'
 import { useToast } from '../../../context/ToastContext'
-import { api } from '../../../lib/api'
+import { api, telecharger } from '../../../lib/api'
 import { STATUTS_DOSSIER } from '../../../lib/dossiers'
 import { libelleDelai } from '../../../lib/icones'
 import { cx, dates } from '../../../lib/utils'
@@ -91,6 +92,7 @@ export default function DossierCitoyen() {
   const [action, setAction] = useState(false)
   const [erreurSoumission, setErreurSoumission] = useState(null)
   const [apercu, setApercu] = useState(null)
+  const [accuse, setAccuse] = useState(false)
 
   const charger = useCallback(async () => {
     try {
@@ -291,6 +293,40 @@ export default function DossierCitoyen() {
 
         {/* Colonne latérale */}
         <aside className="space-y-6">
+          {dossier.soumis_at && (
+            <section className="carte p-5">
+              <h2 className="text-xs font-semibold uppercase tracking-wide text-slate-500">Accusé de réception</h2>
+              <p className="mt-3 text-sm text-slate-600">Le document officiel qui atteste du dépôt de votre demande, avec un QR code de suivi.</p>
+              <Bouton
+                variante="secondaire"
+                icone={Download}
+                className="mt-4 w-full"
+                chargement={accuse}
+                onClick={async () => {
+                  setAccuse(true)
+                  try {
+                    await telecharger(`/dossiers/${dossier.id}/accuse`, `accuse-reception-${dossier.reference}.pdf`)
+                  } catch (e) {
+                    toast.erreur(e.message)
+                  } finally {
+                    setAccuse(false)
+                  }
+                }}
+              >
+                Télécharger le PDF
+              </Bouton>
+              {dossier.code_suivi && (
+                <div className="mt-4 rounded-xl bg-slate-50 p-3 ring-1 ring-slate-200">
+                  <p className="text-xs text-slate-500">Code de suivi sans connexion</p>
+                  <p className="mt-0.5 font-mono text-lg font-semibold tracking-[0.25em] text-brand-800">{dossier.code_suivi}</p>
+                  <Link to={`/suivi?ref=${dossier.reference}&code=${dossier.code_suivi}`} className="mt-1 inline-block text-xs font-semibold text-brand-700 hover:text-brand-800">
+                    Voir la page de suivi public →
+                  </Link>
+                </div>
+              )}
+            </section>
+          )}
+
           <section className="carte p-5">
             <h2 className="text-xs font-semibold uppercase tracking-wide text-slate-500">Informations</h2>
             <dl className="mt-4 space-y-3.5 text-sm">

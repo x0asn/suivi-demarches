@@ -34,7 +34,7 @@ Une requête traverse toujours les mêmes couches, dans cet ordre :
 | 2. Filtre | `app/Http/Middleware/` | Refuse les comptes désactivés et les rôles non autorisés |
 | 3. Validation | `app/Http/Requests/` | Vérifie les données envoyées et le droit d'agir sur la ressource |
 | 4. Contrôleur | `app/Http/Controllers/Api/` | Orchestre : appelle les services, renvoie la réponse |
-| 5. Règles métier | `app/Services/` | `Workflow` (cycle de vie du dossier), `Notifieur`, `Journal` |
+| 5. Règles métier | `app/Services/` | `Workflow` (cycle de vie du dossier), `Notifieur`, `Journal`, `Assistant` et `AssistantSecours` |
 | 6. Données | `app/Models/` | Tables et relations (Dossier, Document, Procédure…) |
 | 7. Réponse | `app/Http/Resources/` | Met en forme le JSON renvoyé à l'interface |
 
@@ -66,6 +66,13 @@ Conventions :
   traiter (table `procedure_service`) et porte une règle (`Enums/RegleCompetence`) : toute administration,
   lieu de résidence, lieu de naissance ou lieu du bien. Le citoyen choisit l'administration au dépôt, et
   l'API refuse une administration non habilitée.
+- **Suivi sans compte.** Chaque dossier a un code de suivi aléatoire. La page publique exige la référence
+  et ce code, et ne renvoie que l'avancement. L'accusé de réception (PDF, vue `resources/views/pdf/`) porte
+  un QR code qui ouvre cette page.
+- **Assistant IA.** `Services/Assistant` transmet à l'IA ses consignes et le catalogue des procédures
+  publiées, plus les dossiers de la personne connectée. Sans clé d'API ou sans internet,
+  `Services/AssistantSecours` répond par mots-clés à partir du même catalogue. L'assistant informe et
+  oriente : il n'a aucun moyen d'agir sur un dossier.
 - **Style.** `vendor/bin/pint` applique le style de code Laravel.
 
 ## Frontend (`frontend/src/`)
@@ -102,6 +109,7 @@ Les composants, un fichier par composant :
 | `components/notifications/` | Cloche de notifications |
 | `components/statistiques/` | Graphiques |
 | `components/services/` | Carte des services |
+| `components/assistant/` | Bulle de discussion de l'assistant |
 
 Conventions :
 
