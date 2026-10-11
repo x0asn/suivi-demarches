@@ -1,0 +1,51 @@
+<?php
+
+namespace App\Http\Requests\Admin;
+
+use Illuminate\Foundation\Http\FormRequest;
+
+/** RF-017 : création / modification d'une procédure, avec ses pièces et ses étapes. */
+class ProcedureRequest extends FormRequest
+{
+    public function authorize(): bool
+    {
+        return true;
+    }
+
+    public function rules(): array
+    {
+        return [
+            'titre' => ['required', 'string', 'max:255'],
+            'categorie_id' => ['required', 'integer', 'exists:categories,id'],
+            'service_id' => ['nullable', 'integer', 'exists:services,id'],
+            'resume' => ['required', 'string', 'max:500'],
+            'description' => ['nullable', 'string', 'max:5000'],
+            'conditions' => ['nullable', 'string', 'max:5000'],
+            'public_concerne' => ['nullable', 'string', 'max:255'],
+            'delai_jours' => ['nullable', 'integer', 'min:0', 'max:365'],
+            'cout' => ['nullable', 'string', 'max:100'],
+
+            'pieces' => ['array', 'max:30'],
+            'pieces.*.libelle' => ['required', 'string', 'max:255'],
+            'pieces.*.description' => ['nullable', 'string', 'max:255'],
+            'pieces.*.obligatoire' => ['boolean'],
+
+            'etapes' => ['array', 'max:20'],
+            'etapes.*.titre' => ['required', 'string', 'max:255'],
+            'etapes.*.description' => ['nullable', 'string', 'max:255'],
+        ];
+    }
+
+    public function attributes(): array
+    {
+        return [
+            'categorie_id' => 'catégorie',
+            'service_id' => 'service compétent',
+            'resume' => 'résumé',
+            'delai_jours' => 'délai',
+            'cout' => 'coût',
+            'pieces.*.libelle' => 'libellé de la pièce',
+            'etapes.*.titre' => 'titre de l\'étape',
+        ];
+    }
+}

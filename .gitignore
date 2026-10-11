@@ -1,0 +1,9 @@
+# Systeme et editeurs
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Secrets (ne jamais versionner)
+.env
+*.local
