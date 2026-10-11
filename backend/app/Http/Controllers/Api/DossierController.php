@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Enums\Role;
 use App\Enums\StatutDossier;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Dossiers\ChangerStatutRequest;
+use App\Http\Requests\Dossiers\StoreDossierRequest;
+use App\Http\Requests\Dossiers\UpdateDossierRequest;
 use App\Http\Resources\DossierResource;
 use App\Models\Dossier;
 use App\Models\Procedure;
@@ -71,15 +73,9 @@ class DossierController extends Controller
     }
 
     /** RF-006 : création d'un dossier (brouillon) pour une procédure publiée. */
-    public function store(Request $request): JsonResponse
+    public function store(StoreDossierRequest $request): JsonResponse
     {
-        abort_unless($request->user()->role === Role::Citoyen, 403);
-
-        $donnees = $request->validate([
-            'procedure' => ['required', 'string'],
-            'motif' => ['nullable', 'string', 'max:2000'],
-            'precisions' => ['nullable', 'string', 'max:2000'],
-        ], [], ['procedure' => 'procédure', 'motif' => 'objet de la demande']);
+        $donnees = $request->validated();
 
         $procedure = Procedure::publiees()->where('slug', $donnees['procedure'])->first();
         if (! $procedure) {
@@ -120,14 +116,9 @@ class DossierController extends Controller
         return $this->succes(new DossierResource($this->charger($dossier)));
     }
 
-    public function update(Request $request, Dossier $dossier): JsonResponse
+    public function update(UpdateDossierRequest $request, Dossier $dossier): JsonResponse
     {
-        $this->authorize('update', $dossier);
-
-        $dossier->update($request->validate([
-            'motif' => ['nullable', 'string', 'max:2000'],
-            'precisions' => ['nullable', 'string', 'max:2000'],
-        ], [], ['motif' => 'objet de la demande']));
+        $dossier->update($request->validated());
 
         return $this->succes(new DossierResource($this->charger($dossier)), 'Vos informations ont été enregistrées.');
     }
@@ -160,15 +151,8 @@ class DossierController extends Controller
     }
 
     /** RF-015 : changement de statut par un agent habilité. */
-    public function changerStatut(Request $request, Dossier $dossier): JsonResponse
+    public function changerStatut(ChangerStatutRequest $request, Dossier $dossier): JsonResponse
     {
-        $this->authorize('traiter', $dossier);
-
-        $request->validate([
-            'statut' => ['required', Rule::in(StatutDossier::valeurs())],
-            'commentaire' => ['nullable', 'string', 'max:2000'],
-        ]);
-
         $cible = StatutDossier::from($request->statut);
         Workflow::changerStatut($dossier, $cible, $request->user(), $request->commentaire);
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\ProcedureRequest;
+use App\Http\Requests\Admin\StatutProcedureRequest;
 use App\Http\Resources\ProcedureResource;
 use App\Models\Procedure;
 use App\Services\Journal;
@@ -84,10 +85,8 @@ class ProcedureController extends Controller
     }
 
     /** Publier, repasser en brouillon ou désactiver. */
-    public function changerStatut(Request $request, Procedure $procedure): JsonResponse
+    public function changerStatut(StatutProcedureRequest $request, Procedure $procedure): JsonResponse
     {
-        $request->validate(['statut' => ['required', Rule::in(Procedure::STATUTS)]]);
-
         if ($request->statut === 'publiee' && $procedure->pieces()->doesntExist()) {
             return $this->erreur('Ajoutez au moins une pièce justificative avant de publier cette procédure.', 422);
         }

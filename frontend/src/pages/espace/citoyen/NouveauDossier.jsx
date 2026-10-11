@@ -1,7 +1,7 @@
 import { ArrowLeft, ArrowRight, Clock, FileCheck2, Landmark } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
-import { IconeCategorie } from '../../../components/Icones'
+import { IconeCategorie } from '../../../components/ui/Icones'
 import { Alerte, Bouton, Chargement, ZoneTexte } from '../../../components/ui'
 import { useAuth } from '../../../context/AuthContext'
 import { useToast } from '../../../context/ToastContext'

@@ -1,7 +1,7 @@
 import { ArrowRight, LockKeyhole, Mail, MapPin, Phone, UserRound } from 'lucide-react'
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import ForceMotDePasse from '../../components/ForceMotDePasse'
+import ForceMotDePasse from '../../components/auth/ForceMotDePasse'
 import { Alerte, Bouton, Champ, ChampMotDePasse, Selecteur } from '../../components/ui'
 import { useAuth } from '../../context/AuthContext'
 import { useToast } from '../../context/ToastContext'

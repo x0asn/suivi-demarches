@@ -2,7 +2,8 @@ import { AlertCircle, CheckCircle2, RefreshCw, Trash2, UploadCloud } from 'lucid
 import { useRef, useState } from 'react'
 import { api, televerser } from '../../lib/api'
 import { cx, tailleFichier } from '../../lib/utils'
-import { BadgeDocument, BoutonApercu, IconeFichier } from './Elements'
+import { BoutonApercu, IconeFichier } from './ApercuDocument'
+import { BadgeDocument } from './BadgeStatut'
 
 const FORMATS = ['application/pdf', 'image/jpeg', 'image/png']
 const TAILLE_MAX = 5 * 1024 * 1024

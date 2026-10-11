@@ -1,5 +1,5 @@
 import { Check } from 'lucide-react'
-import { cx } from '../lib/utils'
+import { cx } from '../../lib/utils'
 
 /** Indicateur de robustesse aligné sur les règles du serveur (8 caractères, lettres et chiffres). */
 export default function ForceMotDePasse({ valeur }) {

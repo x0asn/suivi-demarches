@@ -1,6 +1,6 @@
 import { Building2, MapPin, Pencil, Plus } from 'lucide-react'
 import { useCallback, useEffect, useState } from 'react'
-import { IconeService } from '../../../components/Icones'
+import { IconeService } from '../../../components/ui/Icones'
 import { Alerte, Badge, Bouton, Champ, EnTetePage, Modale, Selecteur, Squelette } from '../../../components/ui'
 import { useToast } from '../../../context/ToastContext'
 import { api } from '../../../lib/api'

@@ -1,6 +1,6 @@
 import { AlarmClock, CheckCircle2, Download, FileStack, Gauge, Hourglass, MessageSquareWarning, Table2, Timer, UsersRound, LineChart } from 'lucide-react'
 import { useEffect, useState } from 'react'
-import { GraphiqueBarres, GraphiqueCourbes } from '../../components/Graphiques'
+import { GraphiqueBarres, GraphiqueCourbes } from '../../components/statistiques/Graphiques'
 import { Alerte, EnTetePage, Selecteur, Squelette } from '../../components/ui'
 import { api } from '../../lib/api'
 import { STATUTS_DOSSIER } from '../../lib/dossiers'

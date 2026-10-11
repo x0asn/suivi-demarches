@@ -6,7 +6,7 @@ use App\Models\Reclamation;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-/** @mixin \App\Models\Reclamation */
+/** @mixin Reclamation */
 class ReclamationResource extends JsonResource
 {
     public function toArray(Request $request): array

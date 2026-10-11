@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Api;
 
 use App\Enums\Role;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\ForgotPasswordRequest;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
+use App\Http\Requests\Auth\ResetPasswordRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use App\Services\Journal;
@@ -15,7 +17,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
-use Illuminate\Validation\Rules\Password as PasswordRule;
 
 /**
  * Module M01 — Authentification (RF-001, RF-002).
@@ -82,23 +83,15 @@ class AuthController extends Controller
      * Récupération d'accès : envoie un lien de réinitialisation.
      * La réponse est identique que l'adresse existe ou non (pas de fuite d'information).
      */
-    public function forgotPassword(Request $request): JsonResponse
+    public function forgotPassword(ForgotPasswordRequest $request): JsonResponse
     {
-        $request->validate(['email' => ['required', 'email']]);
-
-        Password::sendResetLink(['email' => mb_strtolower(trim($request->email))]);
+        Password::sendResetLink($request->only('email'));
 
         return $this->succes(null, 'Si un compte existe pour cette adresse, un lien de réinitialisation vient d\'être envoyé.');
     }
 
-    public function resetPassword(Request $request): JsonResponse
+    public function resetPassword(ResetPasswordRequest $request): JsonResponse
     {
-        $request->validate([
-            'token' => ['required', 'string'],
-            'email' => ['required', 'email'],
-            'password' => ['required', 'confirmed', PasswordRule::min(8)->letters()->numbers()],
-        ]);
-
         $statut = Password::reset(
             $request->only('email', 'password', 'password_confirmation', 'token'),
             function (User $user, string $password) {

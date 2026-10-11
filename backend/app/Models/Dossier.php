@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Collection;
 
 class Dossier extends Model
 {
@@ -84,7 +85,7 @@ class Dossier extends Model
     /**
      * RG-004 : pièces obligatoires sans document valable (en attente ou accepté).
      *
-     * @return \Illuminate\Support\Collection<int, PieceRequise>
+     * @return Collection<int, PieceRequise>
      */
     public function piecesManquantes()
     {

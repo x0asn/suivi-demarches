@@ -4,7 +4,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import { Alerte, Badge, Bouton, Champ, Chargement, Modale, Selecteur, ZoneTexte } from '../../../components/ui'
 import { useToast } from '../../../context/ToastContext'
 import { api } from '../../../lib/api'
-import { STATUTS_PROCEDURE } from '../../../lib/statuts'
+import { STATUTS_PROCEDURE } from '../../../lib/procedures'
 import NonTrouve from '../../erreurs/NonTrouve'
 
 const VIDE = {

@@ -1,9 +1,9 @@
 import { Bell, BellOff, CheckCheck } from 'lucide-react'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { api } from '../lib/api'
-import { STATUTS_DOSSIER } from '../lib/dossiers'
-import { cx, dates } from '../lib/utils'
+import { api } from '../../lib/api'
+import { STATUTS_DOSSIER } from '../../lib/dossiers'
+import { cx, dates } from '../../lib/utils'
 
 const INTERVALLE = 30_000
 

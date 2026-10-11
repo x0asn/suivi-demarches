@@ -1,7 +1,7 @@
 import { ChevronDown, ExternalLink, LogOut, Menu, UserCircle, X } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 import { Link, Navigate, NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom'
-import Cloche from '../components/Cloche'
+import Cloche from '../components/notifications/Cloche'
 import { Avatar, Badge, Chargement, Logo } from '../components/ui'
 import { useAuth } from '../context/AuthContext'
 import { useToast } from '../context/ToastContext'

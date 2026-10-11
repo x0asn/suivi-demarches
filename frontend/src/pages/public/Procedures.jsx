@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { Alerte, Pagination, Squelette } from '../../components/ui'
 import { api } from '../../lib/api'
-import { IconeCategorie } from '../../components/Icones'
+import { IconeCategorie } from '../../components/ui/Icones'
 import { iconeCategorie, libelleDelai } from '../../lib/icones'
 import { cx } from '../../lib/utils'
 

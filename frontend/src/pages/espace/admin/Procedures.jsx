@@ -5,7 +5,7 @@ import { Alerte, Badge, Bouton, Champ, EnTetePage, EtatVide, Pagination, Selecte
 import { useListe } from '../../../hooks/useListe'
 import { api } from '../../../lib/api'
 import { iconeCategorie } from '../../../lib/icones'
-import { STATUTS_PROCEDURE } from '../../../lib/statuts'
+import { STATUTS_PROCEDURE } from '../../../lib/procedures'
 import { dates } from '../../../lib/utils'
 
 /** RF-017 / UC-07 : référentiel des procédures. */

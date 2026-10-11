@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Enums\Role;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Reclamations\StoreReclamationRequest;
+use App\Http\Requests\Reclamations\TraiterReclamationRequest;
 use App\Http\Resources\ReclamationResource;
 use App\Models\Dossier;
 use App\Models\Reclamation;
@@ -56,23 +58,9 @@ class ReclamationController extends Controller
     }
 
     /** RF-012 : une réclamation est créée avec une référence et un statut. */
-    public function store(Request $request): JsonResponse
+    public function store(StoreReclamationRequest $request): JsonResponse
     {
-        abort_unless($request->user()->role === Role::Citoyen, 403);
-
-        $donnees = $request->validate([
-            'motif' => ['required', Rule::in(array_keys(Reclamation::MOTIFS))],
-            'sujet' => ['required', 'string', 'max:255'],
-            'description' => ['required', 'string', 'min:20', 'max:3000'],
-            'dossier_id' => [
-                'nullable', 'integer',
-                Rule::exists('dossiers', 'id')->where('citoyen_id', $request->user()->id),
-            ],
-        ], [
-            'description.min' => 'Décrivez votre réclamation en quelques phrases (20 caractères minimum).',
-        ], ['motif' => 'motif', 'sujet' => 'sujet', 'description' => 'description', 'dossier_id' => 'dossier']);
-
-        $reclamation = new Reclamation($donnees);
+        $reclamation = new Reclamation($request->validated());
         $reclamation->citoyen_id = $request->user()->id;
         $reclamation->statut = 'ouverte';
         $reclamation->save();
@@ -103,18 +91,11 @@ class ReclamationController extends Controller
     }
 
     /** Traitement : prise en charge, réponse et clôture. */
-    public function update(Request $request, Reclamation $reclamation): JsonResponse
+    public function update(TraiterReclamationRequest $request, Reclamation $reclamation): JsonResponse
     {
-        $this->authorize('traiter', $reclamation);
-
         if ($reclamation->estClose()) {
             return $this->erreur('Cette réclamation est déjà close.', 422);
         }
-
-        $request->validate([
-            'statut' => ['required', Rule::in(['en_cours', 'resolue', 'rejetee'])],
-            'reponse' => ['nullable', 'string', 'max:3000', Rule::requiredIf(in_array($request->statut, ['resolue', 'rejetee'], true))],
-        ], ['reponse.required' => 'Rédigez la réponse qui sera adressée au citoyen.'], ['reponse' => 'réponse']);
 
         $ancien = $reclamation->statut;
         $reclamation->statut = $request->statut;

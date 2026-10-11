@@ -3,10 +3,11 @@
 namespace App\Http\Resources;
 
 use App\Enums\Role;
+use App\Models\Dossier;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-/** @mixin \App\Models\Dossier */
+/** @mixin Dossier */
 class DossierResource extends JsonResource
 {
     public function toArray(Request $request): array

@@ -13,9 +13,10 @@ use App\Http\Controllers\Api\ObservationController;
 use App\Http\Controllers\Api\ProcedureController;
 use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\ReclamationController;
-use App\Http\Controllers\Api\StatistiqueController;
 use App\Http\Controllers\Api\ServiceController;
+use App\Http\Controllers\Api\StatistiqueController;
 use App\Http\Controllers\Api\TraitementController;
+use App\Support\Regions;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -37,7 +38,7 @@ Route::prefix('auth')->middleware('throttle:10,1')->group(function () {
 Route::get('procedures', [ProcedureController::class, 'index']);
 Route::get('procedures/{slug}', [ProcedureController::class, 'show']);
 Route::get('categories', [ProcedureController::class, 'categories']);
-Route::get('regions', fn () => response()->json(['success' => true, 'message' => 'OK', 'data' => \App\Support\Regions::LISTE]));
+Route::get('regions', fn () => response()->json(['success' => true, 'message' => 'OK', 'data' => Regions::LISTE]));
 Route::get('services', [ServiceController::class, 'index']);
 Route::get('services/{service}', [ServiceController::class, 'show']);
 

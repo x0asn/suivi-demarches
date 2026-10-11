@@ -5,6 +5,7 @@ namespace Tests\Feature\Dossiers;
 use App\Enums\StatutDossier;
 use App\Models\Categorie;
 use App\Models\Dossier;
+use App\Models\JournalAction;
 use App\Models\Procedure;
 use App\Models\Service;
 use App\Models\User;
@@ -214,7 +215,7 @@ class ParcoursDossierTest extends TestCase
         $this->assertNotNull($dossier->decision_at);
         // RG-005 : brouillon, soumis, en vérification, en traitement, validé, terminé
         $this->assertSame(6, $dossier->historique()->count());
-        $this->assertSame(6, \App\Models\JournalAction::where('action', 'dossier.statut')->count() + 1);
+        $this->assertSame(6, JournalAction::where('action', 'dossier.statut')->count() + 1);
         // RF-009 : le citoyen voit le statut et l'historique
         Sanctum::actingAs($this->citoyen);
         $this->getJson("/api/dossiers/{$dossier->id}")

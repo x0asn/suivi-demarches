@@ -1,6 +1,6 @@
 # Matrice de traçabilité — exigences → réalisation → preuve
 
-Les tests se trouvent dans `backend/tests/Feature/`. Commande : `php artisan test` (60 tests, tous réussis).
+Les tests se trouvent dans `backend/tests/` (`Feature/` pour les parcours, `Unit/` pour les règles du workflow). Commande : `php artisan test` (68 tests, tous réussis).
 
 ## Exigences fonctionnelles
 
@@ -20,7 +20,7 @@ Les tests se trouvent dans `backend/tests/Feature/`. Commande : `php artisan tes
 | RF-012 Soumettre une réclamation | Page *Réclamations* | `ReclamationsStatistiquesTest::test_rf012_*` |
 | RF-013 Dossiers à traiter (agent) | *File de travail* | `test_rg006_un_agent_ne_voit_que_les_dossiers_de_son_service` |
 | RF-014 Contrôler les pièces | Accepter / À corriger / Refuser, aperçu PDF et image | `test_uc05_correction_demandee_puis_dossier_complete` |
-| RF-015 Changer le statut | Boutons d'action de l'agent | `test_rf015_transition_incoherente_refusee`, `test_parcours_complet_*` |
+| RF-015 Changer le statut | Boutons d'action de l'agent | `test_rf015_transition_incoherente_refusee`, `test_parcours_complet_*`, `StatutDossierTest` (unitaire) |
 | RF-016 Ajouter une observation | Fil d'échanges, notes internes | `test_rf016_observation_et_note_interne` |
 | RF-017 Gérer les procédures | *Administration > Procédures* (éditeur, publication) | `CatalogueTest::test_rf017_*` |
 | RF-018 Gérer utilisateurs et rôles | *Administration > Utilisateurs* | `GestionUtilisateursTest::test_rf018_*`, `test_rnf001_*` |

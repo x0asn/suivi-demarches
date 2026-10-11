@@ -16,7 +16,7 @@ import {
 } from 'lucide-react'
 import { useCallback, useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { ApercuDocument, BadgeDocument, BadgeStatut, BoutonApercu, FilEchanges, Frise, Historique, IconeFichier } from '../../../components/dossiers/Elements'
+import { ApercuDocument, BadgeDocument, BadgeStatut, BoutonApercu, FilEchanges, Frise, Historique, IconeFichier } from '../../../components/dossiers'
 import { Alerte, Avatar, Bouton, Chargement, Modale, ZoneTexte } from '../../../components/ui'
 import { useAuth } from '../../../context/AuthContext'
 import { useToast } from '../../../context/ToastContext'

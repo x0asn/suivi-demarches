@@ -1,7 +1,7 @@
 import { Clock, Mail, MapPin, Navigation, Phone, Search, SearchX } from 'lucide-react'
 import { useEffect, useMemo, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
-import CarteServices from '../../components/CarteServices'
+import CarteServices from '../../components/services/CarteServices'
 import { Alerte, Chargement, Selecteur, Squelette } from '../../components/ui'
 import { useAuth } from '../../context/AuthContext'
 import { api } from '../../lib/api'

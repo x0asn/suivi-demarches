@@ -1,5 +1,5 @@
-import { COULEURS_SENEGAL } from '../lib/senegal'
-import { cx } from '../lib/utils'
+import { COULEURS_SENEGAL } from '../../lib/senegal'
+import { cx } from '../../lib/utils'
 
 /** Petit drapeau du Sénégal en SVG (les drapeaux emoji ne s'affichent pas sous Windows). */
 export function DrapeauSenegal({ className }) {

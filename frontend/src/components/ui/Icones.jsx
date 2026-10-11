@@ -1,5 +1,5 @@
 import { createElement } from 'react'
-import { iconeCategorie, iconeService } from '../lib/icones'
+import { iconeCategorie, iconeService } from '../../lib/icones'
 
 /** Icône d'une catégorie de procédure, à partir du nom stocké en base. */
 export function IconeCategorie({ nom, ...props }) {

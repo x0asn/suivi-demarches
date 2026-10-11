@@ -1,7 +1,7 @@
 import { CheckCircle2, LockKeyhole } from 'lucide-react'
 import { useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
-import ForceMotDePasse from '../../components/ForceMotDePasse'
+import ForceMotDePasse from '../../components/auth/ForceMotDePasse'
 import { Alerte, Bouton, ChampMotDePasse } from '../../components/ui'
 import { api } from '../../lib/api'
 

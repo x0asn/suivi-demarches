@@ -1,0 +1,6 @@
+export { ApercuDocument, BoutonApercu, IconeFichier } from './ApercuDocument'
+export { BadgeDocument, BadgeStatut } from './BadgeStatut'
+export { FilEchanges } from './FilEchanges'
+export { Frise } from './Frise'
+export { Historique } from './Historique'
+export { default as PieceDepot } from './PieceDepot'

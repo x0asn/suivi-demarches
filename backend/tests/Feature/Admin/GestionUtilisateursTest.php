@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Admin;
 
+use App\Models\JournalAction;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Sanctum\Sanctum;
@@ -52,7 +53,7 @@ class GestionUtilisateursTest extends TestCase
         $this->patchJson("/api/admin/users/{$user->id}", ['role' => 'agent'])->assertOk();
 
         $this->assertSame('agent', $user->fresh()->role->value);
-        $journal = \App\Models\JournalAction::where('action', 'admin.utilisateur.modifie')->first();
+        $journal = JournalAction::where('action', 'admin.utilisateur.modifie')->first();
         $this->assertSame(['role' => 'citoyen'], $journal->details['avant']);
         $this->assertSame(['role' => 'agent'], $journal->details['apres']);
     }

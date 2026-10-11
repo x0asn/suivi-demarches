@@ -8,6 +8,7 @@ use App\Enums\StatutDossier;
 use App\Models\Document;
 use App\Models\Dossier;
 use App\Models\Procedure;
+use App\Models\Reclamation;
 use App\Models\User;
 use App\Notifications\NotificationPlateforme;
 use App\Services\Notifieur;
@@ -71,7 +72,7 @@ class DossiersDemoSeeder extends Seeder
         $moussa = User::where('email', 'citoyen2@suivi-demarches.sn')->first();
 
         // --- Le parcours de Fatou Ba, citoyenne de démonstration ---
-        $this->creer($fatou, "extrait-dacte-de-naissance", 'termine', 58, 'Inscription de mon fils à l’école primaire.');
+        $this->creer($fatou, 'extrait-dacte-de-naissance', 'termine', 58, 'Inscription de mon fils à l’école primaire.');
         $this->creer($fatou, 'bulletin-n3-du-casier-judiciaire', 'en_traitement', 3, 'Dossier de recrutement à la fonction publique.');
         $this->creer($fatou, 'certificat-de-vie-et-dentretien', 'correction_demandee', 6, 'Allocations familiales.', 'Votre pièce d’identité est illisible : merci d’en joindre une copie nette, recto et verso.');
         $this->creer($fatou, 'passeport-ordinaire', 'brouillon', 1, null);
@@ -81,7 +82,7 @@ class DossiersDemoSeeder extends Seeder
         // --- Activité des autres citoyens, répartie sur six mois ---
         $repartition = [
             // [procédure, statut, jours depuis la soumission]
-            ...$this->serie("extrait-dacte-de-naissance", ['soumis' => [0, 1, 2], 'en_verification' => [2, 4], 'en_traitement' => [3, 6], 'termine' => [15, 33, 47, 70, 96, 128, 150, 176], 'rejete' => [40], 'cloture' => [88]]),
+            ...$this->serie('extrait-dacte-de-naissance', ['soumis' => [0, 1, 2], 'en_verification' => [2, 4], 'en_traitement' => [3, 6], 'termine' => [15, 33, 47, 70, 96, 128, 150, 176], 'rejete' => [40], 'cloture' => [88]]),
             ...$this->serie('certificat-de-residence', ['soumis' => [1], 'en_verification' => [2], 'termine' => [20, 52, 77, 110, 140], 'valide' => [5], 'cloture' => [60]]),
             ...$this->serie('certificat-de-vie-et-dentretien', ['soumis' => [2], 'en_traitement' => [4], 'termine' => [25, 81, 133]]),
             ...$this->serie('bulletin-n3-du-casier-judiciaire', ['soumis' => [1], 'en_verification' => [7], 'termine' => [18, 44, 66, 99, 121, 160, 171], 'rejete' => [35]]),
@@ -115,7 +116,7 @@ class DossiersDemoSeeder extends Seeder
         ];
 
         foreach ($exemples as [$citoyen, $dossier, $motif, $sujet, $description, $statut, $reponse, $jours]) {
-            $r = new \App\Models\Reclamation(['dossier_id' => $dossier?->id, 'motif' => $motif, 'sujet' => $sujet, 'description' => $description]);
+            $r = new Reclamation(['dossier_id' => $dossier?->id, 'motif' => $motif, 'sujet' => $sujet, 'description' => $description]);
             $r->citoyen_id = $dossier?->citoyen_id ?? $citoyen->id;
             $r->statut = $statut;
             $r->reponse = $reponse;
@@ -309,15 +310,15 @@ class DossiersDemoSeeder extends Seeder
     private function pdf(string $titre, User $citoyen): string
     {
         $texte = fn ($t) => str_replace(['\\', '(', ')'], ['\\\\', '\\(', '\\)'], iconv('UTF-8', 'Windows-1252//TRANSLIT', $t));
-        $contenu = "BT /F1 20 Tf 60 760 Td (".$texte($titre).") Tj ET\n"
-            ."BT /F1 12 Tf 60 730 Td (".$texte("Titulaire : {$citoyen->nom_complet}").") Tj ET\n"
-            ."BT /F1 10 Tf 60 700 Td (".$texte('Document fictif généré pour la démonstration de Suivi Démarches.').") Tj ET";
+        $contenu = 'BT /F1 20 Tf 60 760 Td ('.$texte($titre).") Tj ET\n"
+            .'BT /F1 12 Tf 60 730 Td ('.$texte("Titulaire : {$citoyen->nom_complet}").") Tj ET\n"
+            .'BT /F1 10 Tf 60 700 Td ('.$texte('Document fictif généré pour la démonstration de Suivi Démarches.').') Tj ET';
 
         $objets = [
             '<< /Type /Catalog /Pages 2 0 R >>',
             '<< /Type /Pages /Kids [3 0 R] /Count 1 >>',
             '<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Contents 4 0 R /Resources << /Font << /F1 5 0 R >> >> >>',
-            "<< /Length ".strlen($contenu)." >>\nstream\n{$contenu}\nendstream",
+            '<< /Length '.strlen($contenu)." >>\nstream\n{$contenu}\nendstream",
             '<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>',
         ];
         $pdf = "%PDF-1.4\n";

@@ -1,7 +1,7 @@
 import { LayoutDashboard, Menu, ShieldCheck, X } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { Link, NavLink, Outlet, useLocation } from 'react-router-dom'
-import { DrapeauSenegal, LisereSenegal } from '../components/Senegal'
+import { DrapeauSenegal, LisereSenegal } from '../components/ui/Senegal'
 import { Bouton, Logo } from '../components/ui'
 import { useAuth } from '../context/AuthContext'
 import { useLienSuivi } from '../hooks/useLienSuivi'

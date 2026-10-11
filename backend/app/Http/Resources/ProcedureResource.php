@@ -2,10 +2,11 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Procedure;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-/** @mixin \App\Models\Procedure */
+/** @mixin Procedure */
 class ProcedureResource extends JsonResource
 {
     public function toArray(Request $request): array

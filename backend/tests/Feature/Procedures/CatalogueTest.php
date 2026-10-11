@@ -2,11 +2,15 @@
 
 namespace Tests\Feature\Procedures;
 
+use App\Enums\StatutDossier;
 use App\Models\Categorie;
+use App\Models\Dossier;
+use App\Models\JournalAction;
 use App\Models\Procedure;
 use App\Models\Service;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Str;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
@@ -32,7 +36,7 @@ class CatalogueTest extends TestCase
     {
         $p = new Procedure([
             'titre' => $titre,
-            'slug' => \Illuminate\Support\Str::slug($titre),
+            'slug' => Str::slug($titre),
             'resume' => "Résumé de {$titre}",
             'categorie_id' => $this->categorie->id,
             'service_id' => $this->service->id,
@@ -99,10 +103,10 @@ class CatalogueTest extends TestCase
         $citoyen = User::factory()->create();
         foreach ([[$beaucoup, 3], [$peu, 1]] as [$p, $n]) {
             for ($i = 0; $i < $n; $i++) {
-                $d = new \App\Models\Dossier();
+                $d = new Dossier;
                 $d->procedure_id = $p->id;
                 $d->citoyen_id = $citoyen->id;
-                $d->statut = \App\Enums\StatutDossier::Soumis;
+                $d->statut = StatutDossier::Soumis;
                 $d->soumis_at = now();
                 $d->save();
             }
@@ -173,7 +177,7 @@ class CatalogueTest extends TestCase
         $this->patchJson("/api/admin/procedures/{$p->id}/statut", ['statut' => 'desactivee'])->assertOk();
         $this->getJson('/api/procedures/legalisation')->assertNotFound();
 
-        $this->assertSame(2, \App\Models\JournalAction::where('action', 'admin.procedure.statut')->count());
+        $this->assertSame(2, JournalAction::where('action', 'admin.procedure.statut')->count());
     }
 
     public function test_rf017_une_procedure_sans_piece_ne_peut_pas_etre_publiee(): void

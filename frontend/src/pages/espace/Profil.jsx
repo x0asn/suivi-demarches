@@ -1,6 +1,6 @@
 import { KeyRound, LockKeyhole, Mail, MapPin, Phone, Save, UserRound } from 'lucide-react'
 import { useState } from 'react'
-import ForceMotDePasse from '../../components/ForceMotDePasse'
+import ForceMotDePasse from '../../components/auth/ForceMotDePasse'
 import { Avatar, Badge, Bouton, Champ, ChampMotDePasse, EnTetePage, Selecteur } from '../../components/ui'
 import { useAuth } from '../../context/AuthContext'
 import { useToast } from '../../context/ToastContext'

@@ -29,7 +29,7 @@ Les dix modules du cahier des charges (M01 à M10) sont réalisés. Voir [docs/T
 | Interface | React 19 + Vite, React Router, Tailwind CSS 3, icônes Lucide, carte Leaflet / OpenStreetMap |
 | API | Laravel 12 (PHP 8.2), authentification par jeton (Laravel Sanctum) |
 | Base de données | MySQL 8 (via Laragon) |
-| Tests | PHPUnit — 60 tests automatisés |
+| Tests | PHPUnit — 68 tests automatisés |
 
 ## 3. Installation (première fois)
 
@@ -119,6 +119,8 @@ Les photos proviennent d'Unsplash (licence libre).
 
 ## 10. Documentation
 
+- [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) — organisation du code, dossier par dossier
 - [docs/API.md](docs/API.md) — contrats de l'API REST
 - [docs/TRACABILITE.md](docs/TRACABILITE.md) — exigences → écrans → tests
+- [docs/conception/](docs/conception/) et [docs/maquettes/](docs/maquettes/) — UML, MCD/MLD et maquettes (à compléter)
 - [CAHIER_DES_CHARGES.md](CAHIER_DES_CHARGES.md) — document de référence

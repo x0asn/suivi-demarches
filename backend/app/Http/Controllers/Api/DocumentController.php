@@ -5,15 +5,15 @@ namespace App\Http\Controllers\Api;
 use App\Enums\StatutDocument;
 use App\Enums\StatutDossier;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Documents\StoreDocumentRequest;
+use App\Http\Requests\Documents\VerifierDocumentRequest;
 use App\Http\Resources\DocumentResource;
 use App\Models\Document;
 use App\Models\Dossier;
 use App\Services\Journal;
 use App\Services\Notifieur;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Validation\Rule;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 /**
@@ -22,22 +22,8 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 class DocumentController extends Controller
 {
     /** RF-008 : le fichier respecte les règles de format et de taille. */
-    public function store(Request $request, Dossier $dossier): JsonResponse
+    public function store(StoreDocumentRequest $request, Dossier $dossier): JsonResponse
     {
-        $this->authorize('update', $dossier);
-
-        $request->validate([
-            'fichier' => ['required', 'file', 'mimes:'.implode(',', Document::FORMATS), 'max:'.Document::TAILLE_MAX_KO],
-            'piece_requise_id' => [
-                'required', 'integer',
-                Rule::exists('pieces_requises', 'id')->where('procedure_id', $dossier->procedure_id),
-            ],
-        ], [
-            'fichier.mimes' => 'Format non accepté. Formats autorisés : PDF, JPG ou PNG.',
-            'fichier.max' => 'Le fichier dépasse la taille maximale de 5 Mo.',
-            'fichier.uploaded' => 'Le fichier n’a pas pu être envoyé. Vérifiez qu’il ne dépasse pas 5 Mo.',
-        ], ['fichier' => 'fichier', 'piece_requise_id' => 'pièce']);
-
         $pieceId = (int) $request->piece_requise_id;
 
         if ($dossier->documents()->where('piece_requise_id', $pieceId)->where('statut', StatutDocument::Accepte->value)->exists()) {
@@ -91,19 +77,13 @@ class DocumentController extends Controller
     }
 
     /** RF-014 : acceptée, refusée ou à corriger (RG-007 : motif obligatoire si non acceptée). */
-    public function verifier(Request $request, Document $document): JsonResponse
+    public function verifier(VerifierDocumentRequest $request, Document $document): JsonResponse
     {
         $dossier = $document->dossier;
-        $this->authorize('traiter', $dossier);
 
         if (! in_array($dossier->statut, [StatutDossier::EnVerification, StatutDossier::EnTraitement], true)) {
             return $this->erreur('Prenez d’abord le dossier en charge (statut « En vérification ») pour contrôler les pièces.', 422);
         }
-
-        $request->validate([
-            'statut' => ['required', Rule::in([StatutDocument::Accepte->value, StatutDocument::Refuse->value, StatutDocument::ACorriger->value])],
-            'motif' => ['nullable', 'string', 'max:1000', Rule::requiredIf($request->statut !== StatutDocument::Accepte->value)],
-        ], ['motif.required' => 'Indiquez le motif : il sera communiqué au citoyen.'], ['motif' => 'motif']);
 
         $document->statut = StatutDocument::from($request->statut);
         $document->motif = $document->statut === StatutDocument::Accepte ? null : $request->motif;

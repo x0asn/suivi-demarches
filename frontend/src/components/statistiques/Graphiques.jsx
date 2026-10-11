@@ -1,5 +1,5 @@
 import { useMemo, useRef, useState } from 'react'
-import { cx, nombre } from '../lib/utils'
+import { cx, nombre } from '../../lib/utils'
 
 /*
  * Graphiques SVG faits main, sans dépendance :

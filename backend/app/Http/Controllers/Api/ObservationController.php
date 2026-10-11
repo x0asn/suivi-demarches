@@ -4,26 +4,21 @@ namespace App\Http\Controllers\Api;
 
 use App\Enums\Role;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Dossiers\StoreObservationRequest;
 use App\Models\Dossier;
 use App\Models\User;
 use App\Services\Journal;
 use App\Services\Notifieur;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 /**
  * RF-016 : observations horodatées liées au dossier, et échanges avec le citoyen.
  */
 class ObservationController extends Controller
 {
-    public function store(Request $request, Dossier $dossier): JsonResponse
+    public function store(StoreObservationRequest $request, Dossier $dossier): JsonResponse
     {
-        $this->authorize('commenter', $dossier);
-
-        $donnees = $request->validate([
-            'contenu' => ['required', 'string', 'max:2000'],
-            'interne' => ['boolean'],
-        ], [], ['contenu' => 'message']);
+        $donnees = $request->validated();
 
         $user = $request->user();
         $interne = $user->role === Role::Agent && $request->boolean('interne');

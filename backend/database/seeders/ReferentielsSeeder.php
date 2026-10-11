@@ -98,7 +98,7 @@ class ReferentielsSeeder extends Seeder
             'urbanisme' => ["Service régional de l'urbanisme", 'ministere', 'Sphère ministérielle', 'Diamniadio', 'Dakar', '+221 33 800 70 10', 'Lun–Ven 8h–16h', 14.7212, -17.1925],
             'guichet-entreprise' => ['Guichet unique de création d’entreprise', 'agence', 'Rue Mohamed V', 'Dakar-Plateau', 'Dakar', '+221 33 800 80 10', 'Lun–Ven 8h–17h', 14.6695, -17.4393],
             'impots' => ['Centre des services fiscaux', 'ministere', 'Rue Abdoulaye Fadiga', 'Dakar-Plateau', 'Dakar', '+221 33 800 80 20', 'Lun–Ven 8h–16h', 14.6713, -17.4352],
-            'enseignement-sup' => ["Direction des bourses — Enseignement supérieur", 'ministere', 'Sphère ministérielle', 'Diamniadio', 'Dakar', '+221 33 800 90 10', 'Lun–Ven 8h–16h', 14.7224, -17.1951],
+            'enseignement-sup' => ['Direction des bourses — Enseignement supérieur', 'ministere', 'Sphère ministérielle', 'Diamniadio', 'Dakar', '+221 33 800 90 10', 'Lun–Ven 8h–16h', 14.7224, -17.1951],
         ];
 
         $resultat = [];
@@ -117,7 +117,7 @@ class ReferentielsSeeder extends Seeder
     {
         $etapesClassiques = fn (string $instruction, string $delivrance) => [
             ['Dépôt en ligne', 'Vous remplissez le formulaire et joignez les pièces demandées.'],
-            ['Vérification des pièces', "Un agent contrôle la conformité de votre dossier et peut demander une correction."],
+            ['Vérification des pièces', 'Un agent contrôle la conformité de votre dossier et peut demander une correction.'],
             ['Instruction', $instruction],
             ['Décision et délivrance', $delivrance],
         ];
@@ -127,7 +127,7 @@ class ReferentielsSeeder extends Seeder
                 'titre' => "Extrait d'acte de naissance",
                 'categorie' => 'etat-civil', 'service' => 'mairie-plateau', 'delai' => 3, 'cout' => 'Gratuit',
                 'public' => 'Toute personne née ou déclarée dans la commune',
-                'resume' => "Obtenir une copie certifiée de son acte de naissance, indispensable pour la plupart des démarches.",
+                'resume' => 'Obtenir une copie certifiée de son acte de naissance, indispensable pour la plupart des démarches.',
                 'description' => "L'extrait d'acte de naissance est délivré par le centre d'état civil où la naissance a été enregistrée. Il est demandé pour l'établissement d'une pièce d'identité, une inscription scolaire, un mariage ou un concours.",
                 'conditions' => "La naissance doit avoir été déclarée dans la commune. La demande peut être faite par l'intéressé, ses parents ou un mandataire muni d'une procuration.",
                 'pieces' => [

@@ -19,7 +19,7 @@ import { Link, useParams } from 'react-router-dom'
 import { Bouton, Chargement } from '../../components/ui'
 import { useAuth } from '../../context/AuthContext'
 import { api } from '../../lib/api'
-import { IconeCategorie, IconeService } from '../../components/Icones'
+import { IconeCategorie, IconeService } from '../../components/ui/Icones'
 import { libelleDelai } from '../../lib/icones'
 import NonTrouve from '../erreurs/NonTrouve'
 

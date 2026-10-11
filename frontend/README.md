@@ -1,16 +1,32 @@
-# React + Vite
+# Suivi Démarches — Interface
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Interface web de la plateforme, écrite avec React 19, Vite et Tailwind CSS. Elle affiche les
+écrans du citoyen, de l'agent et de l'administrateur, et échange avec l'API de
+[../backend](../backend).
 
-Currently, two official plugins are available:
+## Commandes
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+```bash
+npm install      # installer les dépendances
+npm run dev      # lancer l'interface sur http://localhost:5173
+npm run build    # produire la version de production dans dist/
+npm run lint     # vérifier le code
+```
 
-## React Compiler
+En développement, les appels à `/api` sont redirigés vers l'API Laravel (port 8000) : elle doit
+être lancée en même temps.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Où trouver quoi
 
-## Expanding the ESLint configuration
+| Dossier de `src/` | Contenu |
+|---|---|
+| `pages/` | Un fichier par écran : `public`, `auth`, `espace` (`citoyen`, `agent`, `admin`), `erreurs` |
+| `layouts/` | Cadres de page : site public, connexion, espace connecté |
+| `components/ui/` | Briques de base : bouton, champ, modale, badge, pagination |
+| `components/dossiers/` | Frise d'avancement, historique, pièces, fil d'échanges |
+| `components/` (autres) | `auth`, `notifications`, `statistiques`, `services` |
+| `context/` | Utilisateur connecté, messages de confirmation |
+| `hooks/` | Logique réutilisable |
+| `lib/` | Appels à l'API, libellés des statuts et des rôles, utilitaires |
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Le détail est dans [../docs/ARCHITECTURE.md](../docs/ARCHITECTURE.md).

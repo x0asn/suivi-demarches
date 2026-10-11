@@ -1,5 +1,5 @@
 import { Route, Routes } from 'react-router-dom'
-import Garde from './components/Garde'
+import Garde from './components/auth/Garde'
 import AppLayout from './layouts/AppLayout'
 import AuthLayout from './layouts/AuthLayout'
 import PublicLayout from './layouts/PublicLayout'

@@ -1,7 +1,7 @@
 import { AlarmClock, FileSearch, Inbox, Search } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { BadgeStatut } from '../../../components/dossiers/Elements'
+import { BadgeStatut } from '../../../components/dossiers'
 import { Alerte, Avatar, EnTetePage, EtatVide, Pagination, Squelette } from '../../../components/ui'
 import { useAuth } from '../../../context/AuthContext'
 import { useListe } from '../../../hooks/useListe'
