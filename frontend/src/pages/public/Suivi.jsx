@@ -24,6 +24,13 @@ function Resultat({ suivi }) {
       <div className="p-6">
         <Frise statut={suivi.statut} />
 
+        {suivi.a_retirer && (
+          <Alerte type="succes" titre="Votre document est prêt" className="mt-6">
+            Présentez-vous à l’administration indiquée ci-dessous avec une pièce d’identité et votre <b className="font-semibold">code de retrait</b>.
+            Pour des raisons de sécurité, ce code n’est visible que dans votre espace personnel :{' '}
+            <Link to="/connexion" state={{ depuis: '/espace/dossiers' }} className="font-semibold underline underline-offset-2">connectez-vous</Link> pour l’obtenir.
+          </Alerte>
+        )}
         {suivi.action_requise && (
           <Alerte type="alerte" titre="Une action de votre part est attendue" className="mt-6">
             L’administration vous demande de corriger ou de compléter votre dossier.{' '}
@@ -44,6 +51,8 @@ function Resultat({ suivi }) {
               <div>
                 <dt className="text-slate-500">Administration</dt>
                 <dd className="font-medium text-slate-900">{suivi.administration.nom}</dd>
+                {suivi.a_retirer && suivi.administration.adresse && <dd className="mt-0.5 text-slate-600">{suivi.administration.adresse}</dd>}
+                {suivi.a_retirer && suivi.administration.horaires && <dd className="mt-0.5 text-slate-600">{suivi.administration.horaires}</dd>}
                 {suivi.administration.telephone && (
                   <dd className="mt-0.5 flex items-center gap-1 text-slate-600"><Phone className="size-3.5" aria-hidden /> {suivi.administration.telephone}</dd>
                 )}

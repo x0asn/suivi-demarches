@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Enums\StatutDossier;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Dossiers\ChangerStatutRequest;
+use App\Http\Requests\Dossiers\RemiseRequest;
 use App\Http\Requests\Dossiers\StoreDossierRequest;
 use App\Http\Requests\Dossiers\UpdateDossierRequest;
 use App\Http\Resources\DossierResource;
@@ -66,6 +67,8 @@ class DossierController extends Controller
             'brouillons' => $somme(['brouillon']),
             'en_cours' => $somme(['soumis', 'en_verification', 'en_traitement']),
             'action_requise' => $somme(['correction_demandee']),
+            // Documents prêts, que le citoyen doit venir retirer.
+            'a_retirer' => $somme(['pret_a_retirer']),
             'aboutis' => $somme(['valide', 'termine']),
             'rejetes' => $somme(['rejete', 'cloture']),
             'recents' => DossierResource::collection($recents)->resolve(),
@@ -169,6 +172,14 @@ class DossierController extends Controller
         Workflow::changerStatut($dossier, $cible, $request->user(), $request->commentaire);
 
         return $this->succes(new DossierResource($this->charger($dossier)), "Le dossier est maintenant « {$cible->libelle()} ».");
+    }
+
+    /** Remise du document : l'agent saisit le code de retrait présenté par le citoyen. */
+    public function remettre(RemiseRequest $request, Dossier $dossier): JsonResponse
+    {
+        Workflow::remettre($dossier, $request->user(), $request->code_retrait);
+
+        return $this->succes(new DossierResource($this->charger($dossier)), 'Remise enregistrée : le dossier est terminé.');
     }
 
     private function charger(Dossier $dossier): Dossier

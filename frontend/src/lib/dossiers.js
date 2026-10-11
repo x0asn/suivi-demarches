@@ -34,7 +34,13 @@ export const STATUTS_DOSSIER = {
     libelle: 'Validé',
     classe: 'bg-brand-50 text-brand-800 ring-brand-200',
     point: 'bg-brand-500',
-    citoyen: 'Décision favorable. Le service finalise la délivrance.',
+    citoyen: 'Votre demande est approuvée. Le service prépare votre document : vous serez prévenu dès qu’il sera prêt à retirer.',
+  },
+  pret_a_retirer: {
+    libelle: 'Prêt à retirer',
+    classe: 'bg-or-100 text-or-700 ring-or-300',
+    point: 'bg-or-400',
+    citoyen: 'Votre document est prêt. Présentez-vous à l’administration avec votre code de retrait et une pièce d’identité.',
   },
   rejete: {
     libelle: 'Rejeté',
@@ -46,7 +52,7 @@ export const STATUTS_DOSSIER = {
     libelle: 'Terminé',
     classe: 'bg-brand-800 text-white ring-brand-800',
     point: 'bg-or-300',
-    citoyen: 'La démarche est achevée.',
+    citoyen: 'Votre document vous a été remis : la démarche est achevée.',
   },
   cloture: {
     libelle: 'Clôturé',
@@ -68,9 +74,15 @@ export const ACTIONS_AGENT = {
   en_verification: { libelle: 'Prendre en charge', description: 'Le dossier passe en vérification et vous en devenez le responsable.', variante: 'primaire' },
   en_traitement: { libelle: 'Déclarer recevable', description: 'Les pièces sont conformes : le dossier entre en instruction.', variante: 'primaire' },
   correction_demandee: { libelle: 'Demander une correction', description: 'Le citoyen sera invité à compléter son dossier.', variante: 'secondaire', commentaire: true },
-  valide: { libelle: 'Valider', description: 'Décision favorable : le citoyen sera informé.', variante: 'primaire' },
+  valide: { libelle: 'Valider la demande', description: 'Décision favorable. Le document reste à préparer : le citoyen est informé que sa demande est approuvée, pas encore qu’il peut venir.', variante: 'primaire' },
+  pret_a_retirer: {
+    libelle: 'Document prêt à retirer',
+    description: 'À utiliser uniquement lorsque le document officiel est réellement établi, signé et disponible au guichet. Le citoyen reçoit aussitôt la notification « Votre document est prêt » et son code de retrait.',
+    variante: 'or',
+    confirmation: 'Je confirme que le document est établi et disponible au guichet.',
+  },
   rejete: { libelle: 'Rejeter', description: 'Décision défavorable : le motif sera communiqué au citoyen.', variante: 'danger-doux', commentaire: true },
-  termine: { libelle: 'Marquer comme terminé', description: 'La démarche est achevée (document délivré).', variante: 'primaire' },
+  termine: { libelle: 'Remettre le document', description: 'Le citoyen est au guichet : saisissez son code de retrait après avoir vérifié son identité.', variante: 'primaire' },
   cloture: { libelle: 'Clôturer', description: 'Le dossier rejeté est archivé.', variante: 'secondaire' },
 }
 
@@ -82,7 +94,9 @@ export function etapesFrise(statut) {
     { cle: 'en_verification', libelle: 'Vérification' },
     { cle: 'en_traitement', libelle: 'Traitement' },
     { cle: rejet ? 'rejete' : 'valide', libelle: 'Décision' },
-    { cle: rejet ? 'cloture' : 'termine', libelle: rejet ? 'Clôture' : 'Terminé' },
+    // Une demande approuvée passe par la préparation du document avant sa remise.
+    ...(rejet ? [] : [{ cle: 'pret_a_retirer', libelle: 'Prêt à retirer' }]),
+    { cle: rejet ? 'cloture' : 'termine', libelle: rejet ? 'Clôture' : 'Remis' },
   ]
   const rang = {
     brouillon: -1,
@@ -92,7 +106,8 @@ export function etapesFrise(statut) {
     en_traitement: 2,
     valide: 3,
     rejete: 3,
-    termine: 4,
+    pret_a_retirer: 4,
+    termine: 5,
     cloture: 4,
   }[statut]
 

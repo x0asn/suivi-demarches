@@ -79,11 +79,73 @@ function DecisionPiece({ document, decision, onFermer, onFait }) {
   )
 }
 
+/**
+ * Remise du document au guichet : l'agent saisit le code de retrait que lui présente
+ * le citoyen et confirme avoir vérifié son identité. Sans le bon code, rien n'est enregistré.
+ */
+function RemiseDocument({ dossier, onFermer, onFait }) {
+  const toast = useToast()
+  const [code, setCode] = useState('')
+  const [identite, setIdentite] = useState(false)
+  const [erreur, setErreur] = useState(null)
+  const [envoi, setEnvoi] = useState(false)
+
+  const remettre = async () => {
+    setEnvoi(true)
+    setErreur(null)
+    try {
+      const r = await api(`/dossiers/${dossier.id}/remise`, { method: 'PATCH', body: { code_retrait: code, identite_verifiee: identite } })
+      toast.succes('Le citoyen a été notifié.', r.message)
+      onFait(r.data)
+    } catch (err) {
+      setErreur(err.status === 429 ? 'Trop d’essais. Patientez une minute avant de réessayer.' : err.champ('code_retrait') ?? err.champ('identite_verifiee') ?? err.message)
+      setEnvoi(false)
+    }
+  }
+
+  return (
+    <Modale
+      ouverte
+      onFermer={onFermer}
+      titre={`Remettre le document — ${dossier.reference}`}
+      description={`Demandeur : ${dossier.citoyen.nom_complet}`}
+      pied={
+        <>
+          <Bouton variante="secondaire" onClick={onFermer}>Annuler</Bouton>
+          <Bouton chargement={envoi} disabled={code.length !== 6 || !identite} onClick={remettre} icone={Check}>Enregistrer la remise</Bouton>
+        </>
+      }
+    >
+      <div className="space-y-5">
+        {erreur && <Alerte type="erreur">{erreur}</Alerte>}
+        <div>
+          <label htmlFor="code-retrait" className="text-sm font-medium text-slate-900">Code de retrait présenté par le citoyen</label>
+          <input
+            id="code-retrait"
+            value={code}
+            onChange={(e) => setCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
+            inputMode="numeric"
+            autoComplete="off"
+            placeholder="······"
+            className="mt-2 block w-full rounded-xl border-0 bg-white py-3 text-center font-mono text-3xl font-semibold tracking-[0.4em] text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 placeholder:text-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-600"
+          />
+          <p className="mt-1.5 text-sm text-slate-500">Six chiffres, affichés dans l’espace du citoyen sur la page de son dossier.</p>
+        </div>
+        <label className="flex items-start gap-3 rounded-xl bg-slate-50 p-3.5 text-sm text-slate-800 ring-1 ring-slate-200">
+          <input type="checkbox" checked={identite} onChange={(e) => setIdentite(e.target.checked)} className="mt-0.5 size-4 rounded accent-brand-700" />
+          <span>J’ai vérifié l’identité du demandeur (pièce d’identité, ou procuration s’il s’agit d’un mandataire).</span>
+        </label>
+      </div>
+    </Modale>
+  )
+}
+
 /** Fenêtre de changement de statut (RF-015). */
 function ChangementStatut({ dossier, cible, onFermer, onFait }) {
   const toast = useToast()
   const action = ACTIONS_AGENT[cible]
   const [commentaire, setCommentaire] = useState('')
+  const [confirme, setConfirme] = useState(false)
   const [erreur, setErreur] = useState(null)
   const [envoi, setEnvoi] = useState(false)
   const nonAcceptees = dossier.documents.filter((d) => d.statut !== 'accepte').length
@@ -110,11 +172,17 @@ function ChangementStatut({ dossier, cible, onFermer, onFait }) {
       pied={
         <>
           <Bouton variante="secondaire" onClick={onFermer}>Annuler</Bouton>
-          <Bouton variante={cible === 'rejete' ? 'danger' : 'primaire'} chargement={envoi} onClick={valider}>{action.libelle}</Bouton>
+          <Bouton variante={cible === 'rejete' ? 'danger' : 'primaire'} chargement={envoi} disabled={Boolean(action.confirmation) && !confirme} onClick={valider}>{action.libelle}</Bouton>
         </>
       }
     >
       <div className="space-y-4">
+        {action.confirmation && (
+          <label className="flex items-start gap-3 rounded-xl bg-or-50 p-3.5 text-sm text-slate-800 ring-1 ring-or-200">
+            <input type="checkbox" checked={confirme} onChange={(e) => setConfirme(e.target.checked)} className="mt-0.5 size-4 rounded accent-brand-700" />
+            <span>{action.confirmation}</span>
+          </label>
+        )}
         {cible === 'en_traitement' && nonAcceptees > 0 && (
           <Alerte type="alerte">
             {nonAcceptees} pièce{nonAcceptees > 1 ? 's n’ont' : ' n’a'} pas encore été acceptée{nonAcceptees > 1 ? 's' : ''}. Vérifiez les pièces avant de déclarer le dossier recevable.
@@ -359,7 +427,18 @@ export default function DossierTraitement() {
           }}
         />
       )}
-      {transition && (
+      {/* La remise du document passe par la saisie du code de retrait, pas par un simple changement de statut. */}
+      {transition === 'termine' && dossier.statut === 'pret_a_retirer' && (
+        <RemiseDocument
+          dossier={dossier}
+          onFermer={() => setTransition(null)}
+          onFait={(d) => {
+            setTransition(null)
+            setDossier(d)
+          }}
+        />
+      )}
+      {transition && !(transition === 'termine' && dossier.statut === 'pret_a_retirer') && (
         <ChangementStatut
           dossier={dossier}
           cible={transition}

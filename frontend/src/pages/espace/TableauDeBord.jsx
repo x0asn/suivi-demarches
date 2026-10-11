@@ -11,6 +11,7 @@ import {
   FolderOpen,
   Hourglass,
   Inbox,
+  PackageCheck,
   PenLine,
   ScrollText,
   ShieldCheck,
@@ -97,6 +98,7 @@ function TableauCitoyen() {
   }, [])
 
   const actionRequise = resume?.recents.find((d) => d.statut === 'correction_demandee')
+  const aRetirer = resume?.recents.find((d) => d.statut === 'pret_a_retirer')
 
   return (
     <div className="space-y-8">
@@ -104,6 +106,20 @@ function TableauCitoyen() {
         message="Retrouvez ici vos démarches, leur avancement et vos notifications."
         action={<Bouton vers="/procedures" variante="or" taille="lg" icone={FilePlus2}>Nouvelle démarche</Bouton>}
       />
+
+      {resume?.a_retirer > 0 && (
+        <Link
+          to={aRetirer ? `/espace/dossiers/${aRetirer.id}` : '/espace/dossiers'}
+          className="flex items-center gap-4 rounded-2xl bg-or-50 p-5 ring-2 ring-or-300 transition hover:bg-or-100/70"
+        >
+          <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-or-400 text-brand-950"><PackageCheck className="size-5" aria-hidden /></span>
+          <div className="min-w-0 flex-1">
+            <p className="font-semibold text-slate-900">{resume.a_retirer === 1 ? 'Votre document est prêt' : `${resume.a_retirer} documents sont prêts`}</p>
+            <p className="text-sm text-slate-700">Venez le récupérer à l’administration avec votre code de retrait et une pièce d’identité.</p>
+          </div>
+          <ArrowRight className="size-5 text-or-700" aria-hidden />
+        </Link>
+      )}
 
       {resume?.action_requise > 0 && (
         <Link

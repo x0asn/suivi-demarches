@@ -16,7 +16,16 @@ class StatutDossierTest extends TestCase
         $this->assertTrue(StatutDossier::Soumis->peutAller(StatutDossier::EnVerification, 'agent'));
         $this->assertTrue(StatutDossier::EnVerification->peutAller(StatutDossier::EnTraitement, 'agent'));
         $this->assertTrue(StatutDossier::EnTraitement->peutAller(StatutDossier::Valide, 'agent'));
-        $this->assertTrue(StatutDossier::Valide->peutAller(StatutDossier::Termine, 'agent'));
+        $this->assertTrue(StatutDossier::Valide->peutAller(StatutDossier::PretARetirer, 'agent'));
+        $this->assertTrue(StatutDossier::PretARetirer->peutAller(StatutDossier::Termine, 'agent'));
+    }
+
+    public function test_valider_une_demande_ne_suffit_pas_a_la_terminer(): void
+    {
+        // Le document doit d'abord être préparé (prêt à retirer), puis remis.
+        $this->assertFalse(StatutDossier::Valide->peutAller(StatutDossier::Termine, 'agent'));
+        $this->assertSame([StatutDossier::PretARetirer->value => 'agent'], StatutDossier::Valide->transitions());
+        $this->assertFalse(StatutDossier::EnTraitement->peutAller(StatutDossier::PretARetirer, 'agent'));
     }
 
     public function test_rf015_une_etape_ne_peut_pas_etre_sautee(): void

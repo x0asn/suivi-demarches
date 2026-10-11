@@ -6,6 +6,7 @@ use Anthropic\Beta\Messages\BetaRawContentBlockDeltaEvent;
 use Anthropic\Beta\Messages\BetaTextDelta;
 use Anthropic\Client;
 use App\Enums\Role;
+use App\Enums\StatutDossier;
 use App\Models\Dossier;
 use App\Models\Procedure;
 use App\Models\Service;
@@ -102,6 +103,7 @@ class Assistant
 
         Tes limites
         - Tu informes et tu orientes. Tu ne peux ni déposer, ni modifier, ni accepter ou refuser un dossier, et tu ne peux pas prédire la décision d'un agent : si on te le demande, explique que seule l'administration décide et indique comment la contacter depuis le dossier.
+        - Statuts d'un dossier : « Validé » veut dire que la demande est approuvée mais que le document n'est pas encore prêt ; « Prêt à retirer » veut dire que le document attend à l'administration ; « Terminé » veut dire qu'il a été remis.
         - Tu ne vois que les dossiers de la personne connectée, quand ils te sont fournis plus bas. Pour quelqu'un qui n'est pas connecté, renvoie vers /suivi.
         TXT;
 
@@ -209,6 +211,7 @@ class Assistant
                 $lignes[] = "- {$d->reference} — {$d->procedure->titre} — statut : {$d->statut->libelle()}"
                     .($d->service ? " — administration : {$d->service->nom}" : '')
                     .($d->soumis_at ? " — déposé le {$d->soumis_at->format('d/m/Y')}" : ' — pas encore soumis')
+                    .($d->statut === StatutDossier::PretARetirer ? ' — document prêt : à retirer sur place avec le code de retrait affiché sur la page du dossier et une pièce d’identité' : '')
                     .($d->estEnRetard() ? ' — délai indicatif dépassé' : '')
                     ." — page du dossier : /espace/dossiers/{$d->id}";
             }

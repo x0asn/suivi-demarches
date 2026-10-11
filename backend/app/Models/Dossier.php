@@ -24,6 +24,8 @@ class Dossier extends Model
             'statut' => StatutDossier::class,
             'soumis_at' => 'datetime',
             'decision_at' => 'datetime',
+            'pret_at' => 'datetime',
+            'retire_at' => 'datetime',
             'cloture_at' => 'datetime',
         ];
     }
@@ -32,6 +34,14 @@ class Dossier extends Model
     {
         static::creating(function (Dossier $dossier) {
             $dossier->code_suivi ??= self::nouveauCodeSuivi();
+        });
+
+        // Le code de retrait naît au moment où le document est déclaré prêt.
+        static::saving(function (Dossier $dossier) {
+            if ($dossier->statut === StatutDossier::PretARetirer && ! $dossier->code_retrait) {
+                $dossier->code_retrait = self::nouveauCodeRetrait();
+                $dossier->pret_at ??= now();
+            }
         });
 
         // RG-002 : la référence est dérivée de l'identifiant, donc unique par construction.
@@ -54,6 +64,12 @@ class Dossier extends Model
         }
 
         return $code;
+    }
+
+    /** Code de retrait à six chiffres : facile à lire à voix haute au guichet. */
+    public static function nouveauCodeRetrait(): string
+    {
+        return str_pad((string) random_int(0, 999999), 6, '0', STR_PAD_LEFT);
     }
 
     /** Adresse publique de suivi, encodée dans le QR code de l'accusé de réception. */

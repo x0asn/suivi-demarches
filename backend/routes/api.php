@@ -65,6 +65,7 @@ Route::middleware(['auth:sanctum', 'actif'])->group(function () {
     Route::get('dossiers/{dossier}/accuse', [AccuseController::class, 'telecharger']);
     Route::post('dossiers/{dossier}/soumettre', [DossierController::class, 'soumettre']);
     Route::patch('dossiers/{dossier}/status', [DossierController::class, 'changerStatut']);
+    Route::patch('dossiers/{dossier}/remise', [DossierController::class, 'remettre'])->middleware('throttle:10,1');
     Route::post('dossiers/{dossier}/observations', [ObservationController::class, 'store']);
 
     // ---- M04 Documents ----

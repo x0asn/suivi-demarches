@@ -61,6 +61,9 @@ Conventions :
   `authorize`), qui interroge la `Policy`. Il est donc contrôlé avant même la lecture des données.
 - **Changement de statut.** Il passe toujours par `Services/Workflow`, qui contrôle la transition,
   écrit l'historique, journalise et notifie.
+- **Retrait du document.** Valider une demande ne la termine pas : le dossier passe par « prêt à retirer »
+  quand le document est réellement établi, puis par « terminé » quand l'agent saisit le code de retrait
+  présenté par le citoyen (`Workflow::remettre`). L'agent ne voit jamais ce code.
 - **Format de réponse.** Toutes les réponses ont la même forme (`success`, `message`, `data`, `meta`),
   produite par `Controller::succes()` et `Controller::erreur()`.
 - **Compétence des administrations.** Une démarche est reliée à toutes les administrations habilitées à la

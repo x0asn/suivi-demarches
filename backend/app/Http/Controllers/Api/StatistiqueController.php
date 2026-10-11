@@ -20,7 +20,7 @@ class StatistiqueController extends Controller
 {
     private const EN_COURS = ['soumis', 'en_verification', 'en_traitement', 'correction_demandee'];
 
-    private const FAVORABLES = ['valide', 'termine'];
+    private const FAVORABLES = ['valide', 'pret_a_retirer', 'termine'];
 
     private const DEFAVORABLES = ['rejete', 'cloture'];
 

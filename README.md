@@ -29,7 +29,7 @@ Les dix modules du cahier des charges (M01 à M10) sont réalisés. Voir [docs/T
 | Interface | React 19 + Vite, React Router, Tailwind CSS 3, icônes Lucide, carte Leaflet / OpenStreetMap |
 | API | Laravel 12 (PHP 8.2), authentification par jeton (Laravel Sanctum) |
 | Base de données | MySQL 8 (via Laragon) |
-| Tests | PHPUnit — 98 tests automatisés |
+| Tests | PHPUnit — 103 tests automatisés |
 
 ## 3. Installation (première fois)
 
@@ -105,9 +105,11 @@ Chaque service a un agent (`agent.diamniadio@…`, `agent.pikine@…`, `agent.th
 2. Se connecter en **citoyen** → *Commencer ma démarche* → le dossier reçoit une référence `DEM-2026-xxxxx`.
 3. Déposer la pièce d'identité (glisser-déposer) → *Soumettre ma demande*.
 4. Se connecter en **agent** (Mariama Sow) → le dossier apparaît dans la file → *Prendre en charge*.
-5. Ouvrir la pièce, l'**accepter** (ou demander une correction avec un motif) → *Déclarer recevable* → *Valider*.
-6. Revenir en **citoyen** → la cloche affiche la notification, la frise et l'historique sont à jour.
-7. Se connecter en **administrateur** → *Statistiques* (indicateurs, évolution, délais par service) et *Journal d'audit* (chaque action est tracée).
+5. Ouvrir la pièce, l'**accepter** (ou demander une correction avec un motif) → *Déclarer recevable* → *Valider la demande*.
+6. Une fois le document établi : *Document prêt à retirer*. Le citoyen reçoit « Votre document est prêt ».
+7. Revenir en **citoyen** → la page du dossier affiche la mairie, ses horaires et le **code de retrait**.
+8. Revenir en **agent** → *Remettre le document* → saisir le code du citoyen et confirmer son identité : le dossier est terminé.
+9. Se connecter en **administrateur** → *Statistiques* (indicateurs, évolution, délais par service) et *Journal d'audit* (chaque action est tracée).
 
 Scénario de secours : le compte citoyen de démonstration possède déjà des dossiers à toutes les étapes.
 

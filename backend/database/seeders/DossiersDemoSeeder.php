@@ -56,7 +56,8 @@ class DossiersDemoSeeder extends Seeder
         'en_traitement' => ['brouillon', 'soumis', 'en_verification', 'en_traitement'],
         'correction_demandee' => ['brouillon', 'soumis', 'en_verification', 'correction_demandee'],
         'valide' => ['brouillon', 'soumis', 'en_verification', 'en_traitement', 'valide'],
-        'termine' => ['brouillon', 'soumis', 'en_verification', 'en_traitement', 'valide', 'termine'],
+        'pret_a_retirer' => ['brouillon', 'soumis', 'en_verification', 'en_traitement', 'valide', 'pret_a_retirer'],
+        'termine' => ['brouillon', 'soumis', 'en_verification', 'en_traitement', 'valide', 'pret_a_retirer', 'termine'],
         'rejete' => ['brouillon', 'soumis', 'en_verification', 'rejete'],
         'cloture' => ['brouillon', 'soumis', 'en_verification', 'rejete', 'cloture'],
     ];
@@ -77,6 +78,7 @@ class DossiersDemoSeeder extends Seeder
         $this->creer($fatou, 'certificat-de-vie-et-dentretien', 'correction_demandee', 6, 'Allocations familiales.', 'Votre pièce d’identité est illisible : merci d’en joindre une copie nette, recto et verso.');
         $this->creer($fatou, 'passeport-ordinaire', 'brouillon', 1, null);
         $this->creer($moussa, 'certificat-de-residence', 'valide', 12, 'Ouverture d’un compte bancaire.');
+        $this->creer($fatou, 'legalisation-de-signature', 'pret_a_retirer', 3, 'Légalisation d’une procuration.');
         $this->creer($moussa, 'creation-dentreprise-individuelle', 'soumis', 1, 'Création de mon atelier de couture à Pikine.');
 
         // --- Activité des autres citoyens, répartie sur six mois ---
@@ -208,8 +210,13 @@ class DossiersDemoSeeder extends Seeder
             if (in_array('valide', $chemin) || in_array('rejete', $chemin)) {
                 $dossier->decision_at = $dates[array_search(in_array('valide', $chemin) ? 'valide' : 'rejete', $chemin)];
             }
+            if (in_array('pret_a_retirer', $chemin)) {
+                $dossier->pret_at = $dates[array_search('pret_a_retirer', $chemin)];
+                $dossier->code_retrait = Dossier::nouveauCodeRetrait();
+            }
             if (in_array($cible, ['termine', 'cloture'])) {
                 $dossier->cloture_at = end($dates);
+                $dossier->retire_at = $cible === 'termine' ? end($dates) : null;
             }
             if (in_array('rejete', $chemin)) {
                 $dossier->motif_decision = 'Les pièces fournies ne permettent pas d’établir que les conditions de la procédure sont remplies.';
@@ -231,6 +238,8 @@ class DossiersDemoSeeder extends Seeder
                         'correction_demandee' => $commentaireCorrection ?? 'Une pièce est illisible : merci d’en joindre une nouvelle copie.',
                         'rejete' => $dossier->motif_decision,
                         'valide' => 'Dossier complet et conforme.',
+                        'pret_a_retirer' => 'Document établi et signé, disponible au guichet.',
+                        'termine' => $precedent === 'pret_a_retirer' ? 'Document remis au demandeur après vérification de son code de retrait et de son identité.' : null,
                         default => null,
                     },
                 ])->forceFill(['created_at' => $dates[$i]])->saveQuietly();

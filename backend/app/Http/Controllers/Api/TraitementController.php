@@ -79,7 +79,7 @@ class TraitementController extends Controller
             'en_retard' => $enRetard,
             'mes_dossiers' => $base()->where('agent_id', $request->user()->id)
                 ->whereIn('statut', ['soumis', 'en_verification', 'en_traitement'])->count(),
-            'traites_ce_mois' => $base()->whereIn('statut', ['valide', 'rejete', 'termine', 'cloture'])
+            'traites_ce_mois' => $base()->whereIn('statut', ['valide', 'pret_a_retirer', 'rejete', 'termine', 'cloture'])
                 ->where('decision_at', '>=', now()->startOfMonth())->count(),
         ]);
     }

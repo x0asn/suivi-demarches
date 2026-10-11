@@ -67,6 +67,7 @@ Les routes publiques d'authentification sont limitées à 10 requêtes par minut
 | GET | `/dossiers/{id}/accuse` | Personnes habilitées à voir le dossier | — | Accusé de réception en PDF, avec QR code de suivi (dossier soumis uniquement) |
 | POST | `/dossiers/{id}/soumettre` | Propriétaire | — | Soumettre (RF-007, RG-004) |
 | PATCH | `/dossiers/{id}/status` | Agent du service | statut, commentaire? | Changer le statut (RF-015) |
+| PATCH | `/dossiers/{id}/remise` | Agent du service (10 essais/min) | code_retrait, identite_verifiee | Remise du document au demandeur : passe de « prêt à retirer » à « terminé » si le code est le bon |
 | POST | `/dossiers/{id}/observations` | Citoyen ou agent | contenu, interne? | Message ou note interne (RF-016) |
 
 **Cycle de vie (§12)** — transitions acceptées par le serveur, toutes les autres sont refusées (422) :

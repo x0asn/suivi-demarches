@@ -4,12 +4,17 @@ import {
   CalendarDays,
   CheckCircle2,
   Circle,
+  Clock,
   Download,
   FileCheck2,
   History,
   Landmark,
+  MapPin,
   MessagesSquare,
+  Navigation,
+  PackageCheck,
   PartyPopper,
+  Phone,
   Save,
   Send,
   Trash2,
@@ -24,6 +29,7 @@ import { useAuth } from '../../../context/AuthContext'
 import { useToast } from '../../../context/ToastContext'
 import { api, telecharger } from '../../../lib/api'
 import { STATUTS_DOSSIER } from '../../../lib/dossiers'
+import { lienItineraire } from '../../../lib/geo'
 import { libelleDelai } from '../../../lib/icones'
 import { cx, dates } from '../../../lib/utils'
 import NonTrouve from '../../erreurs/NonTrouve'
@@ -67,11 +73,48 @@ function Bandeau({ dossier }) {
       </div>
     )
   }
+  if (dossier.statut === 'pret_a_retirer') {
+    const s = dossier.service
+    return (
+      <div className="overflow-hidden rounded-2xl bg-white shadow-carte ring-2 ring-or-300">
+        <div className="bg-or-50 p-5">
+          <p className="flex items-center gap-2 text-lg font-semibold text-slate-900"><PackageCheck className="size-6 text-or-600" aria-hidden /> Votre document est prêt</p>
+          <p className="mt-1 text-sm text-slate-700">
+            Votre demande a été traitée{dossier.pret_at ? ` le ${dates.longue(dossier.pret_at)}` : ''}. Vous pouvez venir récupérer votre document.
+          </p>
+        </div>
+        <div className="grid gap-5 p-5 sm:grid-cols-[1fr_auto] sm:items-center">
+          <div className="min-w-0 text-sm">
+            <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Où le retirer</p>
+            <p className="mt-1 text-base font-semibold text-slate-900">{s?.nom ?? 'Administration en charge de votre dossier'}</p>
+            <ul className="mt-2 space-y-1.5 text-slate-600">
+              <li className="flex gap-2"><MapPin className="mt-0.5 size-4 shrink-0 text-slate-400" aria-hidden />{[s?.adresse, s?.commune].filter(Boolean).join(', ') || 'Adresse non renseignée'}</li>
+              <li className="flex gap-2"><Clock className="mt-0.5 size-4 shrink-0 text-slate-400" aria-hidden />{s?.horaires ?? 'Horaires non renseignés : appelez avant de vous déplacer.'}</li>
+              {s?.telephone && <li className="flex gap-2"><Phone className="mt-0.5 size-4 shrink-0 text-slate-400" aria-hidden /><a href={`tel:${s.telephone.replace(/\s/g, '')}`} className="hover:text-brand-700">{s.telephone}</a></li>}
+            </ul>
+            {s?.latitude && s?.longitude && (
+              <a href={lienItineraire(s)} target="_blank" rel="noreferrer" className="mt-3 inline-flex h-9 items-center gap-2 rounded-xl bg-blue-600 px-3.5 text-sm font-semibold text-white hover:bg-blue-700">
+                <Navigation className="size-4" aria-hidden /> Itinéraire
+              </a>
+            )}
+          </div>
+          <div className="rounded-2xl bg-brand-900 px-6 py-5 text-center text-white">
+            <p className="text-xs font-semibold uppercase tracking-wide text-brand-200">Votre code de retrait</p>
+            <p className="mt-1 font-mono text-4xl font-semibold tracking-[0.3em]" aria-label={`Code de retrait : ${(dossier.code_retrait ?? '').split('').join(' ')}`}>{dossier.code_retrait ?? '······'}</p>
+            <p className="mt-2 max-w-[14rem] text-xs text-brand-100">À présenter au guichet avec une pièce d’identité. Ne le communiquez à personne d’autre.</p>
+          </div>
+        </div>
+      </div>
+    )
+  }
   if (dossier.statut === 'valide' || dossier.statut === 'termine') {
     return (
       <div className="rounded-2xl bg-brand-50 p-5 ring-1 ring-brand-200">
         <p className="flex items-center gap-2 font-semibold text-brand-900"><PartyPopper className="size-5" aria-hidden /> {dossier.statut === 'termine' ? 'Démarche terminée' : 'Bonne nouvelle : votre demande est validée'}</p>
-        <p className="mt-2 text-sm text-brand-800">{STATUTS_DOSSIER[dossier.statut].citoyen} Décision rendue le {dates.longue(dossier.decision_at)}.</p>
+        <p className="mt-2 text-sm text-brand-800">
+          {STATUTS_DOSSIER[dossier.statut].citoyen}{' '}
+          {dossier.statut === 'termine' && dossier.retire_at ? `Document remis le ${dates.longue(dossier.retire_at)}.` : `Décision rendue le ${dates.longue(dossier.decision_at)}.`}
+        </p>
       </div>
     )
   }

@@ -5,9 +5,13 @@ namespace App\Enums;
 /**
  * Cycle de vie d'un dossier (cahier des charges §12).
  *
- * BROUILLON → SOUMIS → EN VÉRIFICATION → EN TRAITEMENT → VALIDÉ → TERMINÉ
+ * BROUILLON → SOUMIS → EN VÉRIFICATION → EN TRAITEMENT → VALIDÉ → PRÊT À RETIRER → TERMINÉ
  *                          ↘ CORRECTION DEMANDÉE → SOUMIS
  *                          ↘ REJETÉ → CLÔTURÉ
+ *
+ * VALIDÉ : la demande est approuvée, le document officiel n'existe pas encore.
+ * PRÊT À RETIRER : le service a réellement préparé le document ; le citoyen est prévenu.
+ * TERMINÉ : le document a été remis au demandeur, contre son code de retrait.
  */
 enum StatutDossier: string
 {
@@ -17,6 +21,7 @@ enum StatutDossier: string
     case CorrectionDemandee = 'correction_demandee';
     case EnTraitement = 'en_traitement';
     case Valide = 'valide';
+    case PretARetirer = 'pret_a_retirer';
     case Rejete = 'rejete';
     case Termine = 'termine';
     case Cloture = 'cloture';
@@ -30,6 +35,7 @@ enum StatutDossier: string
             self::CorrectionDemandee => 'Correction demandée',
             self::EnTraitement => 'En traitement',
             self::Valide => 'Validé',
+            self::PretARetirer => 'Prêt à retirer',
             self::Rejete => 'Rejeté',
             self::Termine => 'Terminé',
             self::Cloture => 'Clôturé',
@@ -58,7 +64,9 @@ enum StatutDossier: string
                 self::Rejete->value => 'agent',
                 self::CorrectionDemandee->value => 'agent',
             ],
-            self::Valide => [self::Termine->value => 'agent'],
+            // Approuver la demande ne suffit pas : le document doit d'abord être préparé, puis remis.
+            self::Valide => [self::PretARetirer->value => 'agent'],
+            self::PretARetirer => [self::Termine->value => 'agent'],
             self::Rejete => [self::Cloture->value => 'agent'],
             self::Termine, self::Cloture => [],
         };

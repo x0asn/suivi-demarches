@@ -16,7 +16,38 @@ use Illuminate\Validation\ValidationException;
  */
 class Workflow
 {
-    public static function changerStatut(Dossier $dossier, StatutDossier $cible, User $acteur, ?string $commentaire = null): Dossier
+    /**
+     * Remise du document au demandeur (PRÊT À RETIRER → TERMINÉ).
+     * L'agent saisit le code de retrait que lui présente le citoyen : sans le bon code,
+     * le dossier ne peut pas être clôturé.
+     */
+    public static function remettre(Dossier $dossier, User $agent, string $code): Dossier
+    {
+        if ($dossier->statut !== StatutDossier::PretARetirer) {
+            throw ValidationException::withMessages([
+                'code_retrait' => 'Ce dossier n’est pas en attente de retrait.',
+            ]);
+        }
+
+        $code = preg_replace('/\D/', '', $code);
+        if (! $dossier->code_retrait || ! hash_equals($dossier->code_retrait, $code)) {
+            Journal::enregistrer('dossier.retrait_refuse', $dossier, ['reference' => $dossier->reference], 'echec', $agent);
+
+            throw ValidationException::withMessages([
+                'code_retrait' => 'Code de retrait incorrect. Demandez au citoyen le code affiché dans son espace.',
+            ]);
+        }
+
+        return self::changerStatut(
+            $dossier,
+            StatutDossier::Termine,
+            $agent,
+            'Document remis au demandeur après vérification de son code de retrait et de son identité.',
+            remiseVerifiee: true,
+        );
+    }
+
+    public static function changerStatut(Dossier $dossier, StatutDossier $cible, User $acteur, ?string $commentaire = null, bool $remiseVerifiee = false): Dossier
     {
         $actuel = $dossier->statut;
         $role = $acteur->role === Role::Citoyen ? 'citoyen' : 'agent';
@@ -24,6 +55,13 @@ class Workflow
         if (! $actuel->peutAller($cible, $role)) {
             throw ValidationException::withMessages([
                 'statut' => "Le dossier ne peut pas passer de « {$actuel->libelle()} » à « {$cible->libelle()} ».",
+            ]);
+        }
+
+        // Le document ne peut être déclaré remis qu'après vérification du code de retrait (voir remettre()).
+        if ($actuel === StatutDossier::PretARetirer && $cible === StatutDossier::Termine && ! $remiseVerifiee) {
+            throw ValidationException::withMessages([
+                'statut' => 'Saisissez le code de retrait du citoyen pour enregistrer la remise du document.',
             ]);
         }
 
@@ -57,12 +95,16 @@ class Workflow
             match ($cible) {
                 StatutDossier::Soumis => $dossier->soumis_at ??= now(),
                 StatutDossier::Valide, StatutDossier::Rejete => $dossier->decision_at = now(),
+                StatutDossier::PretARetirer => $dossier->pret_at = now(),
                 StatutDossier::Termine, StatutDossier::Cloture => $dossier->cloture_at = now(),
                 default => null,
             };
 
             if ($cible === StatutDossier::Rejete) {
                 $dossier->motif_decision = $commentaire;
+            }
+            if ($cible === StatutDossier::Termine) {
+                $dossier->retire_at = now();
             }
 
             // Le premier agent qui agit sur le dossier en devient le responsable.
@@ -92,13 +134,17 @@ class Workflow
 
     private static function notifier(Dossier $dossier, StatutDossier $avant, StatutDossier $apres, ?string $commentaire): void
     {
-        $dossier->loadMissing(['procedure', 'citoyen', 'agent']);
+        $dossier->loadMissing(['procedure', 'citoyen', 'agent', 'service']);
         $variables = [
             'reference' => $dossier->reference,
             'procedure' => $dossier->procedure->titre,
             'statut' => $apres->libelle(),
             'commentaire' => $commentaire,
             'citoyen' => $dossier->citoyen->nom_complet,
+            // Lieu de retrait du document (notification « prêt à retirer »).
+            'administration' => $dossier->service
+                ? implode(', ', array_filter([$dossier->service->nom, $dossier->service->adresse, $dossier->service->commune]))
+                : 'l’administration indiquée dans votre espace',
         ];
         $contexte = ['dossier_id' => $dossier->id, 'reference' => $dossier->reference, 'statut' => $apres->value];
 

@@ -205,23 +205,27 @@ class ParcoursDossierTest extends TestCase
         $dossier = $this->dossierSoumis();
         Sanctum::actingAs($this->agent);
 
-        foreach (['en_verification', 'en_traitement', 'valide', 'termine'] as $statut) {
+        foreach (['en_verification', 'en_traitement', 'valide', 'pret_a_retirer'] as $statut) {
             $this->patchJson("/api/dossiers/{$dossier->id}/status", ['statut' => $statut])->assertOk();
         }
-
+        // Remise du document contre le code de retrait du citoyen.
+        $this->patchJson("/api/dossiers/{$dossier->id}/remise", [
+            'code_retrait' => $dossier->fresh()->code_retrait,
+            'identite_verifiee' => true,
+        ])->assertOk();
         $dossier->refresh();
         $this->assertSame(StatutDossier::Termine, $dossier->statut);
         $this->assertSame($this->agent->id, $dossier->agent_id);
         $this->assertNotNull($dossier->decision_at);
-        // RG-005 : brouillon, soumis, en vérification, en traitement, validé, terminé
-        $this->assertSame(6, $dossier->historique()->count());
-        $this->assertSame(6, JournalAction::where('action', 'dossier.statut')->count() + 1);
+        // RG-005 : brouillon, soumis, en vérification, en traitement, validé, prêt à retirer, terminé
+        $this->assertSame(7, $dossier->historique()->count());
+        $this->assertSame(7, JournalAction::where('action', 'dossier.statut')->count() + 1);
         // RF-009 : le citoyen voit le statut et l'historique
         Sanctum::actingAs($this->citoyen);
         $this->getJson("/api/dossiers/{$dossier->id}")
             ->assertOk()
             ->assertJsonPath('data.statut', 'termine')
-            ->assertJsonCount(6, 'data.historique');
+            ->assertJsonCount(7, 'data.historique');
     }
 
     public function test_uc05_correction_demandee_puis_dossier_complete(): void
@@ -319,5 +323,93 @@ class ParcoursDossierTest extends TestCase
         $soumis = $this->dossierSoumis();
         Sanctum::actingAs($this->citoyen);
         $this->deleteJson("/api/dossiers/{$soumis->id}")->assertForbidden();
+    }
+
+    /** Dossier validé par l'agent : la demande est approuvée, le document n'est pas encore préparé. */
+    private function dossierValide(): Dossier
+    {
+        $dossier = $this->dossierSoumis();
+        Sanctum::actingAs($this->agent);
+        foreach (['en_verification', 'en_traitement', 'valide'] as $statut) {
+            $this->patchJson("/api/dossiers/{$dossier->id}/status", ['statut' => $statut])->assertOk();
+        }
+
+        return $dossier->fresh();
+    }
+
+    public function test_retrait_valider_ne_termine_pas_le_dossier(): void
+    {
+        $dossier = $this->dossierValide();
+
+        $this->patchJson("/api/dossiers/{$dossier->id}/status", ['statut' => 'termine'])
+            ->assertStatus(422)
+            ->assertJsonValidationErrors('statut');
+
+        $this->assertSame(StatutDossier::Valide, $dossier->fresh()->statut);
+        $this->assertNull($dossier->fresh()->code_retrait);
+    }
+
+    public function test_retrait_document_pret_le_citoyen_est_notifie_et_recoit_son_code(): void
+    {
+        $dossier = $this->dossierValide();
+        $this->patchJson("/api/dossiers/{$dossier->id}/status", ['statut' => 'pret_a_retirer'])
+            ->assertOk()
+            ->assertJsonPath('data.statut', 'pret_a_retirer')
+            // L'agent ne voit jamais le code : c'est le citoyen qui le lui présente.
+            ->assertJsonPath('data.code_retrait', null);
+
+        $dossier->refresh();
+        $this->assertMatchesRegularExpression('/^\d{6}$/', $dossier->code_retrait);
+        $this->assertNotNull($dossier->pret_at);
+
+        $notification = $this->citoyen->notifications()->where('data->evenement', 'dossier.pret_a_retirer')->first();
+        $this->assertNotNull($notification);
+        $this->assertStringContainsString('Mairie de Diamniadio', $notification->data['message']);
+        $this->assertStringNotContainsString($dossier->code_retrait, $notification->data['message']);
+
+        Sanctum::actingAs($this->citoyen);
+        $this->getJson("/api/dossiers/{$dossier->id}")
+            ->assertOk()
+            ->assertJsonPath('data.code_retrait', $dossier->code_retrait)
+            ->assertJsonPath('data.service.nom', 'Mairie de Diamniadio');
+        $this->getJson('/api/dossiers/resume')->assertJsonPath('data.a_retirer', 1);
+    }
+
+    public function test_retrait_la_remise_exige_le_bon_code_et_la_verification_d_identite(): void
+    {
+        $dossier = $this->dossierValide();
+        $this->patchJson("/api/dossiers/{$dossier->id}/status", ['statut' => 'pret_a_retirer'])->assertOk();
+        $code = $dossier->fresh()->code_retrait;
+        $faux = $code === '000000' ? '111111' : '000000';
+
+        // Sans code : le changement de statut direct est refusé.
+        $this->patchJson("/api/dossiers/{$dossier->id}/status", ['statut' => 'termine'])->assertStatus(422);
+        // Mauvais code : refusé, et la tentative est journalisée.
+        $this->patchJson("/api/dossiers/{$dossier->id}/remise", ['code_retrait' => $faux, 'identite_verifiee' => true])
+            ->assertStatus(422)
+            ->assertJsonValidationErrors('code_retrait');
+        $this->assertDatabaseHas('journal_actions', ['action' => 'dossier.retrait_refuse', 'resultat' => 'echec']);
+        // Bon code, mais identité non confirmée : refusé.
+        $this->patchJson("/api/dossiers/{$dossier->id}/remise", ['code_retrait' => $code, 'identite_verifiee' => false])
+            ->assertStatus(422)
+            ->assertJsonValidationErrors('identite_verifiee');
+        $this->assertSame(StatutDossier::PretARetirer, $dossier->fresh()->statut);
+
+        // Bon code et identité vérifiée : le document est remis.
+        $this->patchJson("/api/dossiers/{$dossier->id}/remise", ['code_retrait' => $code, 'identite_verifiee' => true])
+            ->assertOk()
+            ->assertJsonPath('data.statut', 'termine');
+        $this->assertNotNull($dossier->fresh()->retire_at);
+    }
+
+    public function test_rg006_la_remise_est_reservee_a_l_agent_du_service(): void
+    {
+        $dossier = $this->dossierValide();
+        $this->patchJson("/api/dossiers/{$dossier->id}/status", ['statut' => 'pret_a_retirer'])->assertOk();
+        $code = $dossier->fresh()->code_retrait;
+
+        // Le citoyen ne peut pas clôturer lui-même son dossier avec son code.
+        Sanctum::actingAs($this->citoyen);
+        $this->patchJson("/api/dossiers/{$dossier->id}/remise", ['code_retrait' => $code, 'identite_verifiee' => true])->assertForbidden();
     }
 }

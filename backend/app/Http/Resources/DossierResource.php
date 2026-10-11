@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use App\Enums\Role;
+use App\Enums\StatutDossier;
 use App\Models\Dossier;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -20,6 +21,10 @@ class DossierResource extends JsonResource
             'reference' => $this->reference,
             // Réservé au citoyen propriétaire : permet le suivi sans compte.
             'code_suivi' => $user && $user->id === $this->citoyen_id ? $this->code_suivi : null,
+            // Code de retrait : montré au seul citoyen, tant que le document l'attend. L'agent ne le voit jamais.
+            'code_retrait' => $user && $user->id === $this->citoyen_id && $this->statut === StatutDossier::PretARetirer ? $this->code_retrait : null,
+            'pret_at' => $this->pret_at?->toIso8601String(),
+            'retire_at' => $this->retire_at?->toIso8601String(),
             'statut' => $this->statut->value,
             'statut_libelle' => $this->statut->libelle(),
             'motif' => $this->motif,
@@ -49,7 +54,16 @@ class DossierResource extends JsonResource
                     'obligatoire' => $p->obligatoire,
                 ]) : null,
             ]),
-            'service' => $this->whenLoaded('service', fn () => $this->service ? ['id' => $this->service->id, 'nom' => $this->service->nom] : null),
+            'service' => $this->whenLoaded('service', fn () => $this->service ? [
+                'id' => $this->service->id,
+                'nom' => $this->service->nom,
+                'adresse' => $this->service->adresse,
+                'commune' => $this->service->commune,
+                'horaires' => $this->service->horaires,
+                'telephone' => $this->service->telephone,
+                'latitude' => $this->service->latitude,
+                'longitude' => $this->service->longitude,
+            ] : null),
             'citoyen' => $this->whenLoaded('citoyen', fn () => [
                 'id' => $this->citoyen->id,
                 'nom_complet' => $this->citoyen->nom_complet,
