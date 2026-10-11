@@ -15,17 +15,18 @@ function MenuLateral({ onNaviguer }) {
   const role = ROLES[utilisateur.role]
 
   return (
-    <div className="flex h-full flex-col bg-brand-950 text-brand-100">
-      <div className="flex h-16 items-center px-5">
+    <div className="relative flex h-full flex-col bg-brand-950 text-brand-100">
+      <div className="motif-senegal pointer-events-none absolute inset-0" aria-hidden />
+      <div className="relative flex h-16 items-center px-5">
         <Logo clair />
       </div>
 
-      <div className="mx-4 mt-2 rounded-xl bg-white/5 px-3.5 py-3 ring-1 ring-white/10">
+      <div className="relative mx-4 mt-2 rounded-xl bg-white/5 px-3.5 py-3 ring-1 ring-white/10">
         <p className="text-[0.65rem] font-semibold tracking-[0.14em] text-brand-300 uppercase">Espace</p>
         <p className="mt-0.5 font-medium text-white">{role?.libelle}</p>
       </div>
 
-      <nav className="mt-6 flex-1 space-y-7 overflow-y-auto px-3 pb-6" aria-label="Menu de l'espace">
+      <nav className="relative mt-6 flex-1 space-y-7 overflow-y-auto px-3 pb-6" aria-label="Menu de l'espace">
         {sections.map((section, i) => (
           <div key={i}>
             {section.titre && (
@@ -62,7 +63,7 @@ function MenuLateral({ onNaviguer }) {
         ))}
       </nav>
 
-      <div className="border-t border-white/10 p-4">
+      <div className="relative border-t border-white/10 p-4">
         <Link to="/" className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-brand-200 hover:bg-white/5 hover:text-white">
           <ExternalLink className="size-4" aria-hidden /> Retour au site public
         </Link>
@@ -197,7 +198,10 @@ export default function AppLayout({ extrasBarre }) {
         </header>
 
         <main id="contenu" className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-10 lg:py-10">
-          <Outlet />
+          {/* La clé relance l'animation d'arrivée à chaque changement de page. */}
+          <div key={pathname} className="animate-page">
+            <Outlet />
+          </div>
         </main>
       </div>
     </div>

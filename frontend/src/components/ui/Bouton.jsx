@@ -4,10 +4,10 @@ import { cx } from '../../lib/utils'
 
 const VARIANTES = {
   primaire:
-    'bg-brand-700 text-white shadow-sm hover:bg-brand-800 active:bg-brand-900 disabled:bg-brand-700/60',
+    'bg-brand-700 text-white shadow-sm hover:-translate-y-0.5 hover:bg-brand-800 hover:shadow-md active:translate-y-0 active:bg-brand-900 disabled:translate-y-0 disabled:bg-brand-700/60 disabled:shadow-sm',
   secondaire:
     'bg-white text-slate-800 ring-1 ring-inset ring-slate-300 shadow-sm hover:bg-slate-50 active:bg-slate-100',
-  or: 'bg-or-400 text-brand-950 shadow-sm hover:bg-or-300 active:bg-or-500',
+  or: 'bg-or-400 text-brand-950 shadow-sm hover:-translate-y-0.5 hover:bg-or-300 hover:shadow-md active:translate-y-0 active:bg-or-500',
   fantome: 'text-slate-700 hover:bg-slate-100 active:bg-slate-200',
   clair: 'bg-white/10 text-white ring-1 ring-inset ring-white/25 backdrop-blur hover:bg-white/20',
   danger: 'bg-red-600 text-white shadow-sm hover:bg-red-700 active:bg-red-800',
@@ -33,7 +33,7 @@ export default function Bouton({
   ...props
 }) {
   const classes = cx(
-    'inline-flex shrink-0 items-center justify-center font-semibold whitespace-nowrap transition-colors duration-150 disabled:cursor-not-allowed disabled:opacity-70',
+    'group/bouton inline-flex shrink-0 items-center justify-center font-semibold whitespace-nowrap transition duration-200 ease-out active:scale-[0.97] disabled:cursor-not-allowed disabled:opacity-70 disabled:active:scale-100',
     VARIANTES[variante],
     TAILLES[taille],
     className,
@@ -47,7 +47,7 @@ export default function Bouton({
         Icone && <Icone className={taille === 'lg' ? 'size-5' : 'size-4'} aria-hidden />
       )}
       {children}
-      {IconeDroite && !chargement && <IconeDroite className={taille === 'lg' ? 'size-5' : 'size-4'} aria-hidden />}
+      {IconeDroite && !chargement && <IconeDroite className={cx(taille === 'lg' ? 'size-5' : 'size-4', 'transition-transform duration-200 group-hover/bouton:translate-x-0.5')} aria-hidden />}
     </>
   )
 

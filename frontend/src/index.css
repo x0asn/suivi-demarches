@@ -8,6 +8,18 @@
   html {
     -webkit-font-smoothing: antialiased;
     scroll-behavior: smooth;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Tout ce qui se clique réagit en douceur, sans à-coup. */
+  a,
+  button,
+  input,
+  select,
+  textarea {
+    transition-property: color, background-color, border-color, box-shadow, opacity, transform;
+    transition-duration: 180ms;
+    transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
   }
 
   body {
@@ -41,6 +53,44 @@
   .motif-points {
     background-image: radial-gradient(rgb(255 255 255 / 0.12) 1px, transparent 1px);
     background-size: 22px 22px;
+  }
+
+  /*
+   * Motif géométrique inspiré des tissages et des pagnes d'Afrique de l'Ouest :
+   * des losanges emboîtés, reliés par de petits points. À poser sur un fond sombre
+   * (.motif-senegal) ou clair (.motif-senegal-clair), toujours très discret.
+   */
+  .motif-senegal,
+  .motif-senegal-clair {
+    background-size: 56px 56px;
+  }
+
+  .motif-senegal {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56' viewBox='0 0 56 56' fill='none' stroke='%23ffffff' stroke-opacity='0.07' stroke-width='1.2'%3E%3Cpath d='M28 4 52 28 28 52 4 28Z'/%3E%3Cpath d='M28 16 40 28 28 40 16 28Z'/%3E%3Cpath d='M0 0 8 8M56 0 48 8M0 56 8 48M56 56 48 48'/%3E%3Ccircle cx='28' cy='28' r='2.2' fill='%23d4a12f' fill-opacity='0.35' stroke='none'/%3E%3C/svg%3E");
+  }
+
+  .motif-senegal-clair {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56' viewBox='0 0 56 56' fill='none' stroke='%23154e38' stroke-opacity='0.06' stroke-width='1.2'%3E%3Cpath d='M28 4 52 28 28 52 4 28Z'/%3E%3Cpath d='M28 16 40 28 28 40 16 28Z'/%3E%3Cpath d='M0 0 8 8M56 0 48 8M0 56 8 48M56 56 48 48'/%3E%3Ccircle cx='28' cy='28' r='2.2' fill='%23d4a12f' fill-opacity='0.3' stroke='none'/%3E%3C/svg%3E");
+  }
+
+  /* Lien de menu : un trait doré se déploie sous le lien survolé ou actif. */
+  .lien-souligne {
+    @apply relative;
+  }
+
+  .lien-souligne::after {
+    content: '';
+    @apply absolute inset-x-3.5 bottom-1 h-0.5 origin-left scale-x-0 rounded-full bg-or-400 transition-transform duration-300 ease-out;
+  }
+
+  .lien-souligne:hover::after,
+  .lien-souligne[aria-current='page']::after {
+    @apply scale-x-100;
+  }
+
+  /* Carte sur laquelle on peut cliquer : elle se soulève légèrement au survol. */
+  .carte-vivante {
+    @apply transition duration-300 ease-out hover:-translate-y-1 hover:shadow-flottant;
   }
 }
 

@@ -16,6 +16,28 @@ export function DrapeauSenegal({ className }) {
   )
 }
 
+/** L'étoile verte du drapeau, utilisée comme petit signe distinctif dans les titres. */
+export function EtoileSenegal({ className, couleur = COULEURS_SENEGAL.vert }) {
+  return (
+    <svg viewBox="0 0 24 24" className={cx('shrink-0', className)} aria-hidden>
+      <polygon fill={couleur} points="12,1.5 14.47,9.1 22.46,9.1 15.99,13.8 18.47,21.4 12,16.7 5.53,21.4 8.01,13.8 1.54,9.1 9.53,9.1" />
+    </svg>
+  )
+}
+
+/** Trois traits aux couleurs nationales autour de l'étoile : sépare un titre de son contenu. */
+export function FiletSenegal({ className }) {
+  return (
+    <div className={cx('flex items-center justify-center gap-2', className)} aria-hidden>
+      <span className="h-0.5 w-8 rounded-full" style={{ background: COULEURS_SENEGAL.vert }} />
+      <span className="h-0.5 w-8 rounded-full" style={{ background: COULEURS_SENEGAL.or }} />
+      <EtoileSenegal className="size-3.5" />
+      <span className="h-0.5 w-8 rounded-full" style={{ background: COULEURS_SENEGAL.or }} />
+      <span className="h-0.5 w-8 rounded-full" style={{ background: COULEURS_SENEGAL.rouge }} />
+    </div>
+  )
+}
+
 /** Fin liseré aux couleurs nationales. */
 export function LisereSenegal({ className }) {
   return (

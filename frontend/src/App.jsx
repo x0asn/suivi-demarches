@@ -1,5 +1,6 @@
 import { Route, Routes } from 'react-router-dom'
 import Assistant from './components/assistant/Assistant'
+import EcranLancement from './components/ui/EcranLancement'
 import Garde from './components/auth/Garde'
 import AppLayout from './layouts/AppLayout'
 import AuthLayout from './layouts/AuthLayout'
@@ -94,6 +95,8 @@ export default function App() {
       </Routes>
       {/* Assistant IA : présent sur tout le site, la discussion survit aux changements de page. */}
       <Assistant />
+      {/* Écran d'ouverture : le logo se dessine, puis le rideau se lève. Une fois par visite. */}
+      <EcranLancement />
     </>
   )
 }

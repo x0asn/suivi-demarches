@@ -29,7 +29,7 @@ function EnTete() {
 
   const classeLien = ({ isActive }, l) =>
     cx(
-      'whitespace-nowrap rounded-lg px-3.5 py-2 text-sm font-medium transition-colors',
+      'lien-souligne whitespace-nowrap rounded-lg px-3.5 py-2 text-sm font-medium transition-colors',
       isActive && !l.suivi ? 'text-brand-800' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900',
     )
 
@@ -109,7 +109,8 @@ function PiedDePage() {
   const lien = 'text-sm text-slate-600 transition-colors hover:text-brand-800'
 
   return (
-    <footer className="bg-slate-50">
+    <footer className="relative bg-slate-50">
+      <div className="motif-senegal-clair pointer-events-none absolute inset-0" aria-hidden />
       <LisereSenegal />
       <div className="conteneur grid gap-10 py-12 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1.4fr]">
         <div>
@@ -160,6 +161,7 @@ function PiedDePage() {
       <div className="border-t border-slate-200/80">
         <div className="conteneur flex flex-col gap-1 py-5 text-xs text-slate-500 sm:flex-row sm:items-center sm:justify-between">
           <p>© {new Date().getFullYear()} Suivi Démarches — Projet de fin d’études, ISEP Amadou Trawaré de Diamniadio.</p>
+          <p className="font-medium text-brand-800" title="« Merci » en wolof">Jërëjëf · Merci de votre confiance</p>
           <p className="flex items-center gap-2">
             <DrapeauSenegal className="h-3 w-[1.125rem]" /> Conçu à Diamniadio, Sénégal · Promo 6 · 2025–2026
           </p>
@@ -188,7 +190,10 @@ export default function PublicLayout() {
       </a>
       <EnTete />
       <main id="contenu" className="flex-1">
-        <Outlet />
+        {/* La clé relance l'animation d'arrivée à chaque changement de page. */}
+        <div key={pathname} className="animate-page">
+          <Outlet />
+        </div>
       </main>
       <PiedDePage />
     </div>

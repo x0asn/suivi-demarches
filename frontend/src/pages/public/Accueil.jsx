@@ -18,8 +18,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import citoyenne from '../../assets/images/citoyenne-en-ligne.jpg'
 import dakar from '../../assets/images/dakar-cote.jpg'
 import { IconeCategorie } from '../../components/ui/Icones'
-import { DrapeauSenegal } from '../../components/ui/Senegal'
-import { Bouton, Squelette } from '../../components/ui'
+import { Apparition, Bouton, DrapeauSenegal, EtoileSenegal, FiletSenegal, Squelette } from '../../components/ui'
 import { useAuth } from '../../context/AuthContext'
 import { useLienSuivi } from '../../hooks/useLienSuivi'
 import { api } from '../../lib/api'
@@ -192,6 +191,7 @@ function Presentation({ populaires }) {
       {/* Fond : halos discrets, dont un aux tons de l'or du drapeau */}
       <div className="pointer-events-none absolute inset-0 -z-10" aria-hidden>
         <div className="absolute inset-0 bg-gradient-to-b from-brand-50/80 via-white to-white" />
+        <div className="motif-senegal-clair absolute inset-0 [mask-image:linear-gradient(to_bottom,black,transparent_85%)]" />
         <div className="absolute -right-32 -top-40 size-[34rem] rounded-full opacity-20 blur-3xl" style={{ background: COULEURS_SENEGAL.or }} />
         <div className="absolute -left-40 top-40 size-[26rem] rounded-full bg-brand-200/50 blur-3xl" />
       </div>
@@ -200,7 +200,7 @@ function Presentation({ populaires }) {
         <div className="relative z-20 min-w-0 animate-apparition">
           <p className="inline-flex items-center gap-2.5 rounded-full bg-white px-3.5 py-1.5 text-sm font-medium text-slate-700 shadow-sm ring-1 ring-slate-200">
             <DrapeauSenegal className="h-3.5 w-[1.3rem]" />
-            Au service des citoyens du Sénégal
+            <span><b className="font-semibold text-brand-800" title="« Bienvenue » en wolof">Dalal ak jàmm</b> · au service des citoyens du Sénégal</span>
           </p>
           <h1 className="titre-display mt-6 text-[2.5rem] font-semibold leading-[1.08] sm:text-5xl lg:text-[3.5rem]">
             Vos démarches administratives, <span className="text-brand-700">plus simplement.</span>
@@ -234,12 +234,14 @@ function Presentation({ populaires }) {
         </div>
 
         {/* Visuel : une citoyenne en ligne et les étapes réelles d'un dossier */}
-        <div className="relative mx-auto w-full max-w-md pb-6 sm:pb-8 lg:max-w-none">
-          <div className="aspect-[4/3.6] overflow-hidden rounded-[2rem] bg-slate-100 shadow-flottant">
-            <img src={citoyenne} alt="Une citoyenne effectue sa démarche en ligne" className="size-full object-cover object-[65%_center]" />
+        <div className="relative mx-auto w-full max-w-md animate-apparition pb-6 [animation-delay:150ms] sm:pb-8 lg:max-w-none">
+          {/* Cadre aux couleurs nationales, légèrement décalé derrière la photo */}
+          <div className="absolute -right-3 -top-3 bottom-9 left-6 rounded-[2rem] sm:bottom-11" style={{ background: `linear-gradient(135deg, ${COULEURS_SENEGAL.vert}, ${COULEURS_SENEGAL.or} 55%, ${COULEURS_SENEGAL.rouge})`, opacity: 0.85 }} aria-hidden />
+          <div className="relative aspect-[4/3.6] overflow-hidden rounded-[2rem] bg-slate-100 shadow-flottant">
+            <img src={citoyenne} alt="Une citoyenne effectue sa démarche en ligne" className="size-full object-cover object-[65%_center] transition-transform duration-[1200ms] ease-out hover:scale-[1.03]" />
           </div>
 
-          <div className="absolute bottom-0 right-4 w-64 rounded-2xl bg-white p-4 shadow-flottant ring-1 ring-slate-200/70 sm:right-6 sm:w-72" aria-hidden>
+          <div className="absolute bottom-0 right-4 w-64 animate-flotte rounded-2xl bg-white p-4 shadow-flottant ring-1 ring-slate-200/70 sm:right-6 sm:w-72" aria-hidden>
             <p className="text-xs font-medium text-slate-500">Votre dossier, étape par étape</p>
             <ol className="mt-3 flex items-center">
               {['Soumis', 'Vérification', 'Traitement', 'Décision'].map((etape, i) => (
@@ -296,11 +298,13 @@ function Procedures({ populaires }) {
           {!populaires.liste
             ? Array.from({ length: 4 }).map((_, i) => <li key={i}><Squelette className="h-48 rounded-2xl" /></li>)
             : populaires.liste.map((p, i) => (
-                <li key={p.id}>
+                <Apparition as="li" key={p.id} delai={i * 90}>
                   <Link
                     to={`/procedures/${p.slug}`}
-                    className="group relative flex h-full flex-col rounded-2xl border border-slate-200 bg-white p-5 transition hover:-translate-y-0.5 hover:border-brand-300 hover:shadow-carte"
+                    className="carte-vivante group relative flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white p-5 hover:border-brand-300"
                   >
+                    {/* Un trait aux couleurs du drapeau se déploie au survol */}
+                    <span className="absolute inset-x-0 top-0 h-1 origin-left scale-x-0 transition-transform duration-500 ease-out group-hover:scale-x-100" style={{ background: `linear-gradient(90deg, ${COULEURS_SENEGAL.vert} 33%, ${COULEURS_SENEGAL.or} 33% 66%, ${COULEURS_SENEGAL.rouge} 66%)` }} aria-hidden />
                     <div className="flex items-start justify-between">
                       <span className="flex size-11 items-center justify-center rounded-xl bg-brand-50 text-brand-700 transition-colors group-hover:bg-brand-700 group-hover:text-white">
                         <IconeCategorie nom={p.categorie?.icone} className="size-5" />
@@ -317,7 +321,7 @@ function Procedures({ populaires }) {
                       )}
                     </span>
                   </Link>
-                </li>
+                </Apparition>
               ))}
         </ul>
       )}
@@ -339,11 +343,12 @@ function Fonctionnement() {
     <section id="fonctionnement" className="scroll-mt-20 border-y border-slate-100 bg-slate-50/70 py-16 sm:py-20" aria-labelledby="titre-fonctionnement">
       <div className="conteneur">
         <h2 id="titre-fonctionnement" className="titre-display text-center text-2xl font-semibold sm:text-3xl">Comment ça marche</h2>
+        <FiletSenegal className="mt-4" />
         <ol className="mx-auto mt-12 grid max-w-5xl gap-10 md:grid-cols-3 md:gap-8">
           {etapes.map(({ icone: Icone, titre, texte }, i) => (
-            <li key={titre} className="relative flex gap-4 md:flex-col md:items-center md:text-center">
+            <Apparition as="li" key={titre} delai={i * 140} className="group relative flex gap-4 md:flex-col md:items-center md:text-center">
               {i < etapes.length - 1 && <span className="absolute left-[calc(50%+2.5rem)] top-6 hidden h-px w-[calc(100%-3rem)] bg-brand-200 md:block" aria-hidden />}
-              <span className="relative flex size-12 shrink-0 items-center justify-center rounded-2xl bg-white text-brand-700 shadow-carte ring-1 ring-slate-200/70">
+              <span className="relative flex size-12 shrink-0 items-center justify-center rounded-2xl bg-white text-brand-700 shadow-carte ring-1 ring-slate-200/70 transition duration-300 ease-out group-hover:-translate-y-1 group-hover:bg-brand-700 group-hover:text-white">
                 <Icone className="size-5" aria-hidden />
                 <span className="absolute -right-1.5 -top-1.5 flex size-5 items-center justify-center rounded-full bg-brand-700 text-[0.65rem] font-bold text-white">{i + 1}</span>
               </span>
@@ -351,7 +356,7 @@ function Fonctionnement() {
                 <h3 className="font-semibold text-slate-900">{titre}</h3>
                 <p className="mt-1 text-sm leading-relaxed text-slate-600">{texte}</p>
               </div>
-            </li>
+            </Apparition>
           ))}
         </ol>
       </div>
@@ -373,11 +378,14 @@ function PartoutAuSenegal() {
     <section className="relative isolate overflow-hidden bg-brand-950" aria-labelledby="titre-senegal">
       <img src={dakar} alt="" className="absolute inset-0 -z-20 size-full object-cover opacity-40" />
       <div className="absolute inset-0 -z-10 bg-gradient-to-r from-brand-950 via-brand-950/90 to-brand-950/40" />
+      <div className="motif-senegal absolute inset-0 -z-10 opacity-60" aria-hidden />
 
       <div className="conteneur grid gap-10 py-16 sm:py-20 lg:grid-cols-[1.1fr_1fr] lg:items-center">
-        <div>
+        <Apparition>
           <p className="flex items-center gap-2.5 text-sm font-medium text-or-200">
             <DrapeauSenegal className="h-3.5 w-[1.3rem]" /> Partout au Sénégal
+            <EtoileSenegal className="size-3.5" couleur="#d4a12f" />
+            <span className="text-brand-100/80" title="L’hospitalité, en wolof">l’esprit de la Teranga</span>
           </p>
           <h2 id="titre-senegal" className="mt-4 font-display text-3xl font-semibold tracking-tight text-white sm:text-4xl">
             Un service public proche de vous.
@@ -398,16 +406,16 @@ function PartoutAuSenegal() {
             </dl>
           )}
           <Bouton vers="/services" variante="or" taille="lg" className="mt-8" iconeDroite={ArrowRight}>Trouver l’administration compétente</Bouton>
-        </div>
+        </Apparition>
 
-        <div className="rounded-3xl bg-white/[0.06] p-6 ring-1 ring-white/10 backdrop-blur-sm sm:p-7">
+        <Apparition delai={150} className="rounded-3xl bg-white/[0.06] p-6 ring-1 ring-white/10 backdrop-blur-sm sm:p-7">
           <p className="text-sm font-medium text-white">Les 14 régions du Sénégal</p>
           <p className="mt-1 text-xs text-brand-200/80">Chaque citoyen indique sa région à l’inscription.</p>
           <ul className="mt-5 flex flex-wrap gap-2">
             {REGIONS.map((r) => {
               const couverte = services?.regions.includes(r)
               return (
-                <li key={r} className={cx('flex items-center gap-1.5 rounded-full px-3 py-1.5 text-sm', couverte ? 'bg-white text-brand-900' : 'bg-white/10 text-brand-100')}>
+                <li key={r} className={cx('flex items-center gap-1.5 rounded-full px-3 py-1.5 text-sm transition duration-300 hover:-translate-y-0.5', couverte ? 'bg-white text-brand-900 hover:bg-or-100' : 'bg-white/10 text-brand-100')}>
                   {couverte && <MapPin className="size-3.5 text-brand-700" aria-hidden />}
                   {r}
                 </li>
@@ -420,7 +428,7 @@ function PartoutAuSenegal() {
               Régions où au moins un point d’accueil est référencé
             </p>
           )}
-        </div>
+        </Apparition>
       </div>
     </section>
   )
@@ -435,7 +443,7 @@ function Administrations() {
 
   return (
     <section className="conteneur py-12">
-      <div className="flex flex-col gap-5 rounded-2xl border border-slate-200 bg-white p-6 sm:flex-row sm:items-center sm:justify-between sm:p-8">
+      <Apparition className="flex flex-col gap-5 rounded-2xl border border-slate-200 bg-white p-6 sm:flex-row sm:items-center sm:justify-between sm:p-8">
         <div className="flex gap-4">
           <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-brand-50 text-brand-700"><ShieldCheck className="size-5" aria-hidden /></span>
           <div>
@@ -444,7 +452,7 @@ function Administrations() {
           </div>
         </div>
         <Bouton vers="/connexion" variante="secondaire" iconeDroite={ArrowRight} className="self-start sm:self-auto">Accéder à mon espace</Bouton>
-      </div>
+      </Apparition>
     </section>
   )
 }
