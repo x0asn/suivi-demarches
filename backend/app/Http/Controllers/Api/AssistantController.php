@@ -58,7 +58,7 @@ class AssistantController extends Controller
                 // IA non configurée, injoignable ou sans réponse : réponse guidée à partir du catalogue.
                 $mode = 'secours';
                 $question = end($messages)['content'];
-                $this->envoyer(['type' => 'texte', 'texte' => AssistantSecours::repondre($question, $user)]);
+                $this->envoyer(['type' => 'texte', 'texte' => AssistantSecours::repondre($question, $user, array_slice($messages, 0, -1))]);
             }
 
             if ($ecrit && $echec) {

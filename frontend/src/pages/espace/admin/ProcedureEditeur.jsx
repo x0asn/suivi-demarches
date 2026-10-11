@@ -5,6 +5,7 @@ import { Alerte, Badge, Bouton, Champ, Chargement, Modale, Selecteur, ZoneTexte 
 import { useToast } from '../../../context/ToastContext'
 import { api } from '../../../lib/api'
 import { REGLES_COMPETENCE, STATUTS_PROCEDURE } from '../../../lib/procedures'
+import { sansAccents } from '../../../lib/utils'
 import NonTrouve from '../../erreurs/NonTrouve'
 
 const VIDE = {
@@ -74,6 +75,7 @@ export default function ProcedureEditeur() {
   const [procedure, setProcedure] = useState(null)
   const [categories, setCategories] = useState([])
   const [services, setServices] = useState([])
+  const [filtreServices, setFiltreServices] = useState('')
   const [chargement, setChargement] = useState(!creation)
   const [introuvable, setIntrouvable] = useState(false)
   const [erreur, setErreur] = useState(null)
@@ -110,6 +112,17 @@ export default function ProcedureEditeur() {
       .catch(() => setIntrouvable(true))
       .finally(() => setChargement(false))
   }, [id, creation])
+
+  // Administrations habilitées (M08) : regroupées par type pour cocher « toutes les mairies » d'un clic.
+  const typesServices = Object.entries(
+    services.reduce((groupes, s) => ({ ...groupes, [s.type]: [...(groupes[s.type] ?? []), s] }), {}),
+  )
+  const termesFiltre = sansAccents(filtreServices).split(/\s+/).filter(Boolean)
+  const servicesFiltres = services.filter((s) => {
+    const texte = sansAccents(`${s.nom} ${s.commune} ${s.region} ${s.type_libelle}`)
+    return termesFiltre.every((t) => texte.includes(t))
+  })
+  const habilitees = services.filter((s) => champs.service_ids.includes(s.id) || String(s.id) === String(champs.service_id)).length
 
   const modifier = (e) => setChamps((c) => ({ ...c, [e.target.name]: e.target.value }))
   const majListe = (cle, fn) => setChamps((c) => ({ ...c, [cle]: fn(c[cle]) }))
@@ -247,8 +260,37 @@ export default function ProcedureEditeur() {
               <legend className="text-sm font-medium text-slate-900">Administrations habilitées</legend>
               <p className="mt-0.5 text-sm text-slate-500">Le citoyen choisira parmi elles au moment de déposer sa demande. Les agents de l’administration choisie traiteront le dossier.</p>
               {err('service_ids') && <p className="mt-1.5 text-sm text-red-600" role="alert">{err('service_ids')}</p>}
-              <div className="mt-3 grid gap-2 sm:grid-cols-2">
-                {services.map((s) => {
+              <p className="mt-3 text-sm font-medium text-slate-900" aria-live="polite">
+                {habilitees} administration{habilitees > 1 ? 's' : ''} habilitée{habilitees > 1 ? 's' : ''} sur {services.length}
+              </p>
+              <div className="mt-2 flex flex-wrap gap-2">
+                {typesServices.map(([type, liste]) => {
+                  const tous = liste.every((s) => champs.service_ids.includes(s.id) || String(s.id) === String(champs.service_id))
+                  const ids = liste.map((s) => s.id)
+                  return (
+                    <button
+                      key={type}
+                      type="button"
+                      onClick={() => majListe('service_ids', (l) => (tous ? l.filter((x) => !ids.includes(x)) : [...new Set([...l, ...ids])]))}
+                      className={`rounded-full px-3 py-1.5 text-sm font-medium ring-1 transition ${tous ? 'bg-brand-800 text-white ring-brand-800' : 'bg-white text-slate-700 ring-slate-200 hover:ring-brand-300'}`}
+                      aria-pressed={tous}
+                    >
+                      {tous ? '✓ ' : ''}{liste[0].type_libelle} ({liste.length})
+                    </button>
+                  )
+                })}
+              </div>
+              <input
+                type="search"
+                value={filtreServices}
+                onChange={(e) => setFiltreServices(e.target.value)}
+                placeholder="Filtrer par nom, commune ou région…"
+                aria-label="Filtrer les administrations"
+                className="mt-3 block w-full rounded-xl border-0 bg-white px-3.5 py-2.5 text-sm shadow-sm ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-600"
+              />
+              <div className="mt-3 grid max-h-80 gap-2 overflow-y-auto rounded-xl p-1 ring-1 ring-slate-100 sm:grid-cols-2">
+                {servicesFiltres.length === 0 && <p className="px-3 py-6 text-center text-sm text-slate-500 sm:col-span-2">Aucune administration ne correspond.</p>}
+                {servicesFiltres.map((s) => {
                   const reference = String(s.id) === String(champs.service_id)
                   const coche = reference || champs.service_ids.includes(s.id)
                   return (

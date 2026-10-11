@@ -1,0 +1,3307 @@
+{
+    "source": "OpenStreetMap (limites administratives de niveau 8), © les contributeurs OpenStreetMap, licence ODbL",
+    "extrait_le": "2026-10-11",
+    "remarque": "La position est le centre du territoire de la commune, pas l’adresse exacte de la mairie.",
+    "communes": [
+        {
+            "commune": "Bambylor",
+            "region": "Dakar",
+            "latitude": 14.83421,
+            "longitude": -17.18815
+        },
+        {
+            "commune": "Bargny",
+            "region": "Dakar",
+            "latitude": 14.69701,
+            "longitude": -17.22976
+        },
+        {
+            "commune": "Biscuiterie",
+            "region": "Dakar",
+            "latitude": 14.71161,
+            "longitude": -17.45038
+        },
+        {
+            "commune": "Cambérène",
+            "region": "Dakar",
+            "latitude": 14.78007,
+            "longitude": -17.42608
+        },
+        {
+            "commune": "Dakar-Plateau",
+            "region": "Dakar",
+            "latitude": 14.6671,
+            "longitude": -17.43511
+        },
+        {
+            "commune": "Dalifort",
+            "region": "Dakar",
+            "latitude": 14.74023,
+            "longitude": -17.41123
+        },
+        {
+            "commune": "Diamaguène-Sicap Mbao",
+            "region": "Dakar",
+            "latitude": 14.74762,
+            "longitude": -17.3521
+        },
+        {
+            "commune": "Diamniadio",
+            "region": "Dakar",
+            "latitude": 14.7387,
+            "longitude": -17.18562
+        },
+        {
+            "commune": "Dieuppeul-Derklé",
+            "region": "Dakar",
+            "latitude": 14.72091,
+            "longitude": -17.45111
+        },
+        {
+            "commune": "Djidah Thiaroye Kaw",
+            "region": "Dakar",
+            "latitude": 14.76578,
+            "longitude": -17.38331
+        },
+        {
+            "commune": "Fann-Point E-Amitié",
+            "region": "Dakar",
+            "latitude": 14.69059,
+            "longitude": -17.4651
+        },
+        {
+            "commune": "Golf Sud",
+            "region": "Dakar",
+            "latitude": 14.7723,
+            "longitude": -17.41559
+        },
+        {
+            "commune": "Gorée",
+            "region": "Dakar",
+            "latitude": 14.66721,
+            "longitude": -17.39862
+        },
+        {
+            "commune": "Grand Yoff",
+            "region": "Dakar",
+            "latitude": 14.73682,
+            "longitude": -17.45623
+        },
+        {
+            "commune": "Grand-Dakar",
+            "region": "Dakar",
+            "latitude": 14.70511,
+            "longitude": -17.45353
+        },
+        {
+            "commune": "Gueule Tapée-Fass-Colobane",
+            "region": "Dakar",
+            "latitude": 14.68864,
+            "longitude": -17.45139
+        },
+        {
+            "commune": "Guinaw Rail Nord",
+            "region": "Dakar",
+            "latitude": 14.75377,
+            "longitude": -17.38288
+        },
+        {
+            "commune": "Guinaw Rail Sud",
+            "region": "Dakar",
+            "latitude": 14.74797,
+            "longitude": -17.38669
+        },
+        {
+            "commune": "HLM",
+            "region": "Dakar",
+            "latitude": 14.71213,
+            "longitude": -17.44413
+        },
+        {
+            "commune": "Hann Bel-Air",
+            "region": "Dakar",
+            "latitude": 14.71199,
+            "longitude": -17.42773
+        },
+        {
+            "commune": "Jaxaay - Parcelles",
+            "region": "Dakar",
+            "latitude": 14.7644,
+            "longitude": -17.28566
+        },
+        {
+            "commune": "Keur Massar Nord",
+            "region": "Dakar",
+            "latitude": 14.78783,
+            "longitude": -17.31546
+        },
+        {
+            "commune": "Keur Massar Sud",
+            "region": "Dakar",
+            "latitude": 14.77042,
+            "longitude": -17.30545
+        },
+        {
+            "commune": "Malika",
+            "region": "Dakar",
+            "latitude": 14.8094,
+            "longitude": -17.32978
+        },
+        {
+            "commune": "Mbao",
+            "region": "Dakar",
+            "latitude": 14.7453,
+            "longitude": -17.32178
+        },
+        {
+            "commune": "Medina Gounass",
+            "region": "Dakar",
+            "latitude": 14.77173,
+            "longitude": -17.38231
+        },
+        {
+            "commune": "Mermoz-Sacré-Cœur",
+            "region": "Dakar",
+            "latitude": 14.70607,
+            "longitude": -17.4772
+        },
+        {
+            "commune": "Médina",
+            "region": "Dakar",
+            "latitude": 14.68326,
+            "longitude": -17.44914
+        },
+        {
+            "commune": "Ndiarème Limamoulaye",
+            "region": "Dakar",
+            "latitude": 14.79047,
+            "longitude": -17.3896
+        },
+        {
+            "commune": "Ngor",
+            "region": "Dakar",
+            "latitude": 14.74426,
+            "longitude": -17.52305
+        },
+        {
+            "commune": "Ouakam",
+            "region": "Dakar",
+            "latitude": 14.72033,
+            "longitude": -17.49211
+        },
+        {
+            "commune": "Parcelles Assainies",
+            "region": "Dakar",
+            "latitude": 14.7679,
+            "longitude": -17.4421
+        },
+        {
+            "commune": "Patte d'Oie",
+            "region": "Dakar",
+            "latitude": 14.74933,
+            "longitude": -17.44359
+        },
+        {
+            "commune": "Pikine Est",
+            "region": "Dakar",
+            "latitude": 14.75727,
+            "longitude": -17.38756
+        },
+        {
+            "commune": "Pikine Nord",
+            "region": "Dakar",
+            "latitude": 14.76068,
+            "longitude": -17.39511
+        },
+        {
+            "commune": "Pikine Ouest",
+            "region": "Dakar",
+            "latitude": 14.75688,
+            "longitude": -17.4064
+        },
+        {
+            "commune": "Rufisque Est",
+            "region": "Dakar",
+            "latitude": 14.71733,
+            "longitude": -17.26036
+        },
+        {
+            "commune": "Rufisque Nord",
+            "region": "Dakar",
+            "latitude": 14.7312,
+            "longitude": -17.26744
+        },
+        {
+            "commune": "Rufisque Ouest",
+            "region": "Dakar",
+            "latitude": 14.73005,
+            "longitude": -17.29548
+        },
+        {
+            "commune": "Sam Notaire",
+            "region": "Dakar",
+            "latitude": 14.78454,
+            "longitude": -17.39623
+        },
+        {
+            "commune": "Sangalkam",
+            "region": "Dakar",
+            "latitude": 14.76914,
+            "longitude": -17.23293
+        },
+        {
+            "commune": "Sendou",
+            "region": "Dakar",
+            "latitude": 14.66932,
+            "longitude": -17.19221
+        },
+        {
+            "commune": "Sicap-Liberté",
+            "region": "Dakar",
+            "latitude": 14.71972,
+            "longitude": -17.4639
+        },
+        {
+            "commune": "Sébikhotane",
+            "region": "Dakar",
+            "latitude": 14.74461,
+            "longitude": -17.14895
+        },
+        {
+            "commune": "Thiaroye-Gare",
+            "region": "Dakar",
+            "latitude": 14.75721,
+            "longitude": -17.37398
+        },
+        {
+            "commune": "Thiaroye-sur-Mer",
+            "region": "Dakar",
+            "latitude": 14.74063,
+            "longitude": -17.37507
+        },
+        {
+            "commune": "Tivaouane Diacksao",
+            "region": "Dakar",
+            "latitude": 14.75013,
+            "longitude": -17.36951
+        },
+        {
+            "commune": "Tivaouane Peulh-Niaga",
+            "region": "Dakar",
+            "latitude": 14.83011,
+            "longitude": -17.23848
+        },
+        {
+            "commune": "Wakhinane Nimzatt",
+            "region": "Dakar",
+            "latitude": 14.79324,
+            "longitude": -17.37573
+        },
+        {
+            "commune": "Yenne",
+            "region": "Dakar",
+            "latitude": 14.64843,
+            "longitude": -17.16287
+        },
+        {
+            "commune": "Yeumbeul Nord",
+            "region": "Dakar",
+            "latitude": 14.792,
+            "longitude": -17.35092
+        },
+        {
+            "commune": "Yeumbeul Sud",
+            "region": "Dakar",
+            "latitude": 14.76996,
+            "longitude": -17.3605
+        },
+        {
+            "commune": "Yoff",
+            "region": "Dakar",
+            "latitude": 14.75363,
+            "longitude": -17.47738
+        },
+        {
+            "commune": "Baba Garage",
+            "region": "Diourbel",
+            "latitude": 14.94284,
+            "longitude": -16.47386
+        },
+        {
+            "commune": "Bambey",
+            "region": "Diourbel",
+            "latitude": 14.69861,
+            "longitude": -16.45878
+        },
+        {
+            "commune": "Dalla Ngabou",
+            "region": "Diourbel",
+            "latitude": 14.77484,
+            "longitude": -16.0078
+        },
+        {
+            "commune": "Darou Nahim",
+            "region": "Diourbel",
+            "latitude": 14.70302,
+            "longitude": -15.98536
+        },
+        {
+            "commune": "Darou Salam Typ",
+            "region": "Diourbel",
+            "latitude": 14.63326,
+            "longitude": -15.85661
+        },
+        {
+            "commune": "Dendeye Gouy Gui",
+            "region": "Diourbel",
+            "latitude": 14.71126,
+            "longitude": -16.04278
+        },
+        {
+            "commune": "Dinguiraye",
+            "region": "Diourbel",
+            "latitude": 14.96649,
+            "longitude": -16.42141
+        },
+        {
+            "commune": "Diourbel",
+            "region": "Diourbel",
+            "latitude": 14.65474,
+            "longitude": -16.23225
+        },
+        {
+            "commune": "Gade Escale",
+            "region": "Diourbel",
+            "latitude": 14.95443,
+            "longitude": -16.30763
+        },
+        {
+            "commune": "Gawane",
+            "region": "Diourbel",
+            "latitude": 14.83185,
+            "longitude": -16.41854
+        },
+        {
+            "commune": "Kael",
+            "region": "Diourbel",
+            "latitude": 14.69988,
+            "longitude": -15.90143
+        },
+        {
+            "commune": "Keur Ngalgou",
+            "region": "Diourbel",
+            "latitude": 14.88484,
+            "longitude": -16.30726
+        },
+        {
+            "commune": "Keur Samba Kane",
+            "region": "Diourbel",
+            "latitude": 14.91662,
+            "longitude": -16.60681
+        },
+        {
+            "commune": "Lambaye",
+            "region": "Diourbel",
+            "latitude": 14.8018,
+            "longitude": -16.49495
+        },
+        {
+            "commune": "Madina",
+            "region": "Diourbel",
+            "latitude": 14.74298,
+            "longitude": -15.80243
+        },
+        {
+            "commune": "Mbacké",
+            "region": "Diourbel",
+            "latitude": 14.79917,
+            "longitude": -15.90252
+        },
+        {
+            "commune": "Missirah",
+            "region": "Diourbel",
+            "latitude": 14.94038,
+            "longitude": -15.97577
+        },
+        {
+            "commune": "Ndankh Sene",
+            "region": "Diourbel",
+            "latitude": 14.87943,
+            "longitude": -16.1288
+        },
+        {
+            "commune": "Ndindy",
+            "region": "Diourbel",
+            "latitude": 14.86582,
+            "longitude": -16.18314
+        },
+        {
+            "commune": "Ndioumane",
+            "region": "Diourbel",
+            "latitude": 14.61756,
+            "longitude": -15.98732
+        },
+        {
+            "commune": "Ndondol",
+            "region": "Diourbel",
+            "latitude": 14.6502,
+            "longitude": -16.56064
+        },
+        {
+            "commune": "Ndondol",
+            "region": "Diourbel",
+            "latitude": 14.70446,
+            "longitude": -16.54829
+        },
+        {
+            "commune": "Ndoulo",
+            "region": "Diourbel",
+            "latitude": 14.70447,
+            "longitude": -16.11017
+        },
+        {
+            "commune": "Nghaye",
+            "region": "Diourbel",
+            "latitude": 14.8085,
+            "longitude": -16.03882
+        },
+        {
+            "commune": "Ngogom",
+            "region": "Diourbel",
+            "latitude": 14.74298,
+            "longitude": -16.50412
+        },
+        {
+            "commune": "Ngohe",
+            "region": "Diourbel",
+            "latitude": 14.63301,
+            "longitude": -16.28911
+        },
+        {
+            "commune": "Ngoye",
+            "region": "Diourbel",
+            "latitude": 14.66452,
+            "longitude": -16.40861
+        },
+        {
+            "commune": "Patar",
+            "region": "Diourbel",
+            "latitude": 14.65784,
+            "longitude": -16.1296
+        },
+        {
+            "commune": "Réfane",
+            "region": "Diourbel",
+            "latitude": 14.79797,
+            "longitude": -16.59737
+        },
+        {
+            "commune": "Sadio",
+            "region": "Diourbel",
+            "latitude": 14.78993,
+            "longitude": -15.52643
+        },
+        {
+            "commune": "Taïba Moutoupha",
+            "region": "Diourbel",
+            "latitude": 14.78999,
+            "longitude": -16.2677
+        },
+        {
+            "commune": "Taïba Thiékène",
+            "region": "Diourbel",
+            "latitude": 14.68205,
+            "longitude": -15.987
+        },
+        {
+            "commune": "Taïf",
+            "region": "Diourbel",
+            "latitude": 14.80566,
+            "longitude": -15.66683
+        },
+        {
+            "commune": "Thiakhar",
+            "region": "Diourbel",
+            "latitude": 14.75108,
+            "longitude": -16.3626
+        },
+        {
+            "commune": "Tocky Gare",
+            "region": "Diourbel",
+            "latitude": 14.59028,
+            "longitude": -16.1372
+        },
+        {
+            "commune": "Touba Fall",
+            "region": "Diourbel",
+            "latitude": 14.87397,
+            "longitude": -16.00846
+        },
+        {
+            "commune": "Touba Mboul",
+            "region": "Diourbel",
+            "latitude": 14.58137,
+            "longitude": -15.9463
+        },
+        {
+            "commune": "Touba Mosquée",
+            "region": "Diourbel",
+            "latitude": 14.87055,
+            "longitude": -15.82782
+        },
+        {
+            "commune": "Toure Mbonde",
+            "region": "Diourbel",
+            "latitude": 14.70871,
+            "longitude": -16.225
+        },
+        {
+            "commune": "Bassoul",
+            "region": "Fatick",
+            "latitude": 13.86232,
+            "longitude": -16.57143
+        },
+        {
+            "commune": "Colobane",
+            "region": "Fatick",
+            "latitude": 14.64015,
+            "longitude": -15.69078
+        },
+        {
+            "commune": "Diagane Barka",
+            "region": "Fatick",
+            "latitude": 14.00502,
+            "longitude": -16.27331
+        },
+        {
+            "commune": "Diakhao",
+            "region": "Fatick",
+            "latitude": 14.45704,
+            "longitude": -16.30529
+        },
+        {
+            "commune": "Diaoulé",
+            "region": "Fatick",
+            "latitude": 14.39246,
+            "longitude": -16.17992
+        },
+        {
+            "commune": "Diarrère",
+            "region": "Fatick",
+            "latitude": 14.4632,
+            "longitude": -16.50749
+        },
+        {
+            "commune": "Diofior",
+            "region": "Fatick",
+            "latitude": 14.18843,
+            "longitude": -16.66108
+        },
+        {
+            "commune": "Diossong",
+            "region": "Fatick",
+            "latitude": 13.94467,
+            "longitude": -16.37449
+        },
+        {
+            "commune": "Diouroup",
+            "region": "Fatick",
+            "latitude": 14.33891,
+            "longitude": -16.49848
+        },
+        {
+            "commune": "Djilasse",
+            "region": "Fatick",
+            "latitude": 14.21546,
+            "longitude": -16.59816
+        },
+        {
+            "commune": "Djilor",
+            "region": "Fatick",
+            "latitude": 14.03067,
+            "longitude": -16.36803
+        },
+        {
+            "commune": "Djirnda",
+            "region": "Fatick",
+            "latitude": 14.00162,
+            "longitude": -16.57766
+        },
+        {
+            "commune": "Fatick",
+            "region": "Fatick",
+            "latitude": 14.33706,
+            "longitude": -16.41533
+        },
+        {
+            "commune": "Fimela",
+            "region": "Fatick",
+            "latitude": 14.08675,
+            "longitude": -16.64005
+        },
+        {
+            "commune": "Foundiougne",
+            "region": "Fatick",
+            "latitude": 14.12086,
+            "longitude": -16.47716
+        },
+        {
+            "commune": "Gossas",
+            "region": "Fatick",
+            "latitude": 14.49406,
+            "longitude": -16.06804
+        },
+        {
+            "commune": "Karang Poste",
+            "region": "Fatick",
+            "latitude": 13.6038,
+            "longitude": -16.42155
+        },
+        {
+            "commune": "Keur Saloum Diané",
+            "region": "Fatick",
+            "latitude": 13.72305,
+            "longitude": -16.18535
+        },
+        {
+            "commune": "Keur Samba Guèye",
+            "region": "Fatick",
+            "latitude": 13.64769,
+            "longitude": -16.31941
+        },
+        {
+            "commune": "Loul Sessène",
+            "region": "Fatick",
+            "latitude": 14.28401,
+            "longitude": -16.57989
+        },
+        {
+            "commune": "Mbam",
+            "region": "Fatick",
+            "latitude": 14.11561,
+            "longitude": -16.42073
+        },
+        {
+            "commune": "Mbar",
+            "region": "Fatick",
+            "latitude": 14.51168,
+            "longitude": -15.77559
+        },
+        {
+            "commune": "Mbéllacadiao",
+            "region": "Fatick",
+            "latitude": 14.26869,
+            "longitude": -16.34242
+        },
+        {
+            "commune": "Ndiob",
+            "region": "Fatick",
+            "latitude": 14.54057,
+            "longitude": -16.21657
+        },
+        {
+            "commune": "Ndiène Lagane",
+            "region": "Fatick",
+            "latitude": 14.49384,
+            "longitude": -15.9685
+        },
+        {
+            "commune": "Ngayokhème",
+            "region": "Fatick",
+            "latitude": 14.52571,
+            "longitude": -16.47249
+        },
+        {
+            "commune": "Niakhar",
+            "region": "Fatick",
+            "latitude": 14.43125,
+            "longitude": -16.38312
+        },
+        {
+            "commune": "Niassène",
+            "region": "Fatick",
+            "latitude": 13.9323,
+            "longitude": -16.23818
+        },
+        {
+            "commune": "Nioro Alassane Tall",
+            "region": "Fatick",
+            "latitude": 13.78941,
+            "longitude": -16.2841
+        },
+        {
+            "commune": "Ouadiour",
+            "region": "Fatick",
+            "latitude": 14.45811,
+            "longitude": -16.05181
+        },
+        {
+            "commune": "Palmarin Facao",
+            "region": "Fatick",
+            "latitude": 13.9963,
+            "longitude": -16.73045
+        },
+        {
+            "commune": "Passy",
+            "region": "Fatick",
+            "latitude": 13.97969,
+            "longitude": -16.26143
+        },
+        {
+            "commune": "Patar Lia",
+            "region": "Fatick",
+            "latitude": 14.482,
+            "longitude": -16.15147
+        },
+        {
+            "commune": "Patar Sine",
+            "region": "Fatick",
+            "latitude": 14.5541,
+            "longitude": -16.33861
+        },
+        {
+            "commune": "Sokone",
+            "region": "Fatick",
+            "latitude": 13.87753,
+            "longitude": -16.36526
+        },
+        {
+            "commune": "Soum",
+            "region": "Fatick",
+            "latitude": 14.08185,
+            "longitude": -16.47936
+        },
+        {
+            "commune": "Tattaguine",
+            "region": "Fatick",
+            "latitude": 14.41226,
+            "longitude": -16.62677
+        },
+        {
+            "commune": "Thiaré Ndialgui",
+            "region": "Fatick",
+            "latitude": 14.44993,
+            "longitude": -16.22865
+        },
+        {
+            "commune": "Toubacouta",
+            "region": "Fatick",
+            "latitude": 13.74832,
+            "longitude": -16.51299
+        },
+        {
+            "commune": "Birkelane",
+            "region": "Kaffrine",
+            "latitude": 14.12829,
+            "longitude": -15.74535
+        },
+        {
+            "commune": "Boulel",
+            "region": "Kaffrine",
+            "latitude": 14.31991,
+            "longitude": -15.50524
+        },
+        {
+            "commune": "Darou Minam 2",
+            "region": "Kaffrine",
+            "latitude": 14.57363,
+            "longitude": -15.33567
+        },
+        {
+            "commune": "Diamagadio",
+            "region": "Kaffrine",
+            "latitude": 13.82496,
+            "longitude": -15.44545
+        },
+        {
+            "commune": "Diamal",
+            "region": "Kaffrine",
+            "latitude": 14.11112,
+            "longitude": -15.71918
+        },
+        {
+            "commune": "Dianké Souf",
+            "region": "Kaffrine",
+            "latitude": 14.24988,
+            "longitude": -15.29931
+        },
+        {
+            "commune": "Diokoul Mbelbouck",
+            "region": "Kaffrine",
+            "latitude": 13.94417,
+            "longitude": -15.26317
+        },
+        {
+            "commune": "Fass Thiékène",
+            "region": "Kaffrine",
+            "latitude": 13.89419,
+            "longitude": -14.7508
+        },
+        {
+            "commune": "Gniby",
+            "region": "Kaffrine",
+            "latitude": 14.44096,
+            "longitude": -15.54937
+        },
+        {
+            "commune": "Ida Mouride",
+            "region": "Kaffrine",
+            "latitude": 14.04225,
+            "longitude": -14.76871
+        },
+        {
+            "commune": "Kaffrine",
+            "region": "Kaffrine",
+            "latitude": 14.1014,
+            "longitude": -15.54784
+        },
+        {
+            "commune": "Kahi",
+            "region": "Kaffrine",
+            "latitude": 14.11784,
+            "longitude": -15.50952
+        },
+        {
+            "commune": "Kathiotte",
+            "region": "Kaffrine",
+            "latitude": 13.97994,
+            "longitude": -15.4635
+        },
+        {
+            "commune": "Keur Mboucki",
+            "region": "Kaffrine",
+            "latitude": 14.17018,
+            "longitude": -15.78568
+        },
+        {
+            "commune": "Khelcom",
+            "region": "Kaffrine",
+            "latitude": 14.58716,
+            "longitude": -15.53253
+        },
+        {
+            "commune": "Koungheul",
+            "region": "Kaffrine",
+            "latitude": 13.97753,
+            "longitude": -14.80259
+        },
+        {
+            "commune": "Lour Escale",
+            "region": "Kaffrine",
+            "latitude": 14.20595,
+            "longitude": -14.71008
+        },
+        {
+            "commune": "Mabo",
+            "region": "Kaffrine",
+            "latitude": 13.89421,
+            "longitude": -15.64048
+        },
+        {
+            "commune": "Maka Yop",
+            "region": "Kaffrine",
+            "latitude": 14.0935,
+            "longitude": -14.99622
+        },
+        {
+            "commune": "Malem-Hodar",
+            "region": "Kaffrine",
+            "latitude": 14.08269,
+            "longitude": -15.2947
+        },
+        {
+            "commune": "Mbeuleup",
+            "region": "Kaffrine",
+            "latitude": 13.9121,
+            "longitude": -15.54646
+        },
+        {
+            "commune": "Missirah Wadène",
+            "region": "Kaffrine",
+            "latitude": 13.99325,
+            "longitude": -15.08523
+        },
+        {
+            "commune": "Médinatoul Salam 2",
+            "region": "Kaffrine",
+            "latitude": 13.82542,
+            "longitude": -15.21957
+        },
+        {
+            "commune": "Ndiobène Samba Lamo",
+            "region": "Kaffrine",
+            "latitude": 14.29516,
+            "longitude": -15.16962
+        },
+        {
+            "commune": "Ndiognick",
+            "region": "Kaffrine",
+            "latitude": 14.00145,
+            "longitude": -15.63816
+        },
+        {
+            "commune": "Ndioum Ngainth",
+            "region": "Kaffrine",
+            "latitude": 14.39275,
+            "longitude": -15.21444
+        },
+        {
+            "commune": "Ngainthe Pathè",
+            "region": "Kaffrine",
+            "latitude": 14.41219,
+            "longitude": -14.94292
+        },
+        {
+            "commune": "Nganda",
+            "region": "Kaffrine",
+            "latitude": 13.82507,
+            "longitude": -15.40511
+        },
+        {
+            "commune": "Ribot Escale",
+            "region": "Kaffrine",
+            "latitude": 14.43887,
+            "longitude": -14.71045
+        },
+        {
+            "commune": "Sagna",
+            "region": "Kaffrine",
+            "latitude": 14.12817,
+            "longitude": -15.28942
+        },
+        {
+            "commune": "Saly Escale",
+            "region": "Kaffrine",
+            "latitude": 13.85915,
+            "longitude": -14.9184
+        },
+        {
+            "commune": "Ségré Gatta",
+            "region": "Kaffrine",
+            "latitude": 13.9819,
+            "longitude": -15.73247
+        },
+        {
+            "commune": "Touba Mbella",
+            "region": "Kaffrine",
+            "latitude": 14.19849,
+            "longitude": -15.7247
+        },
+        {
+            "commune": "Dabaly",
+            "region": "Kaolack",
+            "latitude": 13.72271,
+            "longitude": -15.70282
+        },
+        {
+            "commune": "Dara Mboss",
+            "region": "Kaolack",
+            "latitude": 14.34725,
+            "longitude": -15.7683
+        },
+        {
+            "commune": "Darou Salam",
+            "region": "Kaolack",
+            "latitude": 13.80941,
+            "longitude": -15.73268
+        },
+        {
+            "commune": "Dya",
+            "region": "Kaolack",
+            "latitude": 14.22526,
+            "longitude": -16.18044
+        },
+        {
+            "commune": "Fass",
+            "region": "Kaolack",
+            "latitude": 14.35301,
+            "longitude": -16.03287
+        },
+        {
+            "commune": "Gagnick",
+            "region": "Kaolack",
+            "latitude": 14.30426,
+            "longitude": -15.98997
+        },
+        {
+            "commune": "Gainthe Kaye",
+            "region": "Kaolack",
+            "latitude": 13.83819,
+            "longitude": -15.95113
+        },
+        {
+            "commune": "Gandiaye",
+            "region": "Kaolack",
+            "latitude": 14.24286,
+            "longitude": -16.27317
+        },
+        {
+            "commune": "Guinguinéo",
+            "region": "Kaolack",
+            "latitude": 14.26894,
+            "longitude": -15.94362
+        },
+        {
+            "commune": "Kahone",
+            "region": "Kaolack",
+            "latitude": 14.15729,
+            "longitude": -16.03736
+        },
+        {
+            "commune": "Kaolack",
+            "region": "Kaolack",
+            "latitude": 14.15833,
+            "longitude": -16.0985
+        },
+        {
+            "commune": "Kayemor",
+            "region": "Kaolack",
+            "latitude": 13.76397,
+            "longitude": -15.56535
+        },
+        {
+            "commune": "Keur Baka",
+            "region": "Kaolack",
+            "latitude": 13.93586,
+            "longitude": -15.93803
+        },
+        {
+            "commune": "Keur Maba Diakhou",
+            "region": "Kaolack",
+            "latitude": 13.67568,
+            "longitude": -15.99528
+        },
+        {
+            "commune": "Keur Madiabel",
+            "region": "Kaolack",
+            "latitude": 13.84715,
+            "longitude": -16.05822
+        },
+        {
+            "commune": "Keur Madongo",
+            "region": "Kaolack",
+            "latitude": 13.84196,
+            "longitude": -16.08223
+        },
+        {
+            "commune": "Keur Socé",
+            "region": "Kaolack",
+            "latitude": 13.94498,
+            "longitude": -16.02636
+        },
+        {
+            "commune": "Khelcom Birane",
+            "region": "Kaolack",
+            "latitude": 14.24754,
+            "longitude": -16.06695
+        },
+        {
+            "commune": "Latmingué",
+            "region": "Kaolack",
+            "latitude": 14.10257,
+            "longitude": -15.96913
+        },
+        {
+            "commune": "Mbadakhoune",
+            "region": "Kaolack",
+            "latitude": 14.18875,
+            "longitude": -15.99416
+        },
+        {
+            "commune": "Mboss",
+            "region": "Kaolack",
+            "latitude": 14.36467,
+            "longitude": -15.74534
+        },
+        {
+            "commune": "Médina Sabakh",
+            "region": "Kaolack",
+            "latitude": 13.67317,
+            "longitude": -15.61446
+        },
+        {
+            "commune": "N'Doffane",
+            "region": "Kaolack",
+            "latitude": 13.91711,
+            "longitude": -15.92845
+        },
+        {
+            "commune": "Ndiaffate",
+            "region": "Kaolack",
+            "latitude": 14.06915,
+            "longitude": -16.15786
+        },
+        {
+            "commune": "Ndiago",
+            "region": "Kaolack",
+            "latitude": 14.28137,
+            "longitude": -15.88626
+        },
+        {
+            "commune": "Ndiébel",
+            "region": "Kaolack",
+            "latitude": 14.32861,
+            "longitude": -16.18138
+        },
+        {
+            "commune": "Ndiédieng",
+            "region": "Kaolack",
+            "latitude": 13.92713,
+            "longitude": -16.13597
+        },
+        {
+            "commune": "Ndramé Escale",
+            "region": "Kaolack",
+            "latitude": 13.80133,
+            "longitude": -16.17299
+        },
+        {
+            "commune": "Ngathie Naoudé",
+            "region": "Kaolack",
+            "latitude": 14.18454,
+            "longitude": -15.92627
+        },
+        {
+            "commune": "Ngayène",
+            "region": "Kaolack",
+            "latitude": 13.70094,
+            "longitude": -15.48452
+        },
+        {
+            "commune": "Nguélou",
+            "region": "Kaolack",
+            "latitude": 14.36225,
+            "longitude": -15.92148
+        },
+        {
+            "commune": "Nioro du Rip",
+            "region": "Kaolack",
+            "latitude": 13.74837,
+            "longitude": -15.77424
+        },
+        {
+            "commune": "Ourour",
+            "region": "Kaolack",
+            "latitude": 14.31912,
+            "longitude": -16.06152
+        },
+        {
+            "commune": "Panal Wolof",
+            "region": "Kaolack",
+            "latitude": 14.42774,
+            "longitude": -15.74198
+        },
+        {
+            "commune": "Paoskoto",
+            "region": "Kaolack",
+            "latitude": 13.81482,
+            "longitude": -15.83393
+        },
+        {
+            "commune": "Porokhane",
+            "region": "Kaolack",
+            "latitude": 13.67942,
+            "longitude": -15.8426
+        },
+        {
+            "commune": "Taïba Niassène",
+            "region": "Kaolack",
+            "latitude": 13.78775,
+            "longitude": -15.90201
+        },
+        {
+            "commune": "Thiaré",
+            "region": "Kaolack",
+            "latitude": 13.94799,
+            "longitude": -15.77522
+        },
+        {
+            "commune": "Thiomby",
+            "region": "Kaolack",
+            "latitude": 14.23599,
+            "longitude": -16.28954
+        },
+        {
+            "commune": "Wack Ngouna",
+            "region": "Kaolack",
+            "latitude": 13.7045,
+            "longitude": -16.0624
+        },
+        {
+            "commune": "Badion",
+            "region": "Kolda",
+            "latitude": 13.16012,
+            "longitude": -14.40133
+        },
+        {
+            "commune": "Bagadadji",
+            "region": "Kolda",
+            "latitude": 12.85197,
+            "longitude": -14.72982
+        },
+        {
+            "commune": "Bignarabé",
+            "region": "Kolda",
+            "latitude": 12.94961,
+            "longitude": -14.82985
+        },
+        {
+            "commune": "Bonconto",
+            "region": "Kolda",
+            "latitude": 13.01463,
+            "longitude": -13.87136
+        },
+        {
+            "commune": "Bourouco",
+            "region": "Kolda",
+            "latitude": 13.31021,
+            "longitude": -15.18389
+        },
+        {
+            "commune": "Coumbacara",
+            "region": "Kolda",
+            "latitude": 12.73767,
+            "longitude": -14.47293
+        },
+        {
+            "commune": "Dabo",
+            "region": "Kolda",
+            "latitude": 12.87474,
+            "longitude": -14.47532
+        },
+        {
+            "commune": "Dialambéré",
+            "region": "Kolda",
+            "latitude": 12.91449,
+            "longitude": -14.49895
+        },
+        {
+            "commune": "Diaobé-Kabendou",
+            "region": "Kolda",
+            "latitude": 12.91011,
+            "longitude": -14.1445
+        },
+        {
+            "commune": "Dinguiraye",
+            "region": "Kolda",
+            "latitude": 13.28302,
+            "longitude": -14.56323
+        },
+        {
+            "commune": "Dioulacolon",
+            "region": "Kolda",
+            "latitude": 12.81389,
+            "longitude": -14.92315
+        },
+        {
+            "commune": "Fafacourou",
+            "region": "Kolda",
+            "latitude": 13.12668,
+            "longitude": -14.55805
+        },
+        {
+            "commune": "Guiro Yéro Bocar",
+            "region": "Kolda",
+            "latitude": 12.75159,
+            "longitude": -14.75077
+        },
+        {
+            "commune": "Kandia",
+            "region": "Kolda",
+            "latitude": 13.13124,
+            "longitude": -14.20833
+        },
+        {
+            "commune": "Kandiaye",
+            "region": "Kolda",
+            "latitude": 12.91439,
+            "longitude": -14.04899
+        },
+        {
+            "commune": "Kolda",
+            "region": "Kolda",
+            "latitude": 12.89825,
+            "longitude": -14.93549
+        },
+        {
+            "commune": "Koulinto",
+            "region": "Kolda",
+            "latitude": 13.06955,
+            "longitude": -14.79854
+        },
+        {
+            "commune": "Kounkané",
+            "region": "Kolda",
+            "latitude": 12.92835,
+            "longitude": -14.07668
+        },
+        {
+            "commune": "Kéréwane",
+            "region": "Kolda",
+            "latitude": 13.41995,
+            "longitude": -15.01937
+        },
+        {
+            "commune": "Linkéring",
+            "region": "Kolda",
+            "latitude": 12.86838,
+            "longitude": -13.58802
+        },
+        {
+            "commune": "Mampatim",
+            "region": "Kolda",
+            "latitude": 12.9038,
+            "longitude": -14.34664
+        },
+        {
+            "commune": "Médina Chérif",
+            "region": "Kolda",
+            "latitude": 12.91925,
+            "longitude": -14.21525
+        },
+        {
+            "commune": "Médina El Hadj",
+            "region": "Kolda",
+            "latitude": 12.74014,
+            "longitude": -14.93901
+        },
+        {
+            "commune": "Médina Gounass",
+            "region": "Kolda",
+            "latitude": 13.11368,
+            "longitude": -13.7077
+        },
+        {
+            "commune": "Médina Yoro Foulah",
+            "region": "Kolda",
+            "latitude": 13.29477,
+            "longitude": -14.71264
+        },
+        {
+            "commune": "Ndorna",
+            "region": "Kolda",
+            "latitude": 13.14951,
+            "longitude": -15.11966
+        },
+        {
+            "commune": "Niaming",
+            "region": "Kolda",
+            "latitude": 13.28427,
+            "longitude": -14.76915
+        },
+        {
+            "commune": "Némataba",
+            "region": "Kolda",
+            "latitude": 13.22336,
+            "longitude": -14.07836
+        },
+        {
+            "commune": "Ouassadou",
+            "region": "Kolda",
+            "latitude": 12.76329,
+            "longitude": -14.1739
+        },
+        {
+            "commune": "Pakour",
+            "region": "Kolda",
+            "latitude": 12.79026,
+            "longitude": -13.93443
+        },
+        {
+            "commune": "Paroumba",
+            "region": "Kolda",
+            "latitude": 12.7902,
+            "longitude": -13.77411
+        },
+        {
+            "commune": "Pata",
+            "region": "Kolda",
+            "latitude": 13.43929,
+            "longitude": -14.94849
+        },
+        {
+            "commune": "Salikégné",
+            "region": "Kolda",
+            "latitude": 12.69257,
+            "longitude": -14.74165
+        },
+        {
+            "commune": "Saré Bidji",
+            "region": "Kolda",
+            "latitude": 12.91402,
+            "longitude": -15.02849
+        },
+        {
+            "commune": "Saré Coly Sallé",
+            "region": "Kolda",
+            "latitude": 13.08572,
+            "longitude": -14.02795
+        },
+        {
+            "commune": "Saré Yoba Diéga",
+            "region": "Kolda",
+            "latitude": 12.76633,
+            "longitude": -15.10465
+        },
+        {
+            "commune": "Sinthiang Koundara",
+            "region": "Kolda",
+            "latitude": 13.3376,
+            "longitude": -13.84982
+        },
+        {
+            "commune": "Tankanto Escale",
+            "region": "Kolda",
+            "latitude": 12.76183,
+            "longitude": -15.06192
+        },
+        {
+            "commune": "Thiétty",
+            "region": "Kolda",
+            "latitude": 12.98221,
+            "longitude": -15.06516
+        },
+        {
+            "commune": "Vélingara",
+            "region": "Kolda",
+            "latitude": 13.15161,
+            "longitude": -14.11308
+        },
+        {
+            "commune": "Bandafassi",
+            "region": "Kédougou",
+            "latitude": 12.63923,
+            "longitude": -12.20951
+        },
+        {
+            "commune": "Bembou",
+            "region": "Kédougou",
+            "latitude": 12.80604,
+            "longitude": -11.73766
+        },
+        {
+            "commune": "Dakateli",
+            "region": "Kédougou",
+            "latitude": 12.45959,
+            "longitude": -12.53285
+        },
+        {
+            "commune": "Dar Salam",
+            "region": "Kédougou",
+            "latitude": 12.68589,
+            "longitude": -12.86083
+        },
+        {
+            "commune": "Dimboli",
+            "region": "Kédougou",
+            "latitude": 12.57615,
+            "longitude": -11.96366
+        },
+        {
+            "commune": "Dindefelo",
+            "region": "Kédougou",
+            "latitude": 12.43409,
+            "longitude": -12.29235
+        },
+        {
+            "commune": "Ethiolo",
+            "region": "Kédougou",
+            "latitude": 12.54794,
+            "longitude": -12.90183
+        },
+        {
+            "commune": "Fongolimbi",
+            "region": "Kédougou",
+            "latitude": 12.41464,
+            "longitude": -12.03098
+        },
+        {
+            "commune": "Khossanto",
+            "region": "Kédougou",
+            "latitude": 13.1808,
+            "longitude": -11.96085
+        },
+        {
+            "commune": "Kédougou",
+            "region": "Kédougou",
+            "latitude": 12.55977,
+            "longitude": -12.20301
+        },
+        {
+            "commune": "Kévoye",
+            "region": "Kédougou",
+            "latitude": 12.57616,
+            "longitude": -12.68923
+        },
+        {
+            "commune": "Missirah Sirimana",
+            "region": "Kédougou",
+            "latitude": 13.20095,
+            "longitude": -11.67799
+        },
+        {
+            "commune": "Médina Baffé",
+            "region": "Kédougou",
+            "latitude": 12.5182,
+            "longitude": -11.60915
+        },
+        {
+            "commune": "Ninéfécha",
+            "region": "Kédougou",
+            "latitude": 12.74996,
+            "longitude": -12.79176
+        },
+        {
+            "commune": "Oubadji",
+            "region": "Kédougou",
+            "latitude": 12.58968,
+            "longitude": -13.01603
+        },
+        {
+            "commune": "Sabodala",
+            "region": "Kédougou",
+            "latitude": 13.21655,
+            "longitude": -12.24258
+        },
+        {
+            "commune": "Salemata",
+            "region": "Kédougou",
+            "latitude": 12.63277,
+            "longitude": -12.81719
+        },
+        {
+            "commune": "Saraya",
+            "region": "Kédougou",
+            "latitude": 12.83531,
+            "longitude": -11.75954
+        },
+        {
+            "commune": "Tomboroncoto",
+            "region": "Kédougou",
+            "latitude": 12.91162,
+            "longitude": -12.38621
+        },
+        {
+            "commune": "Affé Djoloff",
+            "region": "Louga",
+            "latitude": 15.16094,
+            "longitude": -15.4312
+        },
+        {
+            "commune": "Bandegne Ouolof",
+            "region": "Louga",
+            "latitude": 15.54548,
+            "longitude": -16.41147
+        },
+        {
+            "commune": "Barkédji",
+            "region": "Louga",
+            "latitude": 15.26161,
+            "longitude": -14.79394
+        },
+        {
+            "commune": "Boulal",
+            "region": "Louga",
+            "latitude": 15.42231,
+            "longitude": -15.69589
+        },
+        {
+            "commune": "Coki",
+            "region": "Louga",
+            "latitude": 15.51924,
+            "longitude": -16.01146
+        },
+        {
+            "commune": "Dahra Djoloff",
+            "region": "Louga",
+            "latitude": 15.34738,
+            "longitude": -15.4707
+        },
+        {
+            "commune": "Darou Marnane",
+            "region": "Louga",
+            "latitude": 15.13601,
+            "longitude": -16.12967
+        },
+        {
+            "commune": "Darou Mousty",
+            "region": "Louga",
+            "latitude": 15.07189,
+            "longitude": -16.0646
+        },
+        {
+            "commune": "Dealy",
+            "region": "Louga",
+            "latitude": 15.05456,
+            "longitude": -15.62537
+        },
+        {
+            "commune": "Diokoul Diawrigne",
+            "region": "Louga",
+            "latitude": 15.42024,
+            "longitude": -16.54573
+        },
+        {
+            "commune": "Dodji",
+            "region": "Louga",
+            "latitude": 15.58334,
+            "longitude": -14.91272
+        },
+        {
+            "commune": "Gande",
+            "region": "Louga",
+            "latitude": 15.65528,
+            "longitude": -15.75826
+        },
+        {
+            "commune": "Gassane",
+            "region": "Louga",
+            "latitude": 14.8957,
+            "longitude": -15.28434
+        },
+        {
+            "commune": "Guet Ardo",
+            "region": "Louga",
+            "latitude": 15.44111,
+            "longitude": -16.06676
+        },
+        {
+            "commune": "Guéoul",
+            "region": "Louga",
+            "latitude": 15.4795,
+            "longitude": -16.34289
+        },
+        {
+            "commune": "Kab Gaye",
+            "region": "Louga",
+            "latitude": 15.34013,
+            "longitude": -16.64498
+        },
+        {
+            "commune": "Kamb",
+            "region": "Louga",
+            "latitude": 15.50265,
+            "longitude": -15.47597
+        },
+        {
+            "commune": "Kanène Ndiob",
+            "region": "Louga",
+            "latitude": 15.39545,
+            "longitude": -16.1806
+        },
+        {
+            "commune": "Keur Momar Sarr",
+            "region": "Louga",
+            "latitude": 15.93468,
+            "longitude": -15.96996
+        },
+        {
+            "commune": "Kébémer",
+            "region": "Louga",
+            "latitude": 15.37117,
+            "longitude": -16.44529
+        },
+        {
+            "commune": "Kéle Gueye",
+            "region": "Louga",
+            "latitude": 15.55156,
+            "longitude": -16.30584
+        },
+        {
+            "commune": "Labgar",
+            "region": "Louga",
+            "latitude": 15.82433,
+            "longitude": -14.74557
+        },
+        {
+            "commune": "Linguère",
+            "region": "Louga",
+            "latitude": 15.39495,
+            "longitude": -15.11972
+        },
+        {
+            "commune": "Loro",
+            "region": "Louga",
+            "latitude": 15.32105,
+            "longitude": -16.04324
+        },
+        {
+            "commune": "Louga",
+            "region": "Louga",
+            "latitude": 15.62293,
+            "longitude": -16.22657
+        },
+        {
+            "commune": "Léona",
+            "region": "Louga",
+            "latitude": 15.73083,
+            "longitude": -16.4702
+        },
+        {
+            "commune": "Mbacké Kadjor",
+            "region": "Louga",
+            "latitude": 15.15346,
+            "longitude": -16.19691
+        },
+        {
+            "commune": "Mbadiane",
+            "region": "Louga",
+            "latitude": 15.10246,
+            "longitude": -15.90276
+        },
+        {
+            "commune": "Mbeuleukhé",
+            "region": "Louga",
+            "latitude": 15.6476,
+            "longitude": -15.34591
+        },
+        {
+            "commune": "Mboula",
+            "region": "Louga",
+            "latitude": 15.80708,
+            "longitude": -15.4529
+        },
+        {
+            "commune": "Mbédiène",
+            "region": "Louga",
+            "latitude": 15.49404,
+            "longitude": -16.18103
+        },
+        {
+            "commune": "Ndande",
+            "region": "Louga",
+            "latitude": 15.25594,
+            "longitude": -16.56124
+        },
+        {
+            "commune": "Ndiagne",
+            "region": "Louga",
+            "latitude": 15.41824,
+            "longitude": -16.06882
+        },
+        {
+            "commune": "Ndoyene",
+            "region": "Louga",
+            "latitude": 15.22242,
+            "longitude": -16.07881
+        },
+        {
+            "commune": "Ngourane Ouolof",
+            "region": "Louga",
+            "latitude": 15.46037,
+            "longitude": -16.32683
+        },
+        {
+            "commune": "Nguer Malal",
+            "region": "Louga",
+            "latitude": 15.75869,
+            "longitude": -15.90697
+        },
+        {
+            "commune": "Ngueune Sarr",
+            "region": "Louga",
+            "latitude": 15.69798,
+            "longitude": -16.28016
+        },
+        {
+            "commune": "Nguidilé",
+            "region": "Louga",
+            "latitude": 15.62952,
+            "longitude": -16.23641
+        },
+        {
+            "commune": "Niomré",
+            "region": "Louga",
+            "latitude": 15.64452,
+            "longitude": -16.12311
+        },
+        {
+            "commune": "Ouarkhokh",
+            "region": "Louga",
+            "latitude": 15.49421,
+            "longitude": -15.17198
+        },
+        {
+            "commune": "Pété Ouarack",
+            "region": "Louga",
+            "latitude": 15.61787,
+            "longitude": -15.97266
+        },
+        {
+            "commune": "Sagatta Djolof",
+            "region": "Louga",
+            "latitude": 15.20238,
+            "longitude": -15.59538
+        },
+        {
+            "commune": "Sagatta Gueth",
+            "region": "Louga",
+            "latitude": 15.2549,
+            "longitude": -16.20873
+        },
+        {
+            "commune": "Sakal",
+            "region": "Louga",
+            "latitude": 15.84726,
+            "longitude": -16.23111
+        },
+        {
+            "commune": "Sam Yabal",
+            "region": "Louga",
+            "latitude": 15.27244,
+            "longitude": -15.89158
+        },
+        {
+            "commune": "Syer",
+            "region": "Louga",
+            "latitude": 15.93298,
+            "longitude": -15.75024
+        },
+        {
+            "commune": "Thiamène",
+            "region": "Louga",
+            "latitude": 15.47122,
+            "longitude": -15.86961
+        },
+        {
+            "commune": "Thiamène Pass",
+            "region": "Louga",
+            "latitude": 15.36827,
+            "longitude": -15.49233
+        },
+        {
+            "commune": "Thiarny",
+            "region": "Louga",
+            "latitude": 15.11886,
+            "longitude": -15.17168
+        },
+        {
+            "commune": "Thiel",
+            "region": "Louga",
+            "latitude": 14.84474,
+            "longitude": -14.96465
+        },
+        {
+            "commune": "Thieppe",
+            "region": "Louga",
+            "latitude": 15.56352,
+            "longitude": -16.57619
+        },
+        {
+            "commune": "Thiolom Fall",
+            "region": "Louga",
+            "latitude": 15.33931,
+            "longitude": -16.33876
+        },
+        {
+            "commune": "Touba Mérina",
+            "region": "Louga",
+            "latitude": 15.28006,
+            "longitude": -15.96367
+        },
+        {
+            "commune": "Téssékéré Forage",
+            "region": "Louga",
+            "latitude": 15.87939,
+            "longitude": -15.1164
+        },
+        {
+            "commune": "Yang-Yang",
+            "region": "Louga",
+            "latitude": 15.69548,
+            "longitude": -15.23066
+        },
+        {
+            "commune": "Agnams",
+            "region": "Matam",
+            "latitude": 15.9311,
+            "longitude": -13.66398
+        },
+        {
+            "commune": "Aouré",
+            "region": "Matam",
+            "latitude": 14.89321,
+            "longitude": -12.82039
+        },
+        {
+            "commune": "Bokidiawé",
+            "region": "Matam",
+            "latitude": 15.91495,
+            "longitude": -13.4252
+        },
+        {
+            "commune": "Bokiladji",
+            "region": "Matam",
+            "latitude": 14.99732,
+            "longitude": -12.70997
+        },
+        {
+            "commune": "Dabia",
+            "region": "Matam",
+            "latitude": 15.93745,
+            "longitude": -13.55162
+        },
+        {
+            "commune": "Dembakané",
+            "region": "Matam",
+            "latitude": 15.09195,
+            "longitude": -12.70379
+        },
+        {
+            "commune": "Hamady Ounaré",
+            "region": "Matam",
+            "latitude": 15.34663,
+            "longitude": -13.0172
+        },
+        {
+            "commune": "Kanel",
+            "region": "Matam",
+            "latitude": 15.48663,
+            "longitude": -13.18121
+        },
+        {
+            "commune": "Lougré Thioly",
+            "region": "Matam",
+            "latitude": 15.58685,
+            "longitude": -14.56715
+        },
+        {
+            "commune": "Matam",
+            "region": "Matam",
+            "latitude": 15.65476,
+            "longitude": -13.2545
+        },
+        {
+            "commune": "Nabadji Civol",
+            "region": "Matam",
+            "latitude": 15.73566,
+            "longitude": -13.37439
+        },
+        {
+            "commune": "Ndendory",
+            "region": "Matam",
+            "latitude": 15.02119,
+            "longitude": -13.07212
+        },
+        {
+            "commune": "Nguidjilone",
+            "region": "Matam",
+            "latitude": 15.93629,
+            "longitude": -13.34938
+        },
+        {
+            "commune": "Odobéré",
+            "region": "Matam",
+            "latitude": 15.55947,
+            "longitude": -13.09709
+        },
+        {
+            "commune": "Ogo",
+            "region": "Matam",
+            "latitude": 15.52805,
+            "longitude": -13.70978
+        },
+        {
+            "commune": "Orkadiere",
+            "region": "Matam",
+            "latitude": 15.30345,
+            "longitude": -12.98026
+        },
+        {
+            "commune": "Oréfondé",
+            "region": "Matam",
+            "latitude": 15.9318,
+            "longitude": -13.8937
+        },
+        {
+            "commune": "Oudalaye",
+            "region": "Matam",
+            "latitude": 14.9756,
+            "longitude": -13.98406
+        },
+        {
+            "commune": "Ourossogui",
+            "region": "Matam",
+            "latitude": 15.60472,
+            "longitude": -13.32587
+        },
+        {
+            "commune": "Ranérou",
+            "region": "Matam",
+            "latitude": 15.29818,
+            "longitude": -13.96062
+        },
+        {
+            "commune": "Semmé",
+            "region": "Matam",
+            "latitude": 15.19888,
+            "longitude": -12.94502
+        },
+        {
+            "commune": "Sinthiou Bamambé-Banadji",
+            "region": "Matam",
+            "latitude": 15.36972,
+            "longitude": -13.13305
+        },
+        {
+            "commune": "Thilogne",
+            "region": "Matam",
+            "latitude": 15.96631,
+            "longitude": -13.59436
+        },
+        {
+            "commune": "Vélingara",
+            "region": "Matam",
+            "latitude": 14.79747,
+            "longitude": -14.56763
+        },
+        {
+            "commune": "Waoundé",
+            "region": "Matam",
+            "latitude": 15.26658,
+            "longitude": -12.86697
+        },
+        {
+            "commune": "Wouro Sidy",
+            "region": "Matam",
+            "latitude": 15.00146,
+            "longitude": -13.33445
+        },
+        {
+            "commune": "Aéré Lao",
+            "region": "Saint-Louis",
+            "latitude": 16.39485,
+            "longitude": -14.3225
+        },
+        {
+            "commune": "Bodé Lao",
+            "region": "Saint-Louis",
+            "latitude": 16.44629,
+            "longitude": -14.35139
+        },
+        {
+            "commune": "Bokhol",
+            "region": "Saint-Louis",
+            "latitude": 16.43305,
+            "longitude": -15.48697
+        },
+        {
+            "commune": "Boké Dialloubé",
+            "region": "Saint-Louis",
+            "latitude": 15.92709,
+            "longitude": -14.1712
+        },
+        {
+            "commune": "Dagana",
+            "region": "Saint-Louis",
+            "latitude": 16.51266,
+            "longitude": -15.50327
+        },
+        {
+            "commune": "Diama",
+            "region": "Saint-Louis",
+            "latitude": 16.28192,
+            "longitude": -16.26202
+        },
+        {
+            "commune": "Dodel",
+            "region": "Saint-Louis",
+            "latitude": 16.33017,
+            "longitude": -14.47016
+        },
+        {
+            "commune": "Doumga Lao",
+            "region": "Saint-Louis",
+            "latitude": 16.15949,
+            "longitude": -14.42219
+        },
+        {
+            "commune": "Démèt",
+            "region": "Saint-Louis",
+            "latitude": 16.56854,
+            "longitude": -14.27923
+        },
+        {
+            "commune": "Fanaye",
+            "region": "Saint-Louis",
+            "latitude": 16.29414,
+            "longitude": -15.25619
+        },
+        {
+            "commune": "Fanaye Diery",
+            "region": "Saint-Louis",
+            "latitude": 16.52534,
+            "longitude": -15.23129
+        },
+        {
+            "commune": "Fass Ngom",
+            "region": "Saint-Louis",
+            "latitude": 15.93955,
+            "longitude": -16.23081
+        },
+        {
+            "commune": "Fass Ngom",
+            "region": "Saint-Louis",
+            "latitude": 15.92945,
+            "longitude": -16.32614
+        },
+        {
+            "commune": "Galoya Toucouleur",
+            "region": "Saint-Louis",
+            "latitude": 16.07217,
+            "longitude": -13.85548
+        },
+        {
+            "commune": "Gamadji Saré",
+            "region": "Saint-Louis",
+            "latitude": 16.29381,
+            "longitude": -14.69775
+        },
+        {
+            "commune": "Gandon",
+            "region": "Saint-Louis",
+            "latitude": 15.98692,
+            "longitude": -16.39934
+        },
+        {
+            "commune": "Gandon",
+            "region": "Saint-Louis",
+            "latitude": 15.96475,
+            "longitude": -16.44913
+        },
+        {
+            "commune": "Gaé",
+            "region": "Saint-Louis",
+            "latitude": 16.57739,
+            "longitude": -15.44832
+        },
+        {
+            "commune": "Golléré",
+            "region": "Saint-Louis",
+            "latitude": 16.25164,
+            "longitude": -14.10607
+        },
+        {
+            "commune": "Guédé Village",
+            "region": "Saint-Louis",
+            "latitude": 16.34522,
+            "longitude": -14.95283
+        },
+        {
+            "commune": "Madina Diathbé",
+            "region": "Saint-Louis",
+            "latitude": 16.16948,
+            "longitude": -14.21566
+        },
+        {
+            "commune": "Mbane",
+            "region": "Saint-Louis",
+            "latitude": 16.20777,
+            "longitude": -15.61694
+        },
+        {
+            "commune": "Mbolo Birane",
+            "region": "Saint-Louis",
+            "latitude": 15.83729,
+            "longitude": -14.06249
+        },
+        {
+            "commune": "Mboumba",
+            "region": "Saint-Louis",
+            "latitude": 16.18983,
+            "longitude": -14.01527
+        },
+        {
+            "commune": "Mpal",
+            "region": "Saint-Louis",
+            "latitude": 15.91772,
+            "longitude": -16.26651
+        },
+        {
+            "commune": "Méry",
+            "region": "Saint-Louis",
+            "latitude": 16.21076,
+            "longitude": -14.06426
+        },
+        {
+            "commune": "Ndiandane",
+            "region": "Saint-Louis",
+            "latitude": 16.58821,
+            "longitude": -14.98393
+        },
+        {
+            "commune": "Ndiayène Peindao",
+            "region": "Saint-Louis",
+            "latitude": 16.37556,
+            "longitude": -15.00553
+        },
+        {
+            "commune": "Ndioum",
+            "region": "Saint-Louis",
+            "latitude": 16.50906,
+            "longitude": -14.64891
+        },
+        {
+            "commune": "Ndiébène Gandiole",
+            "region": "Saint-Louis",
+            "latitude": 15.92795,
+            "longitude": -16.47421
+        },
+        {
+            "commune": "Ngnith",
+            "region": "Saint-Louis",
+            "latitude": 16.19583,
+            "longitude": -16.03104
+        },
+        {
+            "commune": "Podor",
+            "region": "Saint-Louis",
+            "latitude": 16.64877,
+            "longitude": -14.95458
+        },
+        {
+            "commune": "Pété",
+            "region": "Saint-Louis",
+            "latitude": 16.10293,
+            "longitude": -13.9504
+        },
+        {
+            "commune": "Richard-Toll",
+            "region": "Saint-Louis",
+            "latitude": 16.46123,
+            "longitude": -15.68556
+        },
+        {
+            "commune": "Ronkh",
+            "region": "Saint-Louis",
+            "latitude": 16.43458,
+            "longitude": -15.92463
+        },
+        {
+            "commune": "Ross Béthio",
+            "region": "Saint-Louis",
+            "latitude": 16.27511,
+            "longitude": -16.13896
+        },
+        {
+            "commune": "Rosso Sénégal",
+            "region": "Saint-Louis",
+            "latitude": 16.50003,
+            "longitude": -15.809
+        },
+        {
+            "commune": "Saint-Louis",
+            "region": "Saint-Louis",
+            "latitude": 16.02125,
+            "longitude": -16.4562
+        },
+        {
+            "commune": "Walaldé",
+            "region": "Saint-Louis",
+            "latitude": 16.50555,
+            "longitude": -14.20617
+        },
+        {
+            "commune": "Baghère",
+            "region": "Sédhiou",
+            "latitude": 12.65889,
+            "longitude": -15.3969
+        },
+        {
+            "commune": "Bambaly",
+            "region": "Sédhiou",
+            "latitude": 12.65119,
+            "longitude": -15.62917
+        },
+        {
+            "commune": "Bona",
+            "region": "Sédhiou",
+            "latitude": 13.04862,
+            "longitude": -15.85915
+        },
+        {
+            "commune": "Bounkiling",
+            "region": "Sédhiou",
+            "latitude": 13.0385,
+            "longitude": -15.69633
+        },
+        {
+            "commune": "Bémet Bidjini",
+            "region": "Sédhiou",
+            "latitude": 12.72143,
+            "longitude": -15.95018
+        },
+        {
+            "commune": "Diacounda",
+            "region": "Sédhiou",
+            "latitude": 12.97089,
+            "longitude": -15.89776
+        },
+        {
+            "commune": "Diambati",
+            "region": "Sédhiou",
+            "latitude": 13.08377,
+            "longitude": -15.36271
+        },
+        {
+            "commune": "Diannah Ba",
+            "region": "Sédhiou",
+            "latitude": 12.9245,
+            "longitude": -15.23568
+        },
+        {
+            "commune": "Diannah Malary",
+            "region": "Sédhiou",
+            "latitude": 12.84795,
+            "longitude": -15.2458
+        },
+        {
+            "commune": "Diaroumé",
+            "region": "Sédhiou",
+            "latitude": 12.98263,
+            "longitude": -15.62672
+        },
+        {
+            "commune": "Diattacounda",
+            "region": "Sédhiou",
+            "latitude": 12.57668,
+            "longitude": -15.67945
+        },
+        {
+            "commune": "Diendé",
+            "region": "Sédhiou",
+            "latitude": 12.79622,
+            "longitude": -15.58016
+        },
+        {
+            "commune": "Diouboudou",
+            "region": "Sédhiou",
+            "latitude": 12.6876,
+            "longitude": -15.48787
+        },
+        {
+            "commune": "Djibabouya",
+            "region": "Sédhiou",
+            "latitude": 12.83146,
+            "longitude": -15.92966
+        },
+        {
+            "commune": "Djibanar",
+            "region": "Sédhiou",
+            "latitude": 12.51146,
+            "longitude": -15.85324
+        },
+        {
+            "commune": "Djinany",
+            "region": "Sédhiou",
+            "latitude": 13.21876,
+            "longitude": -15.7265
+        },
+        {
+            "commune": "Djiredji",
+            "region": "Sédhiou",
+            "latitude": 12.6625,
+            "longitude": -15.85755
+        },
+        {
+            "commune": "Faoune",
+            "region": "Sédhiou",
+            "latitude": 13.11507,
+            "longitude": -15.57145
+        },
+        {
+            "commune": "Goudomp",
+            "region": "Sédhiou",
+            "latitude": 12.56794,
+            "longitude": -15.88032
+        },
+        {
+            "commune": "Inor",
+            "region": "Sédhiou",
+            "latitude": 13.0643,
+            "longitude": -15.72886
+        },
+        {
+            "commune": "Kandion Mangana",
+            "region": "Sédhiou",
+            "latitude": 13.17783,
+            "longitude": -15.7897
+        },
+        {
+            "commune": "Kaour",
+            "region": "Sédhiou",
+            "latitude": 12.55095,
+            "longitude": -15.91717
+        },
+        {
+            "commune": "Karantaba",
+            "region": "Sédhiou",
+            "latitude": 12.77532,
+            "longitude": -15.4473
+        },
+        {
+            "commune": "Kolibantang",
+            "region": "Sédhiou",
+            "latitude": 12.79388,
+            "longitude": -15.24468
+        },
+        {
+            "commune": "Koussy",
+            "region": "Sédhiou",
+            "latitude": 12.84362,
+            "longitude": -15.63007
+        },
+        {
+            "commune": "Madina Wandifa",
+            "region": "Sédhiou",
+            "latitude": 13.05824,
+            "longitude": -15.64675
+        },
+        {
+            "commune": "Mangaroungou Santo",
+            "region": "Sédhiou",
+            "latitude": 12.55246,
+            "longitude": -15.49356
+        },
+        {
+            "commune": "Marsassoum",
+            "region": "Sédhiou",
+            "latitude": 12.83542,
+            "longitude": -15.97998
+        },
+        {
+            "commune": "Ndiamacouta",
+            "region": "Sédhiou",
+            "latitude": 13.3196,
+            "longitude": -15.63248
+        },
+        {
+            "commune": "Ndiamalathiel",
+            "region": "Sédhiou",
+            "latitude": 13.30327,
+            "longitude": -15.6642
+        },
+        {
+            "commune": "Niagha",
+            "region": "Sédhiou",
+            "latitude": 12.68685,
+            "longitude": -15.24689
+        },
+        {
+            "commune": "Oudoucar",
+            "region": "Sédhiou",
+            "latitude": 12.92008,
+            "longitude": -15.35225
+        },
+        {
+            "commune": "Sakar",
+            "region": "Sédhiou",
+            "latitude": 12.89568,
+            "longitude": -15.42991
+        },
+        {
+            "commune": "Sama Kanta Peulh",
+            "region": "Sédhiou",
+            "latitude": 12.92446,
+            "longitude": -15.1853
+        },
+        {
+            "commune": "Sansamba",
+            "region": "Sédhiou",
+            "latitude": 12.82175,
+            "longitude": -15.82711
+        },
+        {
+            "commune": "Simbandi Balante",
+            "region": "Sédhiou",
+            "latitude": 12.51617,
+            "longitude": -15.72069
+        },
+        {
+            "commune": "Simbandi Brassou",
+            "region": "Sédhiou",
+            "latitude": 12.61196,
+            "longitude": -15.46546
+        },
+        {
+            "commune": "Sédhiou",
+            "region": "Sédhiou",
+            "latitude": 12.70911,
+            "longitude": -15.56154
+        },
+        {
+            "commune": "Tanaff",
+            "region": "Sédhiou",
+            "latitude": 12.64842,
+            "longitude": -15.4287
+        },
+        {
+            "commune": "Tankon",
+            "region": "Sédhiou",
+            "latitude": 13.24394,
+            "longitude": -15.4978
+        },
+        {
+            "commune": "Yarang Balante",
+            "region": "Sédhiou",
+            "latitude": 12.50051,
+            "longitude": -15.61138
+        },
+        {
+            "commune": "Bakel",
+            "region": "Tambacounda",
+            "latitude": 14.90648,
+            "longitude": -12.46037
+        },
+        {
+            "commune": "Bala",
+            "region": "Tambacounda",
+            "latitude": 13.94563,
+            "longitude": -13.12971
+        },
+        {
+            "commune": "Ballou",
+            "region": "Tambacounda",
+            "latitude": 14.73508,
+            "longitude": -12.28496
+        },
+        {
+            "commune": "Bamba Thialène",
+            "region": "Tambacounda",
+            "latitude": 13.84436,
+            "longitude": -14.53349
+        },
+        {
+            "commune": "Bani Israël",
+            "region": "Tambacounda",
+            "latitude": 13.83548,
+            "longitude": -12.86546
+        },
+        {
+            "commune": "Boutougou Fara",
+            "region": "Tambacounda",
+            "latitude": 13.37764,
+            "longitude": -12.39829
+        },
+        {
+            "commune": "Boynguel Bamba",
+            "region": "Tambacounda",
+            "latitude": 14.09995,
+            "longitude": -12.92901
+        },
+        {
+            "commune": "Bélé",
+            "region": "Tambacounda",
+            "latitude": 14.47189,
+            "longitude": -12.32113
+        },
+        {
+            "commune": "Dialacoto",
+            "region": "Tambacounda",
+            "latitude": 13.09566,
+            "longitude": -13.03263
+        },
+        {
+            "commune": "Dianké Makha",
+            "region": "Tambacounda",
+            "latitude": 13.60884,
+            "longitude": -12.54534
+        },
+        {
+            "commune": "Diawara",
+            "region": "Tambacounda",
+            "latitude": 15.0214,
+            "longitude": -12.54262
+        },
+        {
+            "commune": "Dougué",
+            "region": "Tambacounda",
+            "latitude": 13.87569,
+            "longitude": -12.6015
+        },
+        {
+            "commune": "Gabou",
+            "region": "Tambacounda",
+            "latitude": 14.77582,
+            "longitude": -12.49103
+        },
+        {
+            "commune": "Gathiary",
+            "region": "Tambacounda",
+            "latitude": 14.27056,
+            "longitude": -12.11715
+        },
+        {
+            "commune": "Goudiry",
+            "region": "Tambacounda",
+            "latitude": 14.18117,
+            "longitude": -12.71267
+        },
+        {
+            "commune": "Goumbayel",
+            "region": "Tambacounda",
+            "latitude": 13.63511,
+            "longitude": -13.20623
+        },
+        {
+            "commune": "Kahène",
+            "region": "Tambacounda",
+            "latitude": 13.71131,
+            "longitude": -14.71439
+        },
+        {
+            "commune": "Kidira",
+            "region": "Tambacounda",
+            "latitude": 14.45496,
+            "longitude": -12.21205
+        },
+        {
+            "commune": "Koar",
+            "region": "Tambacounda",
+            "latitude": 13.80544,
+            "longitude": -13.34545
+        },
+        {
+            "commune": "Komoti",
+            "region": "Tambacounda",
+            "latitude": 13.5502,
+            "longitude": -12.90984
+        },
+        {
+            "commune": "Kothiary",
+            "region": "Tambacounda",
+            "latitude": 13.89287,
+            "longitude": -13.45685
+        },
+        {
+            "commune": "Koulor",
+            "region": "Tambacounda",
+            "latitude": 14.04503,
+            "longitude": -13.39167
+        },
+        {
+            "commune": "Koumpentoum",
+            "region": "Tambacounda",
+            "latitude": 13.9771,
+            "longitude": -14.56454
+        },
+        {
+            "commune": "Koussan",
+            "region": "Tambacounda",
+            "latitude": 14.09436,
+            "longitude": -12.54713
+        },
+        {
+            "commune": "Koussanar",
+            "region": "Tambacounda",
+            "latitude": 14.09831,
+            "longitude": -13.85125
+        },
+        {
+            "commune": "Kouthia Gaydi",
+            "region": "Tambacounda",
+            "latitude": 14.21191,
+            "longitude": -14.05331
+        },
+        {
+            "commune": "Kouthiaba Wolof",
+            "region": "Tambacounda",
+            "latitude": 14.18554,
+            "longitude": -14.38227
+        },
+        {
+            "commune": "Madina Foulbé",
+            "region": "Tambacounda",
+            "latitude": 13.92664,
+            "longitude": -12.07274
+        },
+        {
+            "commune": "Makacolibantang",
+            "region": "Tambacounda",
+            "latitude": 13.61332,
+            "longitude": -14.25569
+        },
+        {
+            "commune": "Malem Niani",
+            "region": "Tambacounda",
+            "latitude": 13.93756,
+            "longitude": -14.29641
+        },
+        {
+            "commune": "Missirah",
+            "region": "Tambacounda",
+            "latitude": 13.46096,
+            "longitude": -13.54863
+        },
+        {
+            "commune": "Moudéry",
+            "region": "Tambacounda",
+            "latitude": 14.98844,
+            "longitude": -12.57649
+        },
+        {
+            "commune": "Méréto",
+            "region": "Tambacounda",
+            "latitude": 13.80911,
+            "longitude": -14.42019
+        },
+        {
+            "commune": "Ndame",
+            "region": "Tambacounda",
+            "latitude": 14.05152,
+            "longitude": -14.49965
+        },
+        {
+            "commune": "Ndoga Babacar",
+            "region": "Tambacounda",
+            "latitude": 13.6956,
+            "longitude": -13.94169
+        },
+        {
+            "commune": "Niani Toucouleur",
+            "region": "Tambacounda",
+            "latitude": 13.65364,
+            "longitude": -14.49864
+        },
+        {
+            "commune": "Néttéboulou",
+            "region": "Tambacounda",
+            "latitude": 13.66011,
+            "longitude": -13.65296
+        },
+        {
+            "commune": "Pass Koto",
+            "region": "Tambacounda",
+            "latitude": 13.90278,
+            "longitude": -14.26717
+        },
+        {
+            "commune": "Payar",
+            "region": "Tambacounda",
+            "latitude": 14.46104,
+            "longitude": -14.31909
+        },
+        {
+            "commune": "Sadatou",
+            "region": "Tambacounda",
+            "latitude": 13.63258,
+            "longitude": -12.07998
+        },
+        {
+            "commune": "Sinthiou Bocar Ali",
+            "region": "Tambacounda",
+            "latitude": 14.36235,
+            "longitude": -13.33326
+        },
+        {
+            "commune": "Sinthiou Fissa",
+            "region": "Tambacounda",
+            "latitude": 14.2503,
+            "longitude": -12.32958
+        },
+        {
+            "commune": "Sinthiou Malème",
+            "region": "Tambacounda",
+            "latitude": 13.92915,
+            "longitude": -13.72379
+        },
+        {
+            "commune": "Sinthiou Mamadou Boubou",
+            "region": "Tambacounda",
+            "latitude": 14.43238,
+            "longitude": -12.78512
+        },
+        {
+            "commune": "Tambacounda",
+            "region": "Tambacounda",
+            "latitude": 13.76361,
+            "longitude": -13.67351
+        },
+        {
+            "commune": "Toumboura",
+            "region": "Tambacounda",
+            "latitude": 13.96726,
+            "longitude": -12.23456
+        },
+        {
+            "commune": "Chérif Lo",
+            "region": "Thiès",
+            "latitude": 14.93194,
+            "longitude": -16.82601
+        },
+        {
+            "commune": "Darou Khoudoss",
+            "region": "Thiès",
+            "latitude": 15.21762,
+            "longitude": -16.85587
+        },
+        {
+            "commune": "Diass",
+            "region": "Thiès",
+            "latitude": 14.62323,
+            "longitude": -17.0583
+        },
+        {
+            "commune": "Diender",
+            "region": "Thiès",
+            "latitude": 14.8753,
+            "longitude": -17.10855
+        },
+        {
+            "commune": "Fandène",
+            "region": "Thiès",
+            "latitude": 14.79922,
+            "longitude": -16.91079
+        },
+        {
+            "commune": "Fissel",
+            "region": "Thiès",
+            "latitude": 14.56404,
+            "longitude": -16.62021
+        },
+        {
+            "commune": "Joal-Fadiouth",
+            "region": "Thiès",
+            "latitude": 14.17708,
+            "longitude": -16.84191
+        },
+        {
+            "commune": "Kayar",
+            "region": "Thiès",
+            "latitude": 14.91393,
+            "longitude": -17.1204
+        },
+        {
+            "commune": "Keur Moussa",
+            "region": "Thiès",
+            "latitude": 14.76254,
+            "longitude": -17.05471
+        },
+        {
+            "commune": "Khombole",
+            "region": "Thiès",
+            "latitude": 14.7637,
+            "longitude": -16.6901
+        },
+        {
+            "commune": "Koul",
+            "region": "Thiès",
+            "latitude": 15.03941,
+            "longitude": -16.62193
+        },
+        {
+            "commune": "La Somone",
+            "region": "Thiès",
+            "latitude": 14.48555,
+            "longitude": -17.07299
+        },
+        {
+            "commune": "M'bour",
+            "region": "Thiès",
+            "latitude": 14.4246,
+            "longitude": -16.96874
+        },
+        {
+            "commune": "Malicounda",
+            "region": "Thiès",
+            "latitude": 14.36953,
+            "longitude": -16.91346
+        },
+        {
+            "commune": "Mbayène",
+            "region": "Thiès",
+            "latitude": 15.17922,
+            "longitude": -16.29015
+        },
+        {
+            "commune": "Mboro",
+            "region": "Thiès",
+            "latitude": 15.13563,
+            "longitude": -16.88256
+        },
+        {
+            "commune": "Meckhe",
+            "region": "Thiès",
+            "latitude": 15.11549,
+            "longitude": -16.63466
+        },
+        {
+            "commune": "Mont Rolland",
+            "region": "Thiès",
+            "latitude": 14.87935,
+            "longitude": -16.9735
+        },
+        {
+            "commune": "Méouane",
+            "region": "Thiès",
+            "latitude": 15.14083,
+            "longitude": -16.72304
+        },
+        {
+            "commune": "Mérina Dakhar",
+            "region": "Thiès",
+            "latitude": 15.13428,
+            "longitude": -16.53181
+        },
+        {
+            "commune": "Ndiaganiao",
+            "region": "Thiès",
+            "latitude": 14.55822,
+            "longitude": -16.7489
+        },
+        {
+            "commune": "Ndiéyène Sirah",
+            "region": "Thiès",
+            "latitude": 14.69633,
+            "longitude": -16.65989
+        },
+        {
+            "commune": "Ngandiouf",
+            "region": "Thiès",
+            "latitude": 15.25512,
+            "longitude": -16.42263
+        },
+        {
+            "commune": "Ngaparou",
+            "region": "Thiès",
+            "latitude": 14.46287,
+            "longitude": -17.0537
+        },
+        {
+            "commune": "Ngoudiane",
+            "region": "Thiès",
+            "latitude": 14.70207,
+            "longitude": -16.7299
+        },
+        {
+            "commune": "Nguékhokh",
+            "region": "Thiès",
+            "latitude": 14.5146,
+            "longitude": -17.00532
+        },
+        {
+            "commune": "Nguéniène",
+            "region": "Thiès",
+            "latitude": 14.21253,
+            "longitude": -16.79926
+        },
+        {
+            "commune": "Niakhene",
+            "region": "Thiès",
+            "latitude": 15.04301,
+            "longitude": -16.34748
+        },
+        {
+            "commune": "Notto",
+            "region": "Thiès",
+            "latitude": 14.70462,
+            "longitude": -16.90244
+        },
+        {
+            "commune": "Notto Gouye Diama",
+            "region": "Thiès",
+            "latitude": 14.97768,
+            "longitude": -16.98641
+        },
+        {
+            "commune": "Pire Goureye",
+            "region": "Thiès",
+            "latitude": 14.98768,
+            "longitude": -16.75476
+        },
+        {
+            "commune": "Popenguine-Ndayane",
+            "region": "Thiès",
+            "latitude": 14.56311,
+            "longitude": -17.11913
+        },
+        {
+            "commune": "Pout",
+            "region": "Thiès",
+            "latitude": 14.76405,
+            "longitude": -17.06477
+        },
+        {
+            "commune": "Pékèsse",
+            "region": "Thiès",
+            "latitude": 15.10043,
+            "longitude": -16.3924
+        },
+        {
+            "commune": "Saly Portudal",
+            "region": "Thiès",
+            "latitude": 14.44301,
+            "longitude": -17.01171
+        },
+        {
+            "commune": "Sandiara",
+            "region": "Thiès",
+            "latitude": 14.43297,
+            "longitude": -16.83542
+        },
+        {
+            "commune": "Sindia",
+            "region": "Thiès",
+            "latitude": 14.54398,
+            "longitude": -16.98176
+        },
+        {
+            "commune": "Séssène",
+            "region": "Thiès",
+            "latitude": 14.43759,
+            "longitude": -16.69213
+        },
+        {
+            "commune": "Tassette",
+            "region": "Thiès",
+            "latitude": 14.59067,
+            "longitude": -16.85259
+        },
+        {
+            "commune": "Taïba Ndiaye",
+            "region": "Thiès",
+            "latitude": 15.0274,
+            "longitude": -16.90442
+        },
+        {
+            "commune": "Thiadiaye",
+            "region": "Thiès",
+            "latitude": 14.4197,
+            "longitude": -16.70271
+        },
+        {
+            "commune": "Thilmakha",
+            "region": "Thiès",
+            "latitude": 15.01667,
+            "longitude": -16.19998
+        },
+        {
+            "commune": "Thiès Est",
+            "region": "Thiès",
+            "latitude": 14.7825,
+            "longitude": -16.91318
+        },
+        {
+            "commune": "Thiès Nord",
+            "region": "Thiès",
+            "latitude": 14.80912,
+            "longitude": -16.91687
+        },
+        {
+            "commune": "Thiès Ouest",
+            "region": "Thiès",
+            "latitude": 14.78609,
+            "longitude": -16.94581
+        },
+        {
+            "commune": "Thiénaba",
+            "region": "Thiès",
+            "latitude": 14.80963,
+            "longitude": -16.76966
+        },
+        {
+            "commune": "Tivaouane",
+            "region": "Thiès",
+            "latitude": 14.94788,
+            "longitude": -16.81517
+        },
+        {
+            "commune": "Touba Toul",
+            "region": "Thiès",
+            "latitude": 14.83981,
+            "longitude": -16.68363
+        },
+        {
+            "commune": "Adéane",
+            "region": "Ziguinchor",
+            "latitude": 12.58777,
+            "longitude": -16.04056
+        },
+        {
+            "commune": "Balinghore",
+            "region": "Ziguinchor",
+            "latitude": 12.74575,
+            "longitude": -16.36631
+        },
+        {
+            "commune": "Bignona",
+            "region": "Ziguinchor",
+            "latitude": 12.79987,
+            "longitude": -16.22822
+        },
+        {
+            "commune": "Boutoupa-Camaracounda",
+            "region": "Ziguinchor",
+            "latitude": 12.49751,
+            "longitude": -16.08437
+        },
+        {
+            "commune": "Coubalan",
+            "region": "Ziguinchor",
+            "latitude": 12.67952,
+            "longitude": -16.15064
+        },
+        {
+            "commune": "Dar Silam Chérif",
+            "region": "Ziguinchor",
+            "latitude": 13.0776,
+            "longitude": -16.53645
+        },
+        {
+            "commune": "Diembéring",
+            "region": "Ziguinchor",
+            "latitude": 12.45763,
+            "longitude": -16.71505
+        },
+        {
+            "commune": "Diouloulou",
+            "region": "Ziguinchor",
+            "latitude": 13.04852,
+            "longitude": -16.5967
+        },
+        {
+            "commune": "Diégoune",
+            "region": "Ziguinchor",
+            "latitude": 12.83473,
+            "longitude": -16.36189
+        },
+        {
+            "commune": "Djibidione",
+            "region": "Ziguinchor",
+            "latitude": 13.07905,
+            "longitude": -16.22646
+        },
+        {
+            "commune": "Djinaky",
+            "region": "Ziguinchor",
+            "latitude": 12.97025,
+            "longitude": -16.44774
+        },
+        {
+            "commune": "Elinkine",
+            "region": "Ziguinchor",
+            "latitude": 12.50748,
+            "longitude": -16.66343
+        },
+        {
+            "commune": "Enampore",
+            "region": "Ziguinchor",
+            "latitude": 12.5439,
+            "longitude": -16.42509
+        },
+        {
+            "commune": "Kafountine",
+            "region": "Ziguinchor",
+            "latitude": 12.79017,
+            "longitude": -16.67451
+        },
+        {
+            "commune": "Kartiack",
+            "region": "Ziguinchor",
+            "latitude": 12.85552,
+            "longitude": -16.47554
+        },
+        {
+            "commune": "Kataba 1",
+            "region": "Ziguinchor",
+            "latitude": 13.0744,
+            "longitude": -16.5708
+        },
+        {
+            "commune": "Mangagoulack",
+            "region": "Ziguinchor",
+            "latitude": 12.65279,
+            "longitude": -16.44244
+        },
+        {
+            "commune": "Mlomp",
+            "region": "Ziguinchor",
+            "latitude": 12.55195,
+            "longitude": -16.59369
+        },
+        {
+            "commune": "Mlomp",
+            "region": "Ziguinchor",
+            "latitude": 12.73389,
+            "longitude": -16.53278
+        },
+        {
+            "commune": "Niaguis",
+            "region": "Ziguinchor",
+            "latitude": 12.55371,
+            "longitude": -16.23849
+        },
+        {
+            "commune": "Niamone",
+            "region": "Ziguinchor",
+            "latitude": 12.6919,
+            "longitude": -16.28424
+        },
+        {
+            "commune": "Nyassia",
+            "region": "Ziguinchor",
+            "latitude": 12.43506,
+            "longitude": -16.35024
+        },
+        {
+            "commune": "Oukout",
+            "region": "Ziguinchor",
+            "latitude": 12.44748,
+            "longitude": -16.54891
+        },
+        {
+            "commune": "Oulampane",
+            "region": "Ziguinchor",
+            "latitude": 12.99825,
+            "longitude": -16.00727
+        },
+        {
+            "commune": "Ouonck",
+            "region": "Ziguinchor",
+            "latitude": 12.77645,
+            "longitude": -16.06017
+        },
+        {
+            "commune": "Oussouye",
+            "region": "Ziguinchor",
+            "latitude": 12.48874,
+            "longitude": -16.54548
+        },
+        {
+            "commune": "Santhiaba Manjacque",
+            "region": "Ziguinchor",
+            "latitude": 12.39423,
+            "longitude": -16.55107
+        },
+        {
+            "commune": "Sindian",
+            "region": "Ziguinchor",
+            "latitude": 12.96751,
+            "longitude": -16.16585
+        },
+        {
+            "commune": "Suelle",
+            "region": "Ziguinchor",
+            "latitude": 12.95732,
+            "longitude": -16.28169
+        },
+        {
+            "commune": "Tenghory",
+            "region": "Ziguinchor",
+            "latitude": 12.83452,
+            "longitude": -16.22198
+        },
+        {
+            "commune": "Tionk Essil",
+            "region": "Ziguinchor",
+            "latitude": 12.78281,
+            "longitude": -16.50713
+        },
+        {
+            "commune": "Ziguinchor",
+            "region": "Ziguinchor",
+            "latitude": 12.56087,
+            "longitude": -16.2716
+        }
+    ]
+}

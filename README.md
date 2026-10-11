@@ -29,7 +29,7 @@ Les dix modules du cahier des charges (M01 à M10) sont réalisés. Voir [docs/T
 | Interface | React 19 + Vite, React Router, Tailwind CSS 3, icônes Lucide, carte Leaflet / OpenStreetMap |
 | API | Laravel 12 (PHP 8.2), authentification par jeton (Laravel Sanctum) |
 | Base de données | MySQL 8 (via Laragon) |
-| Tests | PHPUnit — 92 tests automatisés |
+| Tests | PHPUnit — 98 tests automatisés |
 
 ## 3. Installation (première fois)
 
@@ -133,6 +133,11 @@ Les noms des tests reprennent les codes du cahier des charges (`test_rf001_…`,
 Les procédures, pièces, délais, coûts et coordonnées des services sont **illustratifs** : ils doivent
 être vérifiés auprès des administrations concernées avant toute utilisation réelle (principe de rigueur, §4).
 Les photos proviennent d'Unsplash (licence libre).
+
+La liste des mairies (une par commune, dans les 14 régions) vient d'OpenStreetMap, © les contributeurs
+OpenStreetMap, licence ODbL (`backend/database/data/communes-senegal.json`). La position affichée est le
+centre du territoire de la commune, pas l'adresse exacte de la mairie : adresses, horaires et téléphones
+restent à compléter par l'administrateur.
 
 ## 11. Documentation
 

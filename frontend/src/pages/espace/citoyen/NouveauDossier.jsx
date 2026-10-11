@@ -1,4 +1,4 @@
-import { ArrowLeft, ArrowRight, Clock, FileCheck2, Landmark, MapPin, Scale } from 'lucide-react'
+import { ArrowLeft, ArrowRight, Clock, FileCheck2, Landmark, MapPin, Scale, Search } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { IconeCategorie } from '../../../components/ui/Icones'
@@ -7,9 +7,12 @@ import { useAuth } from '../../../context/AuthContext'
 import { useToast } from '../../../context/ToastContext'
 import { api } from '../../../lib/api'
 import { libelleDelai } from '../../../lib/icones'
-import { cx } from '../../../lib/utils'
+import { cx, sansAccents } from '../../../lib/utils'
 import AccesRefuse from '../../erreurs/AccesRefuse'
 import NonTrouve from '../../erreurs/NonTrouve'
+
+/** Au-delà de ce nombre, les administrations se choisissent par recherche plutôt que dans une liste. */
+const LISTE_COURTE = 8
 
 const memeCommune = (a, b) => a && b && a.trim().toLowerCase() === b.trim().toLowerCase()
 
@@ -39,6 +42,7 @@ export default function NouveauDossier() {
   const [introuvable, setIntrouvable] = useState(false)
   const [champs, setChamps] = useState({ motif: '', precisions: '' })
   const [serviceId, setServiceId] = useState(null)
+  const [recherche, setRecherche] = useState('')
   const [erreur, setErreur] = useState(null)
   const [envoi, setEnvoi] = useState(false)
 
@@ -74,6 +78,24 @@ export default function NouveauDossier() {
   const obligatoires = procedure.pieces.filter((p) => p.obligatoire).length
   const administrations = procedure.services ?? []
   const administration = administrations.find((s) => s.id === serviceId) ?? (administrations.length === 0 ? procedure.service : null)
+
+  // Liste proposée : celle déjà choisie d'abord, puis celles qui correspondent à la recherche.
+  const longue = administrations.length > LISTE_COURTE
+  const termes = sansAccents(recherche).split(/\s+/).filter(Boolean)
+  // La commune qui porte le nom cherché passe avant celles dont seule la région correspond.
+  const pertinence = (s) => {
+    const commune = sansAccents(s.commune)
+    return termes.some((t) => commune.startsWith(t)) ? 0 : termes.some((t) => commune.includes(t)) ? 1 : 2
+  }
+  const trouvees = administrations
+    .filter((s) => {
+      const texte = sansAccents(`${s.nom} ${s.commune} ${s.region}`)
+      return termes.every((t) => texte.includes(t))
+    })
+    .sort((x, y) => pertinence(x) - pertinence(y))
+  const proposees = longue
+    ? [...(administration ? [administration] : []), ...trouvees.filter((s) => s.id !== serviceId)].slice(0, termes.length > 0 ? LISTE_COURTE : administration ? 1 : 0)
+    : administrations
 
   return (
     <div className="mx-auto max-w-3xl">
@@ -119,8 +141,28 @@ export default function NouveauDossier() {
                   <span><b className="font-semibold">{procedure.competence.libelle}.</b> {procedure.competence.explication}</span>
                 </p>
               )}
+              {longue && (
+                <div className="relative mt-3">
+                  <Search className="pointer-events-none absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-slate-400" aria-hidden />
+                  <input
+                    type="search"
+                    value={recherche}
+                    onChange={(e) => setRecherche(e.target.value)}
+                    placeholder="Tapez le nom de la commune : Thiès, Kolda, Podor…"
+                    aria-label="Rechercher une administration par commune"
+                    className="block w-full rounded-xl border-0 bg-white py-2.5 pl-10 pr-3.5 text-sm shadow-sm ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-600"
+                  />
+                  <p className="mt-1.5 text-xs text-slate-500" aria-live="polite">
+                    {termes.length === 0
+                      ? `${administrations.length} administrations peuvent traiter cette démarche. Cherchez la vôtre par le nom de sa commune.`
+                      : trouvees.length === 0
+                        ? 'Aucune administration ne correspond. Vérifiez l’orthographe de la commune.'
+                        : `${trouvees.length} résultat${trouvees.length > 1 ? 's' : ''}${trouvees.length > LISTE_COURTE ? ` — les ${LISTE_COURTE} premiers sont affichés, précisez votre recherche` : ''}.`}
+                  </p>
+                </div>
+              )}
               <div className="mt-3 grid gap-2 sm:grid-cols-2">
-                {administrations.map((s) => {
+                {proposees.map((s) => {
                   const choisie = s.id === serviceId
                   return (
                     <label key={s.id} className={cx('flex cursor-pointer items-start gap-2.5 rounded-xl px-3 py-2.5 text-sm ring-1 transition', choisie ? 'bg-brand-50 ring-2 ring-brand-600' : 'ring-slate-200 hover:ring-brand-300')}>

@@ -1,6 +1,6 @@
 # Matrice de traçabilité — exigences → réalisation → preuve
 
-Les tests se trouvent dans `backend/tests/` (`Feature/` pour les parcours, `Unit/` pour les règles du workflow). Commande : `php artisan test` (92 tests, tous réussis).
+Les tests se trouvent dans `backend/tests/` (`Feature/` pour les parcours, `Unit/` pour les règles du workflow). Commande : `php artisan test` (98 tests, tous réussis).
 
 ## Exigences fonctionnelles
 
@@ -26,7 +26,7 @@ Les tests se trouvent dans `backend/tests/` (`Feature/` pour les parcours, `Unit
 | RF-018 Gérer utilisateurs et rôles | *Administration > Utilisateurs* | `GestionUtilisateursTest::test_rf018_*`, `test_rnf001_*` |
 | RF-019 Consulter les statistiques | *Statistiques* (filtres période, service, statut ; export CSV) | `test_rf019_*`, `test_rg012_indicateurs_coherents_avec_les_donnees` |
 | RF-020 Gérer les notifications | *Administration > Modèles de notification* | `test_rf020_un_modele_desactive_ne_produit_pas_de_notification` |
-| RF-021 Rechercher un service | *Administrations à proximité* : position GPS, distance, démarches traitées, règle de compétence, itinéraire | `CatalogueTest::test_rf021_recherche_de_services_par_commune`, `CompetenceTest::test_rf021_*` |
+| RF-021 Rechercher un service | *Administrations à proximité* : position GPS, distance, démarches traitées, règle de compétence, itinéraire | `CatalogueTest::test_rf021_recherche_de_services_par_commune`, `CompetenceTest::test_rf021_*`, `MairiesSenegalTest` (les mairies des 14 régions) |
 | RF-022 Journaliser les actions sensibles | *Journal d'audit* | `test_rf022_l_admin_consulte_le_journal`, assertions `journal_actions` dans chaque module |
 
 ## Règles de gestion

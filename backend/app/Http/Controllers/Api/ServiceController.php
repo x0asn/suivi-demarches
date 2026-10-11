@@ -44,6 +44,7 @@ class ServiceController extends Controller
             ->when($request->type, fn ($q, $t) => $q->where('type', $t))
             ->when($request->region, fn ($q, $r) => $q->where('region', $r))
             ->orderBy('region')
+            ->orderBy('commune')
             ->orderBy('nom')
             ->get();
 

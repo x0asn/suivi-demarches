@@ -52,3 +52,6 @@ export function tailleFichier(octets) {
 }
 
 export const nombre = (n) => new Intl.NumberFormat('fr-FR').format(n ?? 0)
+
+/** Minuscules sans accents, pour chercher « thies » et trouver « Thiès ». */
+export const sansAccents = (texte = '') => String(texte).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')

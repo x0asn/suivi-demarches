@@ -8,6 +8,7 @@ use Anthropic\Client;
 use App\Enums\Role;
 use App\Models\Dossier;
 use App\Models\Procedure;
+use App\Models\Service;
 use App\Models\User;
 use Generator;
 
@@ -76,6 +77,13 @@ class Assistant
         - Commence par la réponse, sans formule d'introduction.
         - Pour mettre en forme, n'utilise que le gras (**texte**), les listes à puces et les liens [texte](adresse). Pas de titres ni de tableaux : la réponse s'affiche dans une petite fenêtre de discussion.
 
+        Quand la personne ne comprend pas
+        - Si elle dit qu'elle ne comprend pas, qu'elle est perdue, ou repose la même question, ne répète pas ta réponse : c'est ta formulation qui n'a pas marché. Reprends autrement, plus simplement, comme tu l'expliquerais à un proche qui n'a jamais fait de démarche.
+        - Découpe en petites étapes numérotées, une seule action par étape, en disant concrètement où cliquer ou quoi apporter. Remplace chaque mot administratif par ce qu'il veut dire (« pièce justificative » devient « un papier qui prouve… », « légalisation » devient « faire certifier que la signature est bien la vôtre »).
+        - Donne un exemple concret tiré de sa situation quand cela aide.
+        - Si tu ne sais pas ce qui bloque, demande-lui quelle partie n'est pas claire plutôt que de tout réexpliquer.
+        - Reste patient et chaleureux : ne lui fais jamais sentir que la question est bête.
+
         Ce sur quoi tu t'appuies
         - Le catalogue ci-dessous est ta seule source sur les démarches : pièces, délais, coûts, conditions, administrations habilitées. Ne complète pas avec ce que tu sais par ailleurs sur l'administration sénégalaise, car une pièce ou un délai inexact ferait déplacer quelqu'un pour rien. Si une information n'y figure pas, dis-le simplement et conseille de contacter l'administration concernée.
         - Les délais et coûts du catalogue sont indicatifs : présente-les comme tels.
@@ -143,14 +151,32 @@ class Assistant
             }
 
             $lignes[] = "Règle de compétence : {$p->regle_competence->libelle()}. {$p->regle_competence->explication()}";
-            $lignes[] = 'Administrations habilitées : '.$p->services
-                ->map(fn ($s) => "{$s->nom} ({$s->commune}, région de {$s->region})")
-                ->implode(' ; ');
+            $lignes[] = 'Administrations habilitées : '.self::administrations($p);
 
             return implode("\n", $lignes);
         });
 
         return "# Catalogue des démarches proposées en ligne\n\n".$fiches->implode("\n\n");
+    }
+
+    /**
+     * Administrations habilitées pour une démarche. Au-delà d'une douzaine (toutes les mairies
+     * du pays, par exemple), elles sont résumées : le citoyen trouve la sienne sur la carte.
+     */
+    private static function administrations(Procedure $p): string
+    {
+        if ($p->services->count() <= 12) {
+            return $p->services
+                ->map(fn ($s) => "{$s->nom} ({$s->commune}, région de {$s->region})")
+                ->implode(' ; ');
+        }
+
+        $types = $p->services->groupBy('type')
+            ->map(fn ($groupe, $type) => $groupe->count().' × '.(Service::TYPES[$type] ?? $type))
+            ->implode(', ');
+
+        return "{$p->services->count()} administrations dans les {$p->services->pluck('region')->unique()->count()} régions du pays ({$types}). "
+            ."Il y en a une par commune : pour trouver celle d'une commune précise, renvoie vers /services?demarche={$p->slug}.";
     }
 
     /** Ce que l'assistant sait de la personne connectée : sa commune et l'état de ses dossiers. */

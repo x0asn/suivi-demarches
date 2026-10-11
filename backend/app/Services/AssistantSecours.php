@@ -21,12 +21,30 @@ class AssistantSecours
         'voudrais', 'besoin', 'est', 'sont', 'les', 'des', 'une', 'mon', 'mes', 'que', 'qui', 'quoi', 'ou', 'dans',
         'avec', 'sur', 'pieces', 'piece', 'documents', 'document', 'combien', 'temps', 'delai', 'cout', 'prix',
         'demande', 'demander', 'demarche', 'bonjour', 'salut', 'merci', 'svp', 'the', 'acte', 'certificat',
+        'comprends', 'comprend', 'compris', 'pas', 'rien', 'explique', 'expliquer', 'simple', 'simplement', 'clair', 'plus',
+        'perdu', 'perdue', 'suis',
     ];
 
-    public static function repondre(string $question, ?User $user): string
+    /** Façons de dire « je ne comprends pas » ou « expliquez-moi plus simplement ». */
+    private const INCOMPREHENSION = [
+        'comprends pas', 'comprend pas', 'comprends rien', 'compris', 'pas clair', 'plus simple', 'simplement', 'explique',
+        'expliquer', 'c est quoi', 'ca veut dire', 'perdu', 'complique', 'je ne sais pas', 'comment ca',
+    ];
+
+    /**
+     * @param  list<array{role: string, content: string}>  $discussion  Messages précédents, pour savoir de quoi on parlait.
+     */
+    public static function repondre(string $question, ?User $user, array $discussion = []): string
     {
         $mots = self::motsCles($question);
         $texte = self::normaliser($question);
+
+        // « Je ne comprends pas » : on reprend plus simplement la démarche dont on parlait.
+        if (Str::contains(str_replace("'", ' ', $texte), self::INCOMPREHENSION)) {
+            $procedure = self::procedureLaPlusProche($mots) ?? self::procedureDeLaDiscussion($discussion);
+
+            return $procedure ? self::explicationSimple($procedure) : self::presentationSimple();
+        }
 
         if ($user?->role === Role::Citoyen && Str::contains($texte, ['mon dossier', 'mes dossiers', 'ma demande', 'mes demandes', 'ou en est', 'ou en sont', 'avancement'])) {
             return self::dossiers($user);
@@ -48,6 +66,56 @@ class AssistantSecours
             ->map(fn (Procedure $p) => "- [{$p->titre}](/procedures/{$p->slug})")->implode("\n");
 
         return "Je n'ai pas trouvé de démarche correspondant à votre question. Essayez avec le nom du document recherché, par exemple « extrait de naissance » ou « passeport ».\n\nQuelques démarches disponibles :\n{$exemples}\n\nVous pouvez aussi parcourir [toutes les procédures](/procedures).";
+    }
+
+    /** La démarche reprise pas à pas, avec des mots de tous les jours. */
+    private static function explicationSimple(Procedure $p): string
+    {
+        $p->loadMissing(['pieces', 'services']);
+        $papiers = $p->pieces->where('obligatoire', true)->pluck('libelle');
+
+        $etapes = [];
+        $etapes[] = $papiers->isEmpty()
+            ? 'Vous n’avez aucun papier obligatoire à préparer.'
+            : 'Préparez '.($papiers->count() > 1 ? 'ces papiers' : 'ce papier').' en photo ou en scan : **'.$papiers->implode('**, **').'**.';
+        $etapes[] = 'Ouvrez votre compte sur la plateforme. Si vous n’en avez pas, [créez-le ici](/inscription), c’est gratuit.';
+        $etapes[] = "Ouvrez la page de la démarche et cliquez sur **Commencer ma démarche** : [{$p->titre}](/procedures/{$p->slug}).";
+        if ($p->services->count() > 1) {
+            $etapes[] = "Choisissez l’administration qui recevra votre demande : {$p->regle_competence->enBref()}.";
+        }
+        $etapes[] = 'Ajoutez vos papiers, puis cliquez sur **Soumettre ma demande**. Vous recevez un reçu avec un numéro de dossier.';
+        $etapes[] = 'Attendez la réponse'.($p->delai_jours ? " : comptez environ **{$p->delai_jours} jour".($p->delai_jours > 1 ? 's' : '').'**' : '').'. La plateforme vous prévient à chaque étape.';
+
+        $lignes = ['Pas de souci, je reprends plus simplement.', '', "**{$p->titre}** : {$p->resume}", '', 'Voici quoi faire, une étape après l’autre :'];
+        foreach ($etapes as $i => $etape) {
+            $lignes[] = ($i + 1).'. '.$etape;
+        }
+        $lignes[] = '';
+        $lignes[] = 'Quelle étape n’est pas claire pour vous ? Dites-moi son numéro.';
+
+        return implode("\n", $lignes);
+    }
+
+    /** Quand on ne sait pas de quelle démarche il s'agit : la plateforme en trois phrases. */
+    private static function presentationSimple(): string
+    {
+        return "Pas de souci, je vous explique simplement.\n\nCette plateforme sert à demander un papier à la mairie ou à une autre administration **sans vous déplacer pour rien** :\n1. Vous choisissez le papier dont vous avez besoin, par exemple un extrait de naissance.\n2. La plateforme vous dit quels papiers fournir et à quelle administration vous adresser.\n3. Vous envoyez votre demande, puis vous suivez son avancement depuis votre téléphone.\n\nDe quel papier avez-vous besoin ? Écrivez simplement son nom, par exemple « extrait de naissance » ou « certificat de résidence ».";
+    }
+
+    /**
+     * Dernière démarche évoquée dans la discussion (questions du citoyen, de la plus récente à la plus ancienne).
+     *
+     * @param  list<array{role: string, content: string}>  $discussion
+     */
+    private static function procedureDeLaDiscussion(array $discussion): ?Procedure
+    {
+        foreach (array_reverse($discussion) as $message) {
+            if ($message['role'] === 'user' && ($procedure = self::procedureLaPlusProche(self::motsCles($message['content'])))) {
+                return $procedure;
+            }
+        }
+
+        return null;
     }
 
     private static function fiche(Procedure $p): string
@@ -77,6 +145,8 @@ class AssistantSecours
         }
         $lignes[] = '';
         $lignes[] = "[Ouvrir la fiche complète](/procedures/{$p->slug})";
+        $lignes[] = '';
+        $lignes[] = 'Si ce n’est pas clair, écrivez « je ne comprends pas » : je vous l’explique étape par étape.';
 
         return implode("\n", $lignes);
     }

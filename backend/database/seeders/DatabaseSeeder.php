@@ -10,6 +10,7 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             ReferentielsSeeder::class,
+            MairiesSenegalSeeder::class,
             ModelesNotificationSeeder::class,
             UtilisateursDemoSeeder::class,
             DossiersDemoSeeder::class,

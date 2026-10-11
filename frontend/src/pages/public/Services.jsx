@@ -280,6 +280,11 @@ function ContenuServices() {
 
       <div className="mt-6 grid overflow-hidden rounded-2xl border border-slate-200/80 bg-white shadow-carte lg:h-[40rem] lg:grid-cols-[26rem_1fr]">
         <ul className="max-h-[30rem] divide-y divide-slate-100 overflow-y-auto lg:max-h-none" aria-label="Liste des administrations">
+          {!chargement && services.length > 0 && (
+            <li className="sticky top-0 z-10 bg-slate-50 px-4 py-2 text-xs font-semibold text-slate-600">
+              {services.length} administration{services.length > 1 ? 's' : ''}{gps.position ? ', de la plus proche à la plus éloignée' : ''}
+            </li>
+          )}
           {chargement && services.length === 0
             ? Array.from({ length: 5 }).map((_, i) => <li key={i} className="p-4"><Squelette className="h-16" /></li>)
             : services.length === 0
@@ -318,7 +323,9 @@ function ContenuServices() {
                       </button>
                       {actif && (
                         <div className="space-y-1.5 px-4 pb-4 pl-[4.25rem] text-sm text-slate-600">
-                          {s.adresse && <span className="flex gap-2"><MapPin className="mt-0.5 size-3.5 shrink-0 text-slate-400" aria-hidden />{s.adresse}</span>}
+                          {s.adresse
+                            ? <span className="flex gap-2"><MapPin className="mt-0.5 size-3.5 shrink-0 text-slate-400" aria-hidden />{s.adresse}</span>
+                            : <span className="flex gap-2 text-slate-500"><MapPin className="mt-0.5 size-3.5 shrink-0 text-slate-400" aria-hidden />Adresse non renseignée : la position sur la carte est celle du centre de la commune.</span>}
                           {s.horaires && <span className="flex gap-2"><Clock className="mt-0.5 size-3.5 shrink-0 text-slate-400" aria-hidden />{s.horaires}</span>}
                           {s.telephone && <span className="flex gap-2"><Phone className="mt-0.5 size-3.5 shrink-0 text-slate-400" aria-hidden /><a href={`tel:${s.telephone.replace(/\s/g, '')}`} className="hover:text-brand-700">{s.telephone}</a></span>}
                           {s.email && <span className="flex gap-2"><Mail className="mt-0.5 size-3.5 shrink-0 text-slate-400" aria-hidden /><span className="truncate">{s.email}</span></span>}

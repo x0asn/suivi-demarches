@@ -6,8 +6,20 @@ import { libelleDistance } from '../../lib/geo'
 
 const CENTRE_SENEGAL = [14.5, -15.5]
 
-function icone(selectionne, recommande) {
+/** Au-delà de ce nombre, les administrations sont dessinées en points pour que la carte reste lisible. */
+const SEUIL_POINTS = 60
+
+function icone(selectionne, recommande, compact = false) {
   const couleur = selectionne ? '#d4a12f' : recommande ? '#1d7a52' : '#154e38'
+  if (compact && !selectionne && !recommande) {
+    return L.divIcon({
+      className: '',
+      iconSize: [12, 12],
+      iconAnchor: [6, 6],
+      popupAnchor: [0, -8],
+      html: `<span style="display:block;width:12px;height:12px;border-radius:9999px;background:${couleur};border:2px solid #fff;box-shadow:0 1px 3px rgb(8 36 26 / .45)"></span>`,
+    })
+  }
   const taille = selectionne ? 40 : 32
   return L.divIcon({
     className: '',
@@ -76,9 +88,10 @@ export default function CarteServices({ services, selection, onSelection, positi
     couchePosition.current = null
 
     const points = services.filter((s) => s.latitude && s.longitude)
+    const compact = points.length > SEUIL_POINTS
     points.forEach((s) => {
       const distance = libelleDistance(s.distance)
-      const m = L.marker([s.latitude, s.longitude], { icon: icone(false, s.id === recommande), title: s.nom })
+      const m = L.marker([s.latitude, s.longitude], { icon: icone(false, s.id === recommande, compact), title: s.nom })
         .addTo(instance)
         .bindPopup(
           `<div style="font-family:inherit;min-width:180px"><p style="margin:0;font-weight:600;color:#0f172a">${echapper(s.nom)}</p>
@@ -124,7 +137,7 @@ export default function CarteServices({ services, selection, onSelection, positi
   useEffect(() => {
     const instance = carte.current
     marqueurs.current.forEach((m, id) => {
-      m.setIcon(icone(id === selection, id === recommande))
+      m.setIcon(icone(id === selection, id === recommande, marqueurs.current.size > SEUIL_POINTS))
       m.setZIndexOffset(id === selection ? 1000 : 0)
     })
     trait.current?.remove()

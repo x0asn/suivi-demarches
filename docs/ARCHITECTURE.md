@@ -46,7 +46,8 @@ Autres dossiers :
 | `app/Policies/` | Qui a le droit de voir ou de traiter un dossier, une réclamation (RG-006, RG-008) |
 | `app/Http/Controllers/Api/Admin/` | Contrôleurs réservés à l'administrateur |
 | `database/migrations/` | Structure des tables |
-| `database/seeders/` | Jeu de données de démonstration |
+| `database/seeders/` | Jeu de données de démonstration, et mairies du Sénégal (`MairiesSenegalSeeder`) |
+| `database/data/` | Données de référence : communes du Sénégal (OpenStreetMap) |
 | `storage/app/private/` | Pièces déposées, hors du dossier public |
 | `tests/Unit/` | Règles isolées, sans base de données (transitions de statut) |
 | `tests/Feature/` | Parcours complets à travers l'API, rangés par domaine |

@@ -37,6 +37,17 @@ enum RegleCompetence: string
         };
     }
 
+    /** La règle en quelques mots de tous les jours, pour compléter « adressez-vous à… ». */
+    public function enBref(): string
+    {
+        return match ($this) {
+            self::Nationale => 'celle que vous voulez, par exemple la plus proche de chez vous',
+            self::LieuResidence => 'celle de la commune où vous habitez',
+            self::LieuNaissance => 'celle de la commune où la naissance a été déclarée',
+            self::LieuBien => 'celle dont dépend le terrain ou le bien',
+        };
+    }
+
     /** Vrai lorsque la proximité ne suffit pas à désigner l'administration compétente. */
     public function dependDuTerritoire(): bool
     {

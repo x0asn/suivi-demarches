@@ -70,6 +70,32 @@ class AssistantTest extends TestCase
         $this->assertStringContainsString('lieu où la naissance a été déclarée', $reponse['texte']);
     }
 
+    public function test_je_ne_comprends_pas_reprend_la_demarche_de_la_discussion_etape_par_etape(): void
+    {
+        $contenu = $this->postJson('/api/assistant', ['messages' => [
+            ['role' => 'user', 'content' => 'Quelles pièces pour un extrait de naissance ?'],
+            ['role' => 'assistant', 'content' => 'Voici les pièces…'],
+            ['role' => 'user', 'content' => 'Je ne comprends pas'],
+        ]])->assertOk()->streamedContent();
+
+        $this->assertStringContainsString('je reprends plus simplement', $contenu);
+        $this->assertStringContainsString("Extrait d'acte de naissance", $contenu);
+        $this->assertStringContainsString('1. Préparez', $contenu);
+        $this->assertStringContainsString('Quelle étape', $contenu);
+    }
+
+    public function test_je_ne_comprends_pas_sans_demarche_explique_la_plateforme(): void
+    {
+        $reponse = $this->reponse('Je suis perdue, je ne comprends rien');
+
+        $this->assertStringContainsString('De quel papier avez-vous besoin', $reponse['texte']);
+    }
+
+    public function test_les_consignes_de_l_ia_prevoient_de_reexpliquer_autrement(): void
+    {
+        $this->assertStringContainsString('Quand la personne ne comprend pas', Assistant::consignes());
+    }
+
     public function test_une_question_sans_rapport_propose_les_demarches_disponibles(): void
     {
         $reponse = $this->reponse('zzz qqq');
