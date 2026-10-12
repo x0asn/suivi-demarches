@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { COULEURS_SENEGAL } from '../../lib/senegal'
 import { cx } from '../../lib/utils'
+import { BandeWax, Baobab } from './Senegal'
 
 /** L'écran d'ouverture ne se montre qu'une fois par visite (jusqu'à la fermeture de l'onglet). */
 const CLE = 'sd:lancement'
@@ -65,6 +66,9 @@ export default function EcranLancement() {
     >
       <div className="motif-senegal absolute inset-0 opacity-70" aria-hidden />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgb(29_122_82_/_0.55),transparent_62%)]" aria-hidden />
+      <Baobab className="absolute -bottom-2 left-1/2 h-64 -translate-x-1/2 text-white opacity-[0.06] sm:h-80" />
+      <BandeWax className="absolute inset-x-0 bottom-0" />
+      <BandeWax className="absolute inset-x-0 top-0" />
 
       <div className="relative flex flex-col items-center px-6 text-center">
         <svg viewBox="0 0 64 64" className="size-28 drop-shadow-[0_18px_40px_rgb(0_0_0_/_0.35)] sm:size-32" aria-hidden>

@@ -136,7 +136,7 @@ export default function Procedures() {
 
       <section className="conteneur py-12">
         {/* Filtres par catégorie */}
-        <div className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-2 sm:mx-0 sm:flex-wrap sm:px-0" role="group" aria-label="Filtrer par catégorie">
+        <div className="onglets -mx-4 flex gap-2 px-4 pb-2 sm:mx-0 sm:flex-wrap sm:px-0" role="group" aria-label="Filtrer par catégorie">
           <button
             onClick={() => majParams({ categorie: '' })}
             className={cx(

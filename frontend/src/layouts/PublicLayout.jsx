@@ -1,7 +1,7 @@
 import { LayoutDashboard, Menu, ShieldCheck, X } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { Link, NavLink, Outlet, useLocation } from 'react-router-dom'
-import { DrapeauSenegal, LisereSenegal } from '../components/ui/Senegal'
+import { BandeWax, Baobab, DrapeauSenegal, LisereSenegal } from '../components/ui/Senegal'
 import { Bouton, Logo } from '../components/ui'
 import { useAuth } from '../context/AuthContext'
 import { useLienSuivi } from '../hooks/useLienSuivi'
@@ -109,10 +109,11 @@ function PiedDePage() {
   const lien = 'text-sm text-slate-600 transition-colors hover:text-brand-800'
 
   return (
-    <footer className="relative bg-slate-50">
+    <footer className="relative overflow-hidden bg-slate-50">
       <div className="motif-senegal-clair pointer-events-none absolute inset-0" aria-hidden />
-      <LisereSenegal />
-      <div className="conteneur grid gap-10 py-12 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1.4fr]">
+      <Baobab className="pointer-events-none absolute -bottom-3 right-2 h-52 text-brand-800 opacity-[0.07] sm:right-10 sm:h-72" />
+      <BandeWax />
+      <div className="conteneur relative grid gap-10 py-12 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1.4fr]">
         <div>
           <Logo />
           <p className="mt-4 max-w-xs text-sm leading-relaxed text-slate-600">
@@ -158,7 +159,7 @@ function PiedDePage() {
         </div>
       </div>
 
-      <div className="border-t border-slate-200/80">
+      <div className="relative border-t border-slate-200/80">
         <div className="conteneur flex flex-col gap-1 py-5 text-xs text-slate-500 sm:flex-row sm:items-center sm:justify-between">
           <p>© {new Date().getFullYear()} Suivi Démarches — Projet de fin d’études, ISEP Amadou Trawaré de Diamniadio.</p>
           <p className="font-medium text-brand-800" title="« Merci » en wolof">Jërëjëf · Merci de votre confiance</p>

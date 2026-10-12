@@ -1,6 +1,6 @@
 import { AlarmClock, FileSearch, Inbox, Search } from 'lucide-react'
 import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { BadgeStatut } from '../../../components/dossiers'
 import { Alerte, Avatar, EnTetePage, EtatVide, Pagination, Squelette } from '../../../components/ui'
 import { useAuth } from '../../../context/AuthContext'
@@ -51,7 +51,7 @@ export default function FileTraitement() {
       )}
 
       <div className="carte overflow-hidden">
-        <div className="flex gap-1 overflow-x-auto border-b border-slate-100 px-3 pt-3" role="tablist">
+        <div className="onglets flex gap-1 border-b border-slate-100 px-3 pt-3" role="tablist">
           {onglets.map((o) => (
             <button
               key={o.valeur}
@@ -97,7 +97,36 @@ export default function FileTraitement() {
         ) : !chargement && donnees.length === 0 ? (
           <EtatVide icone={Inbox} titre="Aucun dossier ici" description={filtres.statut === 'a_traiter' ? 'Tous les dossiers de votre service sont à jour. Bravo !' : 'Aucun dossier ne correspond à ces filtres.'} />
         ) : (
-          <div className="overflow-x-auto">
+          <>
+          {/* Téléphone : une carte par dossier, plus lisible qu'un tableau qu'il faudrait faire défiler. */}
+          <ul className="divide-y divide-slate-100 sm:hidden">
+            {chargement
+              ? Array.from({ length: 5 }).map((_, i) => <li key={i} className="p-4"><Squelette className="h-16" /></li>)
+              : donnees.map((d) => (
+                  <li key={d.id}>
+                    <Link to={`/espace/traitement/${d.id}`} className={cx('flex items-start gap-3 p-4 transition active:bg-brand-50/60', d.en_retard && 'bg-red-50/30')}>
+                      <Avatar prenom={d.citoyen?.prenom} nom={d.citoyen?.nom} taille="sm" />
+                      <div className="min-w-0 flex-1">
+                        <p className="truncate font-medium text-slate-900">{d.procedure?.titre}</p>
+                        <p className="truncate text-xs text-slate-500"><span className="font-mono font-semibold">{d.reference}</span> · {d.citoyen?.nom_complet}</p>
+                        <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1.5">
+                          <BadgeStatut statut={d.statut} />
+                          <span className={cx('text-xs', d.en_retard ? 'font-semibold text-red-600' : 'text-slate-500')}>
+                            {d.en_retard && <AlarmClock className="mr-1 inline size-3.5" aria-hidden />}
+                            {dates.relative(d.soumis_at)}
+                          </span>
+                          {d.documents_a_verifier_count > 0 && (
+                            <span className="inline-flex items-center gap-1 rounded-full bg-amber-50 px-2 py-0.5 text-xs font-medium text-amber-800 ring-1 ring-amber-200">
+                              <FileSearch className="size-3" aria-hidden /> {d.documents_a_verifier_count} à vérifier
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    </Link>
+                  </li>
+                ))}
+          </ul>
+          <div className="hidden overflow-x-auto sm:block">
             <table className="w-full text-left text-sm">
               <thead className="bg-slate-50/80 text-xs font-semibold uppercase tracking-wide text-slate-500">
                 <tr>
@@ -150,6 +179,7 @@ export default function FileTraitement() {
               </tbody>
             </table>
           </div>
+          </>
         )}
         <Pagination meta={meta} onPage={allerPage} />
       </div>

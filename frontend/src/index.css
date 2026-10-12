@@ -87,7 +87,19 @@
   }
 
   .motif-senegal-clair {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56' viewBox='0 0 56 56' fill='none' stroke='%23154e38' stroke-opacity='0.06' stroke-width='1.2'%3E%3Cpath d='M28 4 52 28 28 52 4 28Z'/%3E%3Cpath d='M28 16 40 28 28 40 16 28Z'/%3E%3Cpath d='M0 0 8 8M56 0 48 8M0 56 8 48M56 56 48 48'/%3E%3Ccircle cx='28' cy='28' r='2.2' fill='%23d4a12f' fill-opacity='0.3' stroke='none'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56' viewBox='0 0 56 56' fill='none' stroke='%23154e38' stroke-opacity='0.05' stroke-width='1.2'%3E%3Cpath d='M28 4 52 28 28 52 4 28Z'/%3E%3Cpath d='M28 16 40 28 28 40 16 28Z'/%3E%3Cpath d='M0 0 8 8M56 0 48 8M0 56 8 48M56 56 48 48'/%3E%3Ccircle cx='28' cy='28' r='2' fill='%23d4a12f' fill-opacity='0.16' stroke='none'/%3E%3C/svg%3E");
+  }
+
+  /*
+   * Bande wax : frise de triangles aux couleurs du drapeau (vert, jaune, rouge) et de l'or,
+   * comme la bordure d'un pagne. Elle sert de signature en haut ou en bas d'un bloc.
+   */
+  .bande-wax {
+    height: 12px;
+    background-color: #12402f;
+    background-size: 64px 12px;
+    background-repeat: repeat-x;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='12' viewBox='0 0 64 12'%3E%3Cpath d='M0 12 8 0 16 12Z' fill='%23d4a12f'/%3E%3Cpath d='M16 12 24 0 32 12Z' fill='%2300853F'/%3E%3Cpath d='M32 12 40 0 48 12Z' fill='%23E31B23'/%3E%3Cpath d='M48 12 56 0 64 12Z' fill='%23FDEF42'/%3E%3Cpath d='M5 12 8 7 11 12ZM21 12 24 7 27 12ZM37 12 40 7 43 12ZM53 12 56 7 59 12Z' fill='%2312402f'/%3E%3C/svg%3E");
   }
 
   /* Lien de menu : un trait doré se déploie sous le lien survolé ou actif. */
@@ -103,6 +115,33 @@
   .lien-souligne:hover::after,
   .lien-souligne[aria-current='page']::after {
     @apply scale-x-100;
+  }
+
+  /*
+   * Bande d'onglets ou de filtres : sur téléphone elle défile au doigt, sans barre de défilement,
+   * et s'estompe à droite pour montrer qu'il reste des onglets.
+   */
+  .onglets {
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    -webkit-mask-image: linear-gradient(to right, black calc(100% - 2rem), transparent);
+    mask-image: linear-gradient(to right, black calc(100% - 2rem), transparent);
+  }
+
+  .onglets::-webkit-scrollbar {
+    display: none;
+  }
+
+  .onglets > * {
+    flex-shrink: 0;
+  }
+
+  @media (min-width: 640px) {
+    .onglets {
+      -webkit-mask-image: none;
+      mask-image: none;
+    }
   }
 
   /* Carte sur laquelle on peut cliquer : elle se soulève légèrement au survol. */

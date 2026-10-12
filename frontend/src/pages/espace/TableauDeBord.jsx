@@ -23,7 +23,7 @@ import { Link } from 'react-router-dom'
 import goree from '../../assets/images/goree.jpg'
 import { BadgeStatut, Frise } from '../../components/dossiers'
 import { IconeCategorie } from '../../components/ui/Icones'
-import { Avatar, Bouton, Squelette } from '../../components/ui'
+import { Avatar, BandeWax, Baobab, Bouton, Squelette } from '../../components/ui'
 import { useAuth } from '../../context/AuthContext'
 import { api } from '../../lib/api'
 import { libelleDelai } from '../../lib/icones'
@@ -33,9 +33,12 @@ import { cx, dates, nombre, salutation } from '../../lib/utils'
 function Bandeau({ message, action }) {
   const { utilisateur } = useAuth()
   return (
-    <section className="relative isolate overflow-hidden rounded-3xl bg-brand-900 px-6 py-9 text-white sm:px-10">
+    <section className="relative isolate overflow-hidden rounded-3xl bg-brand-900 px-6 pb-12 pt-9 text-white shadow-flottant sm:px-10">
       <img src={goree} alt="" className="absolute inset-0 -z-20 size-full object-cover opacity-35" />
       <div className="absolute inset-0 -z-10 bg-gradient-to-r from-brand-950 via-brand-900/90 to-brand-900/30" />
+      <div className="motif-senegal absolute inset-0 -z-10 opacity-70" aria-hidden />
+      <Baobab className="absolute -bottom-1 right-4 -z-10 h-36 text-white opacity-10 sm:right-[30%] sm:h-44" />
+      <BandeWax className="absolute inset-x-0 bottom-0" />
       <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <p className="flex items-center gap-2 text-sm text-brand-200">
@@ -245,14 +248,22 @@ function TableauAgent() {
           <ul className="divide-y divide-slate-100">
             {prioritaires.map((d) => (
               <li key={d.id}>
-                <Link to={`/espace/traitement/${d.id}`} className="flex flex-wrap items-center gap-4 px-6 py-4 transition hover:bg-slate-50">
+                {/* Téléphone : le statut et le délai passent sous le titre. Ordinateur : tout sur une ligne. */}
+                <Link to={`/espace/traitement/${d.id}`} className="flex items-start gap-3 px-4 py-4 transition hover:bg-slate-50 sm:items-center sm:gap-4 sm:px-6">
                   <Avatar prenom={d.citoyen?.prenom} nom={d.citoyen?.nom} taille="sm" />
                   <div className="min-w-0 flex-1">
                     <p className="truncate font-medium text-slate-900">{d.procedure?.titre}</p>
-                    <p className="text-xs text-slate-500"><span className="font-mono">{d.reference}</span> · {d.citoyen?.nom_complet}</p>
+                    <p className="truncate text-xs text-slate-500"><span className="font-mono">{d.reference}</span> · {d.citoyen?.nom_complet}</p>
+                    <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1.5 sm:hidden">
+                      <BadgeStatut statut={d.statut} />
+                      <span className={cx('text-xs', d.en_retard ? 'font-semibold text-red-600' : 'text-slate-500')}>
+                        {d.en_retard && <AlarmClock className="mr-1 inline size-3.5" aria-hidden />}
+                        {dates.relative(d.soumis_at)}
+                      </span>
+                    </div>
                   </div>
-                  <BadgeStatut statut={d.statut} />
-                  <span className={cx('w-28 text-right text-sm', d.en_retard ? 'font-semibold text-red-600' : 'text-slate-500')}>
+                  <BadgeStatut statut={d.statut} className="hidden sm:inline-flex" />
+                  <span className={cx('hidden w-28 text-right text-sm sm:block', d.en_retard ? 'font-semibold text-red-600' : 'text-slate-500')}>
                     {d.en_retard && <AlarmClock className="mr-1 inline size-3.5" aria-hidden />}
                     {dates.relative(d.soumis_at)}
                   </span>

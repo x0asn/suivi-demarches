@@ -18,7 +18,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import citoyenne from '../../assets/images/citoyenne-en-ligne.jpg'
 import dakar from '../../assets/images/dakar-cote.jpg'
 import { IconeCategorie } from '../../components/ui/Icones'
-import { Apparition, Bouton, DrapeauSenegal, EtoileSenegal, FiletSenegal, Squelette } from '../../components/ui'
+import { Apparition, BandeWax, Baobab, Bouton, DrapeauSenegal, EtoileSenegal, FiletSenegal, Squelette } from '../../components/ui'
 import { useAuth } from '../../context/AuthContext'
 import { useLienSuivi } from '../../hooks/useLienSuivi'
 import { api } from '../../lib/api'
@@ -379,6 +379,9 @@ function PartoutAuSenegal() {
       <img src={dakar} alt="" className="absolute inset-0 -z-20 size-full object-cover opacity-40" />
       <div className="absolute inset-0 -z-10 bg-gradient-to-r from-brand-950 via-brand-950/90 to-brand-950/40" />
       <div className="motif-senegal absolute inset-0 -z-10 opacity-60" aria-hidden />
+      <Baobab className="absolute -bottom-2 right-3 -z-10 h-56 text-white opacity-[0.07] lg:left-[40%] lg:right-auto lg:h-80" />
+      <BandeWax className="absolute inset-x-0 top-0" />
+      <BandeWax className="absolute inset-x-0 bottom-0" />
 
       <div className="conteneur grid gap-10 py-16 sm:py-20 lg:grid-cols-[1.1fr_1fr] lg:items-center">
         <Apparition>

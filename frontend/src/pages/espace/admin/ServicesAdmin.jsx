@@ -1,9 +1,10 @@
-import { Building2, MapPin, Pencil, Plus } from 'lucide-react'
+import { Building2, MapPin, Pencil, Plus, Search } from 'lucide-react'
 import { useCallback, useEffect, useState } from 'react'
 import { IconeService } from '../../../components/ui/Icones'
-import { Alerte, Badge, Bouton, Champ, EnTetePage, Modale, Selecteur, Squelette } from '../../../components/ui'
+import { Alerte, Badge, Bouton, Champ, EnTetePage, Modale, Pagination, Selecteur, Squelette } from '../../../components/ui'
 import { useToast } from '../../../context/ToastContext'
 import { api } from '../../../lib/api'
+import { sansAccents } from '../../../lib/utils'
 
 const TYPES = { mairie: 'Mairie', tribunal: 'Tribunal', ministere: 'Ministère', prefecture: 'Préfecture', police: 'Police', agence: 'Agence publique' }
 const VIDE = { nom: '', type: 'mairie', adresse: '', commune: '', region: '', telephone: '', email: '', horaires: '', latitude: '', longitude: '', actif: true }
@@ -65,15 +66,33 @@ function Formulaire({ service, onFermer, onEnregistre }) {
   )
 }
 
+/** Nombre de services affichés par page. */
+const PAR_PAGE = 12
+
 /** M10 : référentiel des services administratifs. */
 export default function ServicesAdmin() {
   const [services, setServices] = useState(null)
   const [edition, setEdition] = useState(null)
+  const [recherche, setRecherche] = useState('')
+  const [type, setType] = useState('')
+  const [page, setPage] = useState(1)
 
   const charger = useCallback(() => api('/admin/services').then((r) => setServices(r.data)), [])
   useEffect(() => {
     charger()
   }, [charger])
+
+  // Recherche par nom, commune ou région, puis affichage par pages.
+  const termes = sansAccents(recherche).split(/\s+/).filter(Boolean)
+  const trouves = (services ?? []).filter((s) => {
+    if (type && s.type !== type) return false
+    const texte = sansAccents(`${s.nom} ${s.commune} ${s.region} ${s.type_libelle}`)
+    return termes.every((t) => texte.includes(t))
+  })
+  const types = [...new Map((services ?? []).map((s) => [s.type, s.type_libelle])).entries()]
+  const pages = Math.max(1, Math.ceil(trouves.length / PAR_PAGE))
+  const courante = Math.min(page, pages)
+  const affiches = trouves.slice((courante - 1) * PAR_PAGE, courante * PAR_PAGE)
 
   return (
     <>
@@ -83,10 +102,46 @@ export default function ServicesAdmin() {
         description="Points d'accueil administratifs : coordonnées, horaires et localisation. Les agents sont rattachés à un service."
         actions={<Bouton icone={Plus} onClick={() => setEdition('nouveau')}>Nouveau service</Bouton>}
       />
+      <div className="mb-5 grid gap-3 sm:grid-cols-[1fr_14rem]">
+        <div className="relative">
+          <Search className="pointer-events-none absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-slate-400" aria-hidden />
+          <input
+            type="search"
+            value={recherche}
+            onChange={(e) => {
+              setRecherche(e.target.value)
+              setPage(1)
+            }}
+            placeholder="Nom, commune ou région…"
+            aria-label="Rechercher un service"
+            className="block w-full rounded-xl border-0 bg-white py-2.5 pl-10 pr-3.5 text-sm shadow-sm ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-600"
+          />
+        </div>
+        <Selecteur
+          value={type}
+          onChange={(e) => {
+            setType(e.target.value)
+            setPage(1)
+          }}
+          aria-label="Type de service"
+        >
+          <option value="">Tous les types</option>
+          {types.map(([valeur, libelle]) => <option key={valeur} value={valeur}>{libelle}</option>)}
+        </Selecteur>
+      </div>
+      {services && (
+        <p className="mb-4 text-sm text-slate-500" aria-live="polite">
+          <b className="font-semibold text-slate-800">{trouves.length}</b> service{trouves.length > 1 ? 's' : ''}
+          {trouves.length !== services.length ? ` sur ${services.length}` : ''}
+        </p>
+      )}
+      {services && trouves.length === 0 && (
+        <p className="carte px-6 py-12 text-center text-sm text-slate-500">Aucun service ne correspond à cette recherche.</p>
+      )}
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
         {!services
           ? Array.from({ length: 6 }).map((_, i) => <Squelette key={i} className="h-44 rounded-2xl" />)
-          : services.map((s) => (
+          : affiches.map((s) => (
               <article key={s.id} className="carte flex flex-col p-5">
                 <div className="flex items-start justify-between gap-3">
                   <span className="flex size-10 items-center justify-center rounded-xl bg-brand-50 text-brand-700"><IconeService type={s.type} className="size-5" /></span>
@@ -106,6 +161,11 @@ export default function ServicesAdmin() {
               </article>
             ))}
       </div>
+      {pages > 1 && (
+        <div className="carte mt-5 overflow-hidden">
+          <Pagination meta={{ page: courante, par_page: PAR_PAGE, total: trouves.length, derniere_page: pages }} onPage={(p) => { setPage(p); window.scrollTo({ top: 0, behavior: 'smooth' }) }} />
+        </div>
+      )}
       {edition && (
         <Formulaire
           service={edition === 'nouveau' ? null : edition}

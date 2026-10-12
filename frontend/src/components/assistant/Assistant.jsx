@@ -4,6 +4,7 @@ import { useLocation } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 import { demanderAssistant } from '../../lib/assistant'
 import { cx } from '../../lib/utils'
+import { BandeWax } from '../ui/Senegal'
 import MessageAssistant from './MessageAssistant'
 
 const SUGGESTIONS = [
@@ -118,7 +119,7 @@ export default function Assistant() {
       {etat !== 'ouvert' && (
         <button
           onClick={ouvrir}
-          className="group fixed bottom-5 right-5 z-[1100] flex animate-apparition items-center gap-2.5 rounded-full bg-brand-800 py-3 pl-3.5 pr-5 text-sm font-semibold text-white shadow-flottant ring-4 ring-white/70 transition duration-300 ease-out hover:-translate-y-0.5 hover:bg-brand-900 hover:shadow-[0_18px_44px_-12px_rgb(8_36_26_/_0.55)] active:translate-y-0 active:scale-95 print:hidden"
+          className="group fixed bottom-4 right-4 z-[1100] flex animate-apparition items-center gap-2.5 rounded-full bg-brand-800 p-3 text-sm font-semibold text-white shadow-flottant ring-4 ring-white/70 transition duration-300 ease-out hover:-translate-y-0.5 hover:bg-brand-900 hover:shadow-[0_18px_44px_-12px_rgb(8_36_26_/_0.55)] active:translate-y-0 active:scale-95 sm:bottom-5 sm:right-5 sm:py-3 sm:pl-3.5 sm:pr-5 print:hidden"
           aria-label="Ouvrir l’assistant"
         >
           <span className="relative flex size-8 items-center justify-center">
@@ -127,7 +128,7 @@ export default function Assistant() {
               <Sparkles className="size-4" aria-hidden />
             </span>
           </span>
-          Besoin d’aide ?
+          <span className="hidden sm:inline">Besoin d’aide ?</span>
         </button>
       )}
 
@@ -168,6 +169,7 @@ export default function Assistant() {
             </button>
           </header>
 
+          <BandeWax className="shrink-0" />
           <div
             ref={fil}
             onScroll={(e) => {

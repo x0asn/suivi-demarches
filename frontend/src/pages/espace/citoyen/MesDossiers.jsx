@@ -29,7 +29,7 @@ export default function MesDossiers() {
       />
 
       <div className="mb-6 flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
-        <div className="-mx-4 flex gap-1 overflow-x-auto px-4 lg:mx-0 lg:px-0" role="tablist" aria-label="Filtrer mes dossiers">
+        <div className="onglets -mx-4 flex gap-1 px-4 lg:mx-0 lg:px-0" role="tablist" aria-label="Filtrer mes dossiers">
           {ONGLETS.map((o) => (
             <button
               key={o.valeur}

@@ -2,7 +2,7 @@ import { ChevronDown, ExternalLink, LogOut, Menu, UserCircle, X } from 'lucide-r
 import { useEffect, useRef, useState } from 'react'
 import { Link, Navigate, NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import Cloche from '../components/notifications/Cloche'
-import { Avatar, Badge, Chargement, Logo } from '../components/ui'
+import { Avatar, Badge, BandeWax, Chargement, Logo } from '../components/ui'
 import { useAuth } from '../context/AuthContext'
 import { useToast } from '../context/ToastContext'
 import { NAVIGATION } from '../lib/navigation'
@@ -17,6 +17,7 @@ function MenuLateral({ onNaviguer }) {
   return (
     <div className="relative flex h-full flex-col bg-brand-950 text-brand-100">
       <div className="motif-senegal pointer-events-none absolute inset-0" aria-hidden />
+      <BandeWax className="absolute inset-x-0 bottom-0" />
       <div className="relative flex h-16 items-center px-5">
         <Logo clair />
       </div>
@@ -63,7 +64,7 @@ function MenuLateral({ onNaviguer }) {
         ))}
       </nav>
 
-      <div className="relative border-t border-white/10 p-4">
+      <div className="relative border-t border-white/10 px-4 pb-7 pt-4">
         <Link to="/" className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-brand-200 hover:bg-white/5 hover:text-white">
           <ExternalLink className="size-4" aria-hidden /> Retour au site public
         </Link>
@@ -197,7 +198,7 @@ export default function AppLayout({ extrasBarre }) {
           <MenuUtilisateur />
         </header>
 
-        <main id="contenu" className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-10 lg:py-10">
+        <main id="contenu" className="mx-auto max-w-7xl px-4 pb-24 pt-6 sm:px-6 sm:py-8 lg:px-10 lg:py-10">
           {/* La clé relance l'animation d'arrivée à chaque changement de page. */}
           <div key={pathname} className="animate-page">
             <Outlet />
