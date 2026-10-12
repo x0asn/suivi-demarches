@@ -205,7 +205,9 @@ class ParcoursDossierTest extends TestCase
         $dossier = $this->dossierSoumis();
         Sanctum::actingAs($this->agent);
 
-        foreach (['en_verification', 'en_traitement', 'valide', 'pret_a_retirer'] as $statut) {
+        $this->patchJson("/api/dossiers/{$dossier->id}/status", ['statut' => 'en_verification'])->assertOk();
+        $this->accepterLesPieces($dossier);
+        foreach (['en_traitement', 'valide', 'pret_a_retirer'] as $statut) {
             $this->patchJson("/api/dossiers/{$dossier->id}/status", ['statut' => $statut])->assertOk();
         }
         // Remise du document contre le code de retrait du citoyen.
@@ -325,16 +327,43 @@ class ParcoursDossierTest extends TestCase
         $this->deleteJson("/api/dossiers/{$soumis->id}")->assertForbidden();
     }
 
+    /** L'agent accepte toutes les pièces du dossier (possible une fois le dossier pris en charge). */
+    private function accepterLesPieces(Dossier $dossier): void
+    {
+        foreach ($dossier->documents()->get() as $document) {
+            $this->patchJson("/api/documents/{$document->id}/verification", ['statut' => 'accepte'])->assertOk();
+        }
+    }
+
     /** Dossier validé par l'agent : la demande est approuvée, le document n'est pas encore préparé. */
     private function dossierValide(): Dossier
     {
         $dossier = $this->dossierSoumis();
         Sanctum::actingAs($this->agent);
-        foreach (['en_verification', 'en_traitement', 'valide'] as $statut) {
+        $this->patchJson("/api/dossiers/{$dossier->id}/status", ['statut' => 'en_verification'])->assertOk();
+        $this->accepterLesPieces($dossier);
+        foreach (['en_traitement', 'valide'] as $statut) {
             $this->patchJson("/api/dossiers/{$dossier->id}/status", ['statut' => $statut])->assertOk();
         }
 
         return $dossier->fresh();
+    }
+
+    public function test_rf014_une_demande_ne_peut_pas_etre_validee_sans_pieces_acceptees(): void
+    {
+        $dossier = $this->dossierSoumis();
+        Sanctum::actingAs($this->agent);
+        foreach (['en_verification', 'en_traitement'] as $statut) {
+            $this->patchJson("/api/dossiers/{$dossier->id}/status", ['statut' => $statut])->assertOk();
+        }
+
+        $this->patchJson("/api/dossiers/{$dossier->id}/status", ['statut' => 'valide'])
+            ->assertStatus(422)
+            ->assertJsonValidationErrors('statut');
+        $this->assertSame(StatutDossier::EnTraitement, $dossier->fresh()->statut);
+
+        $this->accepterLesPieces($dossier);
+        $this->patchJson("/api/dossiers/{$dossier->id}/status", ['statut' => 'valide'])->assertOk();
     }
 
     public function test_retrait_valider_ne_termine_pas_le_dossier(): void

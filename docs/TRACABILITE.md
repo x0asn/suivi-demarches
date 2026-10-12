@@ -1,6 +1,6 @@
 # Matrice de traçabilité — exigences → réalisation → preuve
 
-Les tests se trouvent dans `backend/tests/` (`Feature/` pour les parcours, `Unit/` pour les règles du workflow). Commande : `php artisan test` (103 tests, tous réussis).
+Les tests se trouvent dans `backend/tests/` (`Feature/` pour les parcours, `Unit/` pour les règles du workflow). Commande : `php artisan test` (104 tests, tous réussis).
 
 ## Exigences fonctionnelles
 
@@ -19,7 +19,7 @@ Les tests se trouvent dans `backend/tests/` (`Feature/` pour les parcours, `Unit
 | RF-011 Consulter ses dossiers | *Mes dossiers* avec onglets par statut | `test_rg008_un_citoyen_ne_voit_pas_le_dossier_d_un_autre` |
 | RF-012 Soumettre une réclamation | Page *Réclamations* | `ReclamationsStatistiquesTest::test_rf012_*` |
 | RF-013 Dossiers à traiter (agent) | *File de travail* | `test_rg006_un_agent_ne_voit_que_les_dossiers_de_son_service` |
-| RF-014 Contrôler les pièces | Accepter / À corriger / Refuser, aperçu PDF et image | `test_uc05_correction_demandee_puis_dossier_complete` |
+| RF-014 Contrôler les pièces | Accepter / À corriger / Refuser, aperçu PDF et image ; pas de validation sans pièces acceptées | `test_uc05_correction_demandee_puis_dossier_complete`, `test_rf014_une_demande_ne_peut_pas_etre_validee_sans_pieces_acceptees` |
 | RF-015 Changer le statut | Boutons d'action de l'agent | `test_rf015_transition_incoherente_refusee`, `test_parcours_complet_*`, `test_retrait_*` (document prêt, code de retrait, remise), `StatutDossierTest` (unitaire) |
 | RF-016 Ajouter une observation | Fil d'échanges, notes internes | `test_rf016_observation_et_note_interne` |
 | RF-017 Gérer les procédures | *Administration > Procédures* (éditeur, publication) | `CatalogueTest::test_rf017_*` |

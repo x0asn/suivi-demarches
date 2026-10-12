@@ -12,6 +12,8 @@ echo.
 
 rem --- API Laravel (port 8000) ---
 cd /d "%~dp0backend"
+rem Le QR code pointe vers cet ordinateur (demarrer-telephone.bat le fait pointer vers le wifi).
+php artisan demo:adresse >nul
 start "Suivi Demarches - API (ne pas fermer)" cmd /k php artisan serve --port=8000
 
 rem --- Interface React (port 5173) ---

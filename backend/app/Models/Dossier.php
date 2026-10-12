@@ -140,6 +140,23 @@ class Dossier extends Model
             ->values();
     }
 
+    /**
+     * RF-014 : pièces obligatoires que l'agent n'a pas acceptées (absentes, en attente, refusées ou à corriger).
+     *
+     * @return Collection<int, PieceRequise>
+     */
+    public function piecesNonAcceptees()
+    {
+        $this->loadMissing(['procedure.pieces', 'documents']);
+
+        return $this->procedure->pieces
+            ->where('obligatoire', true)
+            ->reject(fn (PieceRequise $piece) => $this->documents->contains(
+                fn (Document $d) => $d->piece_requise_id === $piece->id && $d->statut === StatutDocument::Accepte
+            ))
+            ->values();
+    }
+
     /** Délai écoulé depuis la soumission, en jours. */
     public function joursDepuisSoumission(): ?int
     {

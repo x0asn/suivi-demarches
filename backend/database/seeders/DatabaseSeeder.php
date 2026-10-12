@@ -13,6 +13,7 @@ class DatabaseSeeder extends Seeder
             MairiesSenegalSeeder::class,
             ModelesNotificationSeeder::class,
             UtilisateursDemoSeeder::class,
+            AgentsMairiesSeeder::class,
             DossiersDemoSeeder::class,
         ]);
     }

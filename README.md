@@ -29,7 +29,7 @@ Les dix modules du cahier des charges (M01 à M10) sont réalisés. Voir [docs/T
 | Interface | React 19 + Vite, React Router, Tailwind CSS 3, icônes Lucide, carte Leaflet / OpenStreetMap |
 | API | Laravel 12 (PHP 8.2), authentification par jeton (Laravel Sanctum) |
 | Base de données | MySQL 8 (via Laragon) |
-| Tests | PHPUnit — 103 tests automatisés |
+| Tests | PHPUnit — 104 tests automatisés |
 
 ## 3. Installation (première fois)
 
@@ -67,6 +67,13 @@ cd frontend && npm run dev
 
 Pour repartir de données propres (avant une répétition ou la soutenance) : **`reinitialiser-demo.bat`**.
 
+| Lanceur | Usage |
+|---|---|
+| `demarrer.bat` | Usage normal, sur cet ordinateur |
+| `demarrer-telephone.bat` | Le jour de la soutenance : ouvre l'application aux téléphones du même wifi, et le QR code de l'accusé de réception pointe vers l'ordinateur |
+| `demarrer-interface.bat` | Relance l'interface seule, si sa fenêtre a été fermée |
+| `reinitialiser-demo.bat` | Efface la base et recrée le jeu de démonstration |
+
 ## 5. Assistant IA
 
 La bulle « Besoin d'aide ? » répond aux questions des citoyens à partir du catalogue des procédures.
@@ -97,7 +104,8 @@ Mot de passe commun : **`Demo2026`**. Sur la page de connexion, un encadré perm
 | Administrateur | `admin@suivi-demarches.sn` | Awa Diop |
 | Responsable | `responsable@suivi-demarches.sn` | Ibrahima Fall |
 
-Chaque service a un agent (`agent.diamniadio@…`, `agent.pikine@…`, `agent.thies@…`, etc.).
+Chaque mairie a un agent : `agent.<commune>@suivi-demarches.sn` (par exemple `agent.kolda@…`, `agent.podor@…`).
+Un dossier déposé dans n'importe quelle mairie peut donc être traité pendant la démonstration.
 
 ## 7. Scénario de démonstration (§28 du cahier des charges)
 
@@ -146,5 +154,6 @@ restent à compléter par l'administrateur.
 - [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) — organisation du code, dossier par dossier
 - [docs/API.md](docs/API.md) — contrats de l'API REST
 - [docs/TRACABILITE.md](docs/TRACABILITE.md) — exigences → écrans → tests
+- [docs/EVOLUTIONS_CAHIER.md](docs/EVOLUTIONS_CAHIER.md) — ce qu'il faut reporter dans le cahier des charges (version 2.1)
 - [docs/conception/](docs/conception/) et [docs/maquettes/](docs/maquettes/) — UML, MCD/MLD et maquettes (à compléter)
 - [CAHIER_DES_CHARGES.md](CAHIER_DES_CHARGES.md) — document de référence

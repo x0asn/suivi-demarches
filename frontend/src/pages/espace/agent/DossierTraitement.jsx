@@ -183,9 +183,13 @@ function ChangementStatut({ dossier, cible, onFermer, onFait }) {
             <span>{action.confirmation}</span>
           </label>
         )}
-        {cible === 'en_traitement' && nonAcceptees > 0 && (
+        {erreur && !action.commentaire && <Alerte type="erreur">{erreur}</Alerte>}
+        {(cible === 'en_traitement' || cible === 'valide') && nonAcceptees > 0 && (
           <Alerte type="alerte">
-            {nonAcceptees} pièce{nonAcceptees > 1 ? 's n’ont' : ' n’a'} pas encore été acceptée{nonAcceptees > 1 ? 's' : ''}. Vérifiez les pièces avant de déclarer le dossier recevable.
+            {nonAcceptees} pièce{nonAcceptees > 1 ? 's n’ont' : ' n’a'} pas encore été acceptée{nonAcceptees > 1 ? 's' : ''}.{' '}
+            {cible === 'valide'
+              ? 'Une demande ne peut être validée que si toutes les pièces obligatoires sont acceptées.'
+              : 'Vérifiez les pièces avant de déclarer le dossier recevable.'}
           </Alerte>
         )}
         <ZoneTexte
@@ -194,7 +198,7 @@ function ChangementStatut({ dossier, cible, onFermer, onFait }) {
           rows={3}
           value={commentaire}
           onChange={(e) => setCommentaire(e.target.value)}
-          erreur={erreur}
+          erreur={action.commentaire ? erreur : null}
           aide="Ce commentaire apparaît dans l’historique du dossier et dans la notification envoyée au citoyen."
         />
       </div>

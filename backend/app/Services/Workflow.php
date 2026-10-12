@@ -74,6 +74,17 @@ class Workflow
             ]);
         }
 
+        // RF-014 : une demande ne peut être validée que si chaque pièce obligatoire a été acceptée.
+        if ($cible === StatutDossier::Valide) {
+            $dossier->unsetRelation('documents');
+            $nonAcceptees = $dossier->piecesNonAcceptees();
+            if ($nonAcceptees->isNotEmpty()) {
+                throw ValidationException::withMessages([
+                    'statut' => 'Acceptez d’abord les pièces obligatoires avant de valider la demande : '.$nonAcceptees->pluck('libelle')->implode(', ').'.',
+                ]);
+            }
+        }
+
         // RG-004 : une demande ne peut être soumise si les éléments obligatoires manquent.
         if ($cible === StatutDossier::Soumis) {
             $erreurs = [];
