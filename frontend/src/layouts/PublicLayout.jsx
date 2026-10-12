@@ -1,7 +1,7 @@
 import { LayoutDashboard, Menu, ShieldCheck, X } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { Link, NavLink, Outlet, useLocation } from 'react-router-dom'
-import { BandeWax, Baobab, DrapeauSenegal, LisereSenegal } from '../components/ui/Senegal'
+import { BandeWax, DrapeauSenegal, LisereSenegal } from '../components/ui/Senegal'
 import { Bouton, Logo } from '../components/ui'
 import { useAuth } from '../context/AuthContext'
 import { useLienSuivi } from '../hooks/useLienSuivi'
@@ -111,7 +111,6 @@ function PiedDePage() {
   return (
     <footer className="relative overflow-hidden bg-slate-50">
       <div className="motif-senegal-clair pointer-events-none absolute inset-0" aria-hidden />
-      <Baobab className="pointer-events-none absolute -bottom-3 right-2 h-52 text-brand-800 opacity-[0.07] sm:right-10 sm:h-72" />
       <BandeWax />
       <div className="conteneur relative grid gap-10 py-12 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1.4fr]">
         <div>

@@ -51,7 +51,29 @@ export default function FileTraitement() {
       )}
 
       <div className="carte overflow-hidden">
-        <div className="onglets flex gap-1 border-b border-slate-100 px-3 pt-3" role="tablist">
+        {/* Téléphone : une grille de boutons, tous visibles et alignés. Ordinateur : des onglets. */}
+        <div className="grid grid-cols-2 gap-2 border-b border-slate-100 p-3 sm:hidden" role="group" aria-label="Filtrer par statut">
+          {onglets.map((o) => {
+            const actif = filtres.statut === o.valeur
+            return (
+              <button
+                key={o.valeur}
+                aria-pressed={actif}
+                onClick={() => filtrer({ statut: o.valeur })}
+                className={cx(
+                  'flex h-11 items-center justify-between gap-2 rounded-xl px-3 text-sm font-medium ring-1 ring-inset transition active:scale-[0.97]',
+                  actif ? 'bg-brand-800 text-white ring-brand-800' : 'bg-white text-slate-700 ring-slate-200',
+                )}
+              >
+                <span className="truncate">{o.libelle}</span>
+                {o.compte > 0 && (
+                  <span className={cx('min-w-[1.5rem] rounded-full px-1.5 py-0.5 text-center text-xs font-semibold', actif ? 'bg-white/20 text-white' : 'bg-slate-100 text-slate-600')}>{o.compte}</span>
+                )}
+              </button>
+            )
+          })}
+        </div>
+        <div className="hidden gap-1 border-b border-slate-100 px-3 pt-3 sm:flex" role="tablist">
           {onglets.map((o) => (
             <button
               key={o.valeur}
@@ -80,16 +102,19 @@ export default function FileTraitement() {
               className="block w-full rounded-xl border-0 bg-white py-2.5 pl-10 pr-3.5 text-sm shadow-sm ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-600"
             />
           </div>
-          <label className="flex items-center gap-2 text-sm text-slate-700">
-            <input type="checkbox" checked={filtres.retard === '1'} onChange={(e) => filtrer({ retard: e.target.checked ? '1' : '' })} className="size-4 rounded accent-red-600" />
-            <AlarmClock className="size-4 text-red-500" aria-hidden /> En retard {resume?.en_retard > 0 && <span className="rounded-full bg-red-100 px-1.5 text-xs font-semibold text-red-700">{resume.en_retard}</span>}
-          </label>
-          {estAgent && (
+          {/* Les deux cases restent côte à côte sur téléphone. */}
+          <div className="flex flex-wrap items-center gap-x-6 gap-y-2 sm:contents">
             <label className="flex items-center gap-2 text-sm text-slate-700">
-              <input type="checkbox" checked={filtres.mes_dossiers === '1'} onChange={(e) => filtrer({ mes_dossiers: e.target.checked ? '1' : '' })} className="size-4 rounded accent-brand-700" />
-              Mes dossiers
+              <input type="checkbox" checked={filtres.retard === '1'} onChange={(e) => filtrer({ retard: e.target.checked ? '1' : '' })} className="size-4 rounded accent-red-600" />
+              <AlarmClock className="size-4 text-red-500" aria-hidden /> En retard {resume?.en_retard > 0 && <span className="rounded-full bg-red-100 px-1.5 text-xs font-semibold text-red-700">{resume.en_retard}</span>}
             </label>
-          )}
+            {estAgent && (
+              <label className="flex items-center gap-2 text-sm text-slate-700">
+                <input type="checkbox" checked={filtres.mes_dossiers === '1'} onChange={(e) => filtrer({ mes_dossiers: e.target.checked ? '1' : '' })} className="size-4 rounded accent-brand-700" />
+                Mes dossiers
+              </label>
+            )}
+          </div>
         </div>
 
         {erreur ? (

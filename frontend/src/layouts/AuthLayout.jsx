@@ -1,7 +1,7 @@
 import { ShieldCheck } from 'lucide-react'
 import { Navigate, Outlet } from 'react-router-dom'
 import monument from '../assets/images/monument-renaissance.jpg'
-import { BandeWax, Baobab, Chargement, Logo } from '../components/ui'
+import { BandeWax, Chargement, Logo } from '../components/ui'
 import { useAuth } from '../context/AuthContext'
 
 /** Mise en page des écrans d'authentification : formulaire à gauche, visuel à droite. */
@@ -31,7 +31,6 @@ export default function AuthLayout() {
         <img src={monument} alt="" className="absolute inset-0 size-full object-cover" />
         <div className="absolute inset-0 bg-gradient-to-t from-brand-950 via-brand-950/40 to-brand-950/10" />
         <div className="motif-senegal absolute inset-0" />
-        <Baobab className="absolute right-8 top-10 h-64 text-white opacity-10" />
         <BandeWax className="absolute inset-x-0 bottom-0" />
         <div className="absolute inset-x-0 bottom-3 p-12 xl:p-16">
           <div className="max-w-lg">

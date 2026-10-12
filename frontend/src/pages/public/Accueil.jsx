@@ -18,7 +18,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import citoyenne from '../../assets/images/citoyenne-en-ligne.jpg'
 import dakar from '../../assets/images/dakar-cote.jpg'
 import { IconeCategorie } from '../../components/ui/Icones'
-import { Apparition, BandeWax, Baobab, Bouton, DrapeauSenegal, EtoileSenegal, FiletSenegal, Squelette } from '../../components/ui'
+import { Apparition, BandeWax, Bouton, DrapeauSenegal, EtoileSenegal, FiletSenegal, Squelette } from '../../components/ui'
 import { useAuth } from '../../context/AuthContext'
 import { useLienSuivi } from '../../hooks/useLienSuivi'
 import { api } from '../../lib/api'
@@ -117,7 +117,7 @@ function Recherche() {
               if (e.target.value.trim().length < 2) setResultats(null)
             }}
             onKeyDown={surTouche}
-            placeholder="Quelle démarche cherchez-vous ?"
+            placeholder="Rechercher une démarche…"
             className="min-w-0 flex-1 bg-transparent py-2.5 text-base text-slate-900 placeholder:text-slate-400 focus:outline-none"
             role="combobox"
             aria-expanded={ouvert}
@@ -196,20 +196,33 @@ function Presentation({ populaires }) {
         <div className="absolute -left-40 top-40 size-[26rem] rounded-full bg-brand-200/50 blur-3xl" />
       </div>
 
-      <div className="conteneur grid grid-cols-1 items-center gap-14 pb-10 pt-10 sm:pt-12 lg:grid-cols-[1.08fr_1fr] lg:pb-14 lg:pt-14">
+      <div className="conteneur grid grid-cols-1 items-center gap-14 pb-10 pt-7 sm:pt-12 lg:grid-cols-[1.08fr_1fr] lg:pb-14 lg:pt-14">
         <div className="relative z-20 min-w-0 animate-apparition">
           <p className="inline-flex items-center gap-2.5 rounded-full bg-white px-3.5 py-1.5 text-sm font-medium text-slate-700 shadow-sm ring-1 ring-slate-200">
             <DrapeauSenegal className="h-3.5 w-[1.3rem]" />
-            <span><b className="font-semibold text-brand-800" title="« Bienvenue » en wolof">Dalal ak jàmm</b> · au service des citoyens du Sénégal</span>
+            <span><b className="font-semibold text-brand-800" title="« Bienvenue » en wolof">Dalal ak jàmm</b> · <span className="sm:hidden">bienvenue</span><span className="hidden sm:inline">au service des citoyens du Sénégal</span></span>
           </p>
-          <h1 className="titre-display mt-6 text-[2.5rem] font-semibold leading-[1.08] sm:text-5xl lg:text-[3.5rem]">
+          <h1 className="titre-display mt-5 text-[2.25rem] font-semibold leading-[1.08] sm:mt-6 sm:text-5xl lg:text-[3.5rem]">
             Vos démarches administratives, <span className="text-brand-700">plus simplement.</span>
           </h1>
-          <p className="mt-5 max-w-xl text-lg leading-relaxed text-slate-600">
+          <p className="mt-4 max-w-xl text-base leading-relaxed text-slate-600 sm:mt-5 sm:text-lg">
             Trouvez la procédure qui vous concerne, déposez votre demande en ligne et suivez votre dossier à chaque étape.
           </p>
 
-          <div className="mt-8 max-w-xl">
+          {/* Téléphone et tablette : la photo vient juste sous le titre, en bandeau. Sur ordinateur, elle est à droite. */}
+          <div className="relative mt-6 max-w-xl lg:hidden">
+            <div className="absolute -right-1.5 -top-1.5 bottom-3 left-4 rounded-3xl" style={{ background: `linear-gradient(135deg, ${COULEURS_SENEGAL.vert}, ${COULEURS_SENEGAL.or} 55%, ${COULEURS_SENEGAL.rouge})`, opacity: 0.85 }} aria-hidden />
+            <div className="relative aspect-[16/10] overflow-hidden rounded-3xl bg-slate-100 shadow-flottant">
+              <img src={citoyenne} alt="Une citoyenne effectue sa démarche en ligne" className="size-full object-cover object-[60%_30%]" />
+              <div className="absolute inset-0 bg-gradient-to-t from-brand-950/80 via-brand-950/10 to-transparent" aria-hidden />
+              <p className="absolute inset-x-4 bottom-3.5 flex items-center gap-2 text-sm font-medium text-white">
+                <span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-or-400 text-brand-950"><Check className="size-3.5" aria-hidden /></span>
+                Votre dossier suivi étape par étape, depuis votre téléphone
+              </p>
+            </div>
+          </div>
+
+          <div className="mt-6 max-w-xl sm:mt-8">
             <Recherche />
             {populaires.liste?.length > 0 && (
               <div className="mt-4 flex flex-wrap items-center gap-2 text-sm">
@@ -227,14 +240,14 @@ function Presentation({ populaires }) {
             )}
           </div>
 
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+          <div className="mt-6 flex flex-col gap-3 sm:mt-8 sm:flex-row">
             <Bouton vers="/procedures" taille="lg" iconeDroite={ArrowRight}>Consulter les procédures</Bouton>
             <Bouton vers={suivi.vers} state={suivi.state} variante="secondaire" taille="lg">Suivre mon dossier</Bouton>
           </div>
         </div>
 
         {/* Visuel : une citoyenne en ligne et les étapes réelles d'un dossier */}
-        <div className="relative mx-auto w-full max-w-md animate-apparition pb-6 [animation-delay:150ms] sm:pb-8 lg:max-w-none">
+        <div className="relative mx-auto hidden w-full animate-apparition pb-8 [animation-delay:150ms] lg:block">
           {/* Cadre aux couleurs nationales, légèrement décalé derrière la photo */}
           <div className="absolute -right-3 -top-3 bottom-9 left-6 rounded-[2rem] sm:bottom-11" style={{ background: `linear-gradient(135deg, ${COULEURS_SENEGAL.vert}, ${COULEURS_SENEGAL.or} 55%, ${COULEURS_SENEGAL.rouge})`, opacity: 0.85 }} aria-hidden />
           <div className="relative aspect-[4/3.6] overflow-hidden rounded-[2rem] bg-slate-100 shadow-flottant">
@@ -379,7 +392,6 @@ function PartoutAuSenegal() {
       <img src={dakar} alt="" className="absolute inset-0 -z-20 size-full object-cover opacity-40" />
       <div className="absolute inset-0 -z-10 bg-gradient-to-r from-brand-950 via-brand-950/90 to-brand-950/40" />
       <div className="motif-senegal absolute inset-0 -z-10 opacity-60" aria-hidden />
-      <Baobab className="absolute -bottom-2 right-3 -z-10 h-56 text-white opacity-[0.07] lg:left-[40%] lg:right-auto lg:h-80" />
       <BandeWax className="absolute inset-x-0 top-0" />
       <BandeWax className="absolute inset-x-0 bottom-0" />
 

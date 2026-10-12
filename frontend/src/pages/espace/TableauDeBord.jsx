@@ -23,7 +23,7 @@ import { Link } from 'react-router-dom'
 import goree from '../../assets/images/goree.jpg'
 import { BadgeStatut, Frise } from '../../components/dossiers'
 import { IconeCategorie } from '../../components/ui/Icones'
-import { Avatar, BandeWax, Baobab, Bouton, Squelette } from '../../components/ui'
+import { Avatar, BandeWax, Bouton, Squelette } from '../../components/ui'
 import { useAuth } from '../../context/AuthContext'
 import { api } from '../../lib/api'
 import { libelleDelai } from '../../lib/icones'
@@ -37,7 +37,6 @@ function Bandeau({ message, action }) {
       <img src={goree} alt="" className="absolute inset-0 -z-20 size-full object-cover opacity-35" />
       <div className="absolute inset-0 -z-10 bg-gradient-to-r from-brand-950 via-brand-900/90 to-brand-900/30" />
       <div className="motif-senegal absolute inset-0 -z-10 opacity-70" aria-hidden />
-      <Baobab className="absolute -bottom-1 right-4 -z-10 h-36 text-white opacity-10 sm:right-[30%] sm:h-44" />
       <BandeWax className="absolute inset-x-0 bottom-0" />
       <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
         <div>
@@ -141,7 +140,7 @@ function TableauCitoyen() {
       <section className="grid grid-cols-2 gap-4 lg:grid-cols-4">
         <Tuile icone={Hourglass} ton="sky" libelle="En cours" aide="Chez l’administration" valeur={resume?.en_cours} vers="/espace/dossiers" />
         <Tuile icone={AlertTriangle} ton="orange" libelle="Action requise" aide="Correction demandée" valeur={resume?.action_requise} vers="/espace/dossiers" />
-        <Tuile icone={CheckCircle2} ton="brand" libelle="Abouties" aide="Validées ou terminées" valeur={resume?.aboutis} vers="/espace/dossiers" />
+        <Tuile icone={CheckCircle2} ton="brand" libelle="Abouties" aide="Validées, terminées" valeur={resume?.aboutis} vers="/espace/dossiers" />
         <Tuile icone={PenLine} ton="slate" libelle="Brouillons" aide="Pas encore envoyés" valeur={resume?.brouillons} vers="/espace/dossiers" />
       </section>
 
@@ -224,11 +223,11 @@ function TableauAgent() {
 
       <section className="grid grid-cols-2 gap-4 lg:grid-cols-3 xl:grid-cols-6">
         <Tuile icone={Inbox} ton="indigo" libelle="Nouveaux" aide="À prendre en charge" valeur={resume?.nouveaux} vers="/espace/traitement" />
-        <Tuile icone={ClipboardList} ton="or" libelle="En vérification" valeur={resume?.en_verification} vers="/espace/traitement" />
-        <Tuile icone={Hourglass} ton="sky" libelle="En traitement" valeur={resume?.en_traitement} vers="/espace/traitement" />
+        <Tuile icone={ClipboardList} ton="or" libelle="En vérification" aide="Pièces à contrôler" valeur={resume?.en_verification} vers="/espace/traitement" />
+        <Tuile icone={Hourglass} ton="sky" libelle="En traitement" aide="En cours d’instruction" valeur={resume?.en_traitement} vers="/espace/traitement" />
         <Tuile icone={AlarmClock} ton="red" libelle="En retard" aide="Délai dépassé" valeur={resume?.en_retard} vers="/espace/traitement" />
-        <Tuile icone={UserCheck} ton="brand" libelle="Mes dossiers" aide="Dont je suis responsable" valeur={resume?.mes_dossiers} vers="/espace/traitement" />
-        <Tuile icone={CheckCircle2} ton="slate" libelle="Décisions" aide="Rendues ce mois-ci" valeur={resume?.traites_ce_mois} />
+        <Tuile icone={UserCheck} ton="brand" libelle="Mes dossiers" aide="Que je traite" valeur={resume?.mes_dossiers} vers="/espace/traitement" />
+        <Tuile icone={CheckCircle2} ton="slate" libelle="Décisions" aide="Rendues ce mois" valeur={resume?.traites_ce_mois} />
       </section>
 
       <section className="carte">
@@ -310,10 +309,10 @@ function TableauPilotage() {
       />
 
       <section className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-        <Tuile icone={Hourglass} ton="sky" libelle="Dossiers en cours" valeur={enCours !== null ? nombre(enCours) : null} vers="/espace/traitement" />
-        <Tuile icone={Inbox} ton="indigo" libelle="Nouveaux" aide="Non encore pris en charge" valeur={resume?.nouveaux} />
-        <Tuile icone={AlarmClock} ton="red" libelle="En retard" aide="Délai indicatif dépassé" valeur={resume?.en_retard} />
-        <Tuile icone={CheckCircle2} ton="brand" libelle="Décisions ce mois" valeur={resume?.traites_ce_mois} />
+        <Tuile icone={Hourglass} ton="sky" libelle="En cours" aide="Chez l’administration" valeur={enCours !== null ? nombre(enCours) : null} vers="/espace/traitement" />
+        <Tuile icone={Inbox} ton="indigo" libelle="Nouveaux" aide="À prendre en charge" valeur={resume?.nouveaux} />
+        <Tuile icone={AlarmClock} ton="red" libelle="En retard" aide="Délai dépassé" valeur={resume?.en_retard} />
+        <Tuile icone={CheckCircle2} ton="brand" libelle="Décisions" aide="Rendues ce mois" valeur={resume?.traites_ce_mois} />
       </section>
 
       <section>
