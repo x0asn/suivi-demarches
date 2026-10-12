@@ -27,6 +27,23 @@
     font-feature-settings: 'cv11', 'ss01';
   }
 
+  /*
+   * Une colonne de grille ne doit jamais s'élargir pour loger son contenu (long titre, tableau) :
+   * sans cela, la page devient plus large que l'écran du téléphone. Le contenu trop large
+   * défile ou se tronque à l'intérieur de sa colonne.
+   */
+  .grid > * {
+    min-width: 0;
+  }
+
+  /*
+   * Un tableau large défile dans son cadre. Le cadre doit être « positionné » pour retenir aussi
+   * les textes réservés aux lecteurs d'écran (.sr-only) : sinon ils sortent du cadre et élargissent la page.
+   */
+  .overflow-x-auto {
+    position: relative;
+  }
+
   :focus-visible {
     @apply outline outline-2 outline-offset-2 outline-brand-600;
   }

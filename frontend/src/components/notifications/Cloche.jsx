@@ -71,8 +71,9 @@ export default function Cloche() {
         )}
       </button>
 
+      {/* Sur téléphone, la fenêtre est centrée sur toute la largeur de l'écran ; sur ordinateur, elle s'ouvre sous la cloche. */}
       {ouvert && (
-        <div className="absolute right-0 z-30 mt-2 w-[min(24rem,calc(100vw-2rem))] animate-apparition overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-flottant">
+        <div className="fixed inset-x-3 top-[4.5rem] z-30 animate-apparition overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-flottant sm:absolute sm:inset-x-auto sm:right-0 sm:top-auto sm:mt-2 sm:w-96">
           <div className="flex items-center justify-between border-b border-slate-100 px-4 py-3">
             <p className="font-semibold text-slate-900">Notifications</p>
             {apercu.non_lues > 0 && (
@@ -86,7 +87,7 @@ export default function Cloche() {
               <BellOff className="mb-2 size-6 text-slate-300" aria-hidden /> Aucune notification pour le moment.
             </div>
           ) : (
-            <ul className="max-h-96 divide-y divide-slate-100 overflow-y-auto">
+            <ul className="max-h-[60vh] divide-y divide-slate-100 overflow-y-auto sm:max-h-96">
               {apercu.dernieres.map((n) => (
                 <li key={n.id}>
                   <button onClick={() => ouvrir(n)} className={cx('flex w-full gap-3 px-4 py-3 text-left transition hover:bg-slate-50', !n.lue && 'bg-brand-50/50')}>
