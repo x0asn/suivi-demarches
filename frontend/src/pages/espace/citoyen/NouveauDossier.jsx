@@ -1,5 +1,5 @@
 import { ArrowLeft, ArrowRight, Clock, FileCheck2, Landmark, MapPin, Scale, Search } from 'lucide-react'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { IconeCategorie } from '../../../components/ui/Icones'
 import { Alerte, Bouton, Chargement, ZoneTexte } from '../../../components/ui'
@@ -45,6 +45,10 @@ export default function NouveauDossier() {
   const [recherche, setRecherche] = useState('')
   const [erreur, setErreur] = useState(null)
   const [envoi, setEnvoi] = useState(false)
+  // Choix de l'administration oublié : la page y ramène le citoyen (sur téléphone, il est hors de l'écran).
+  const [choixManquant, setChoixManquant] = useState(false)
+  const choixRef = useRef(null)
+  const rechercheRef = useRef(null)
 
   useEffect(() => {
     api(`/procedures/${slug}`)
@@ -61,9 +65,20 @@ export default function NouveauDossier() {
   if (introuvable) return <NonTrouve integre titre="Procédure introuvable" retour="/procedures" libelleRetour="Voir le catalogue" />
   if (!procedure) return <Chargement />
 
+  const montrerChoix = () => {
+    choixRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+    setTimeout(() => rechercheRef.current?.focus({ preventScroll: true }), 450)
+  }
+
   const commencer = async (e) => {
     e.preventDefault()
     setErreur(null)
+    if ((procedure.services ?? []).length > 1 && !serviceId) {
+      setChoixManquant(true)
+      toast.erreur('Choisissez d’abord la mairie à laquelle vous adressez votre demande.')
+      montrerChoix()
+      return
+    }
     setEnvoi(true)
     try {
       const r = await api('/dossiers', { method: 'POST', body: { procedure: slug, service_id: serviceId, ...champs } })
@@ -72,6 +87,7 @@ export default function NouveauDossier() {
     } catch (err) {
       setErreur(err)
       setEnvoi(false)
+      if (err.champ?.('service_id')) montrerChoix()
     }
   }
 
@@ -93,9 +109,18 @@ export default function NouveauDossier() {
       return termes.every((t) => texte.includes(t))
     })
     .sort((x, y) => pertinence(x) - pertinence(y))
+  // Rien de choisi ni de cherché : on propose déjà la mairie de la commune du citoyen.
+  const suggestion = longue && !administration && termes.length === 0
+    ? administrations.find((s) => memeCommune(s.commune, utilisateur.commune))
+    : null
   const proposees = longue
-    ? [...(administration ? [administration] : []), ...trouvees.filter((s) => s.id !== serviceId)].slice(0, termes.length > 0 ? LISTE_COURTE : administration ? 1 : 0)
+    ? suggestion
+      ? [suggestion]
+      : [...(administration ? [administration] : []), ...trouvees.filter((s) => s.id !== serviceId)].slice(0, termes.length > 0 ? LISTE_COURTE : administration ? 1 : 0)
     : administrations
+  const messageChoix = erreur?.champ?.('service_id') || (choixManquant && !serviceId
+    ? 'Choisissez votre mairie : tapez le nom de sa commune ci-dessus, puis cochez-la.'
+    : null)
 
   return (
     <div className="mx-auto max-w-3xl">
@@ -133,8 +158,10 @@ export default function NouveauDossier() {
           {erreur && erreur.status !== 422 && <Alerte type="erreur">{erreur.message}</Alerte>}
 
           {administrations.length > 1 && (
-            <fieldset>
-              <legend className="text-sm font-medium text-slate-900">À quelle administration adressez-vous votre demande ?</legend>
+            <fieldset ref={choixRef} className="scroll-mt-24">
+              <legend className="text-sm font-medium text-slate-900">
+                À quelle administration adressez-vous votre demande ? <span className="text-red-600" aria-hidden>*</span>
+              </legend>
               {procedure.competence && (
                 <p className={cx('mt-2 flex gap-2 rounded-xl p-3 text-sm ring-1', procedure.competence.depend_du_territoire ? 'bg-or-50 text-slate-700 ring-or-200' : 'bg-brand-50 text-brand-900 ring-brand-100')}>
                   <Scale className="mt-0.5 size-4 shrink-0" aria-hidden />
@@ -146,6 +173,7 @@ export default function NouveauDossier() {
                   <div className="relative">
                     <Search className="pointer-events-none absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-slate-400" aria-hidden />
                     <input
+                      ref={rechercheRef}
                       type="search"
                       value={recherche}
                       onChange={(e) => setRecherche(e.target.value)}
@@ -168,17 +196,21 @@ export default function NouveauDossier() {
                   const choisie = s.id === serviceId
                   return (
                     <label key={s.id} className={cx('flex cursor-pointer items-start gap-2.5 rounded-xl px-3 py-2.5 text-sm ring-1 transition', choisie ? 'bg-brand-50 ring-2 ring-brand-600' : 'ring-slate-200 hover:ring-brand-300')}>
-                      <input type="radio" name="service_id" className="mt-1 size-4 accent-brand-700" checked={choisie} onChange={() => setServiceId(s.id)} />
+                      <input type="radio" name="service_id" className="mt-1 size-4 accent-brand-700" checked={choisie} onChange={() => { setServiceId(s.id); setChoixManquant(false) }} />
                       <span className="min-w-0">
                         <span className="block font-medium text-slate-900">{s.nom}</span>
                         <span className="flex items-center gap-1 text-slate-500"><MapPin className="size-3.5 shrink-0" aria-hidden /> {s.commune} · {s.region}</span>
-                        {procedure.competence?.valeur === 'lieu_residence' && memeCommune(s.commune, utilisateur.commune) && <span className="mt-1 inline-block rounded-full bg-brand-700 px-2 py-0.5 text-xs font-semibold text-white">Votre commune</span>}
+                        {memeCommune(s.commune, utilisateur.commune) && (
+                          <span className="mt-1 inline-block rounded-full bg-brand-700 px-2 py-0.5 text-xs font-semibold text-white">
+                            Votre commune{procedure.competence?.valeur === 'lieu_naissance' ? ' — si vous y êtes né(e)' : ''}
+                          </span>
+                        )}
                       </span>
                     </label>
                   )
                 })}
               </div>
-              {erreur?.champ('service_id') && <p className="mt-2 text-sm text-red-600" role="alert">{erreur.champ('service_id')}</p>}
+              {messageChoix && <p className="mt-2 text-sm font-medium text-red-600" role="alert">{messageChoix}</p>}
               <Link to={`/services?demarche=${slug}`} className="mt-3 inline-flex items-start gap-1.5 text-sm font-semibold text-brand-700 hover:text-brand-800">
                 <MapPin className="mt-0.5 size-4 shrink-0" aria-hidden /> Voir ces administrations sur la carte, avec la distance
               </Link>
@@ -189,7 +221,7 @@ export default function NouveauDossier() {
             rows={3}
             value={champs.motif}
             onChange={(e) => setChamps((c) => ({ ...c, motif: e.target.value }))}
-            erreur={erreur?.champ('motif')}
+            erreur={erreur?.champ?.('motif')}
             placeholder="Ex. : constitution d’un dossier de concours de la fonction publique."
             aide="Expliquez en une phrase pourquoi vous faites cette demande. Vous pourrez le modifier avant l’envoi."
             maxLength={2000}

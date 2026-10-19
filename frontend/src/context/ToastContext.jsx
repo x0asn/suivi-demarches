@@ -18,7 +18,8 @@ export function ToastProvider({ children }) {
 
   const afficher = useCallback(
     (type, message, titre) => {
-      const id = crypto.randomUUID()
+      // Pas de crypto.randomUUID : il n'existe pas sur une adresse http (téléphone sur le wifi).
+      const id = `${Date.now()}-${Math.random().toString(36).slice(2)}`
       setToasts((t) => [...t.slice(-3), { id, type, message, titre }])
       setTimeout(() => fermer(id), 5000)
     },
@@ -40,7 +41,7 @@ export function ToastProvider({ children }) {
       {children}
       <div
         aria-live="polite"
-        className="pointer-events-none fixed inset-x-0 bottom-0 z-[100] flex flex-col items-center gap-2 p-4 sm:items-end sm:p-6"
+        className="pointer-events-none fixed inset-x-0 bottom-20 z-[1200] flex flex-col items-center gap-2 p-4 sm:items-end sm:p-6"
       >
         {toasts.map(({ id, type, message, titre }) => {
           const { icone: Icone, classe } = STYLES[type]
