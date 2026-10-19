@@ -138,7 +138,7 @@ class Assistant
                 $lignes[] = "Public concerné : {$p->public_concerne}";
             }
             $lignes[] = 'Délai indicatif : '.($p->delai_jours ? "{$p->delai_jours} jour(s)" : 'non précisé');
-            $lignes[] = 'Coût : '.($p->cout ?: 'non précisé');
+            $lignes[] = 'Coût : '.($p->coutAffiche() ?: 'non précisé');
 
             $lignes[] = 'Pièces à fournir :';
             foreach ($p->pieces as $piece) {

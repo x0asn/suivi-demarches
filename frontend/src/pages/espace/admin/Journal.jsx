@@ -8,6 +8,8 @@ import { dates } from '../../../lib/utils'
 const FAMILLES = [
   { valeur: '', libelle: 'Toutes les actions' },
   { valeur: 'connexion', libelle: 'Connexions' },
+  { valeur: 'dossier', libelle: 'Dossiers' },
+  { valeur: 'paiement', libelle: 'Paiements' },
   { valeur: 'admin', libelle: 'Administration' },
   { valeur: 'profil', libelle: 'Profils' },
   { valeur: 'mot_de_passe', libelle: 'Mots de passe' },
@@ -74,7 +76,27 @@ export default function Journal() {
         ) : !chargement && donnees.length === 0 ? (
           <EtatVide icone={ScrollText} titre="Aucune action enregistrée" description="Aucune entrée ne correspond à ces filtres." />
         ) : (
-          <div className="overflow-x-auto">
+          <>
+          {/* Téléphone : une ligne lisible par action, sans tableau à faire défiler. */}
+          <ul className="divide-y divide-slate-100 sm:hidden">
+            {chargement
+              ? Array.from({ length: 6 }).map((_, i) => <li key={i} className="p-4"><Squelette className="h-12" /></li>)
+              : donnees.map((j) => (
+                  <li key={j.id} className="px-4 py-3.5">
+                    <div className="flex items-start justify-between gap-3">
+                      <p className="font-medium leading-snug text-slate-900">{LIBELLES_ACTIONS[j.action] ?? j.action}</p>
+                      {j.resultat === 'succes'
+                        ? <CheckCircle2 className="mt-0.5 size-4 shrink-0 text-brand-600" aria-label="Succès" />
+                        : <XCircle className="mt-0.5 size-4 shrink-0 text-red-600" aria-label="Échec" />}
+                    </div>
+                    <p className="mt-0.5 text-xs text-slate-500">
+                      {j.user ? `${j.user.prenom} ${j.user.nom} · ${ROLES[j.user.role]?.libelle ?? ''}` : 'Anonyme'}
+                    </p>
+                    <p className="mt-0.5 text-xs text-slate-400">{dates.heure(j.created_at)}{j.objet_type && ` · ${j.objet_type} #${j.objet_id}`}</p>
+                  </li>
+                ))}
+          </ul>
+          <div className="hidden overflow-x-auto sm:block">
             <table className="w-full text-left text-sm">
               <thead className="bg-slate-50/80 text-xs font-semibold tracking-wide text-slate-500 uppercase">
                 <tr>
@@ -122,6 +144,7 @@ export default function Journal() {
               </tbody>
             </table>
           </div>
+          </>
         )}
         <Pagination meta={meta} onPage={allerPage} />
       </div>

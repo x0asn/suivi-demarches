@@ -1,7 +1,7 @@
 import { ChevronDown, MessageSquarePlus, MessageSquareWarning, Reply } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
-import { Alerte, Badge, Bouton, Champ, EnTetePage, EtatVide, Modale, Pagination, Selecteur, Squelette, ZoneTexte } from '../../components/ui'
+import { Alerte, Badge, Bouton, Champ, EnTetePage, EtatVide, Filtres, Modale, Pagination, Selecteur, Squelette, ZoneTexte } from '../../components/ui'
 import { useAuth } from '../../context/AuthContext'
 import { useToast } from '../../context/ToastContext'
 import { useListe } from '../../hooks/useListe'
@@ -141,12 +141,13 @@ export default function Reclamations() {
         actions={estCitoyen && <Bouton icone={MessageSquarePlus} onClick={() => setCreation(true)}>Nouvelle réclamation</Bouton>}
       />
 
-      <div className="mb-4 flex flex-wrap gap-1" role="tablist">
-        {[['', 'Toutes'], ['ouverte', 'Ouvertes'], ['en_cours', 'En cours'], ['resolue', 'Résolues'], ['rejetee', 'Non fondées']].map(([v, l]) => (
-          <button key={v} role="tab" aria-selected={filtres.statut === v} onClick={() => filtrer({ statut: v })} className={cx('rounded-lg px-3.5 py-2 text-sm font-medium', filtres.statut === v ? 'bg-white text-brand-800 shadow-sm ring-1 ring-slate-200' : 'text-slate-600 hover:text-slate-900')}>{l}</button>
-        ))}
-      </div>
-
+      <Filtres
+        className="mb-4"
+        options={[['', 'Toutes'], ['ouverte', 'Ouvertes'], ['en_cours', 'En cours'], ['resolue', 'Résolues'], ['rejetee', 'Non fondées']].map(([valeur, libelle]) => ({ valeur, libelle }))}
+        valeur={filtres.statut}
+        onChange={(statut) => filtrer({ statut })}
+        label="Filtrer les réclamations"
+      />
       <div className="carte overflow-hidden">
         {erreur ? (
           <div className="p-6"><Alerte type="erreur">{erreur.message}</Alerte></div>

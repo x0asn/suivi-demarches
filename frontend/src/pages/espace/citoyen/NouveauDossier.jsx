@@ -142,16 +142,18 @@ export default function NouveauDossier() {
                 </p>
               )}
               {longue && (
-                <div className="relative mt-3">
-                  <Search className="pointer-events-none absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-slate-400" aria-hidden />
-                  <input
-                    type="search"
-                    value={recherche}
-                    onChange={(e) => setRecherche(e.target.value)}
-                    placeholder="Tapez le nom de la commune : Thiès, Kolda, Podor…"
-                    aria-label="Rechercher une administration par commune"
-                    className="block w-full rounded-xl border-0 bg-white py-2.5 pl-10 pr-3.5 text-sm shadow-sm ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-600"
-                  />
+                <div className="mt-3">
+                  <div className="relative">
+                    <Search className="pointer-events-none absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-slate-400" aria-hidden />
+                    <input
+                      type="search"
+                      value={recherche}
+                      onChange={(e) => setRecherche(e.target.value)}
+                      placeholder="Nom de la commune : Thiès, Kolda…"
+                      aria-label="Rechercher une administration par commune"
+                      className="block w-full rounded-xl border-0 bg-white py-2.5 pl-10 pr-3.5 text-sm shadow-sm ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-600"
+                    />
+                  </div>
                   <p className="mt-1.5 text-xs text-slate-500" aria-live="polite">
                     {termes.length === 0
                       ? `${administrations.length} administrations peuvent traiter cette démarche. Cherchez la vôtre par le nom de sa commune.`
@@ -177,8 +179,8 @@ export default function NouveauDossier() {
                 })}
               </div>
               {erreur?.champ('service_id') && <p className="mt-2 text-sm text-red-600" role="alert">{erreur.champ('service_id')}</p>}
-              <Link to={`/services?demarche=${slug}`} className="mt-3 inline-flex items-center gap-1.5 text-sm font-semibold text-brand-700 hover:text-brand-800">
-                Voir ces administrations sur la carte, avec la distance <ArrowRight className="size-4" aria-hidden />
+              <Link to={`/services?demarche=${slug}`} className="mt-3 inline-flex items-start gap-1.5 text-sm font-semibold text-brand-700 hover:text-brand-800">
+                <MapPin className="mt-0.5 size-4 shrink-0" aria-hidden /> Voir ces administrations sur la carte, avec la distance
               </Link>
             </fieldset>
           )}

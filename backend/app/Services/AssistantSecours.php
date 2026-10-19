@@ -135,8 +135,8 @@ class AssistantSecours
         if ($p->delai_jours) {
             $lignes[] = "Délai indicatif : **{$p->delai_jours} jour".($p->delai_jours > 1 ? 's' : '').'**.';
         }
-        if ($p->cout) {
-            $lignes[] = "Coût : **{$p->cout}**.";
+        if ($cout = $p->coutAffiche()) {
+            $lignes[] = "Coût : **{$cout}**.";
         }
         if ($p->services->isNotEmpty()) {
             $lignes[] = '';

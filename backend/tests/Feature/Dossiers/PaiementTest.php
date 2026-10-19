@@ -148,6 +148,40 @@ class PaiementTest extends TestCase
         $this->getJson("/api/paiements/{$id}")->assertForbidden();
     }
 
+    public function test_un_brouillon_paye_ne_peut_pas_etre_supprime(): void
+    {
+        $this->fauxPayDunya('completed');
+        $dossier = $this->dossier();
+        $id = $this->postJson("/api/dossiers/{$dossier->id}/paiements", ['operateur' => 'wave'])->json('data.paiement.id');
+        $this->getJson("/api/paiements/{$id}");
+
+        $this->getJson("/api/dossiers/{$dossier->id}")->assertJsonPath('data.permissions.supprimer', false);
+        $this->deleteJson("/api/dossiers/{$dossier->id}")->assertForbidden();
+        $this->assertDatabaseHas('paiements', ['id' => $id, 'statut' => Paiement::PAYE]);
+    }
+
+    public function test_un_paiement_en_attente_finalement_regle_bloque_la_suppression(): void
+    {
+        $this->fauxPayDunya('completed');
+        $dossier = $this->dossier();
+        $this->postJson("/api/dossiers/{$dossier->id}/paiements", ['operateur' => 'orange_money']);
+
+        // Le citoyen n'est pas revenu sur l'application, mais il a bien payé.
+        $this->deleteJson("/api/dossiers/{$dossier->id}")->assertStatus(409);
+        $this->assertTrue($dossier->fresh()->estPaye());
+    }
+
+    public function test_un_brouillon_avec_un_paiement_annule_peut_etre_supprime(): void
+    {
+        $this->fauxPayDunya('cancelled');
+        $dossier = $this->dossier();
+        $this->postJson("/api/dossiers/{$dossier->id}/paiements", ['operateur' => 'wave']);
+
+        $this->deleteJson("/api/dossiers/{$dossier->id}")->assertOk();
+        $this->assertNull($dossier->fresh());
+        $this->assertSame(0, Paiement::count());
+    }
+
     public function test_operateur_inconnu_refuse(): void
     {
         $dossier = $this->dossier();

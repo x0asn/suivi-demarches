@@ -29,7 +29,7 @@ function debutPeriode(mois) {
 function Indicateur({ icone: Icone, libelle, valeur, aide }) {
   return (
     <div className="carte p-5">
-      <p className="flex items-center gap-2 text-sm text-slate-500"><Icone className="size-4 text-brand-600" aria-hidden /> {libelle}</p>
+      <p className="flex items-start gap-2 text-sm text-slate-500"><Icone className="mt-0.5 size-4 shrink-0 text-brand-600" aria-hidden /> <span>{libelle}</span></p>
       <p className="mt-2 font-display text-3xl font-semibold tabular-nums text-slate-900">{valeur ?? '—'}</p>
       {aide && <p className="mt-1 text-xs text-slate-500">{aide}</p>}
     </div>

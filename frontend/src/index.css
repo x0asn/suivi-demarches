@@ -160,3 +160,16 @@
     scroll-behavior: auto !important;
   }
 }
+
+/*
+ * Téléphones (iPhone en particulier) : un champ dont le texte fait moins de 16 px fait zoomer
+ * Safari dès qu'on le touche, et la page se décale. Sur écran tactile, les champs passent à 16 px.
+ */
+@media (pointer: coarse) {
+  input:not([type='checkbox']):not([type='radio']):not([type='range']):not([type='file']),
+  select:not([multiple]),
+  textarea:not([disabled]),
+  textarea[disabled] {
+    font-size: 16px;
+  }
+}

@@ -1,4 +1,4 @@
-import { ExternalLink, FilePlus2, FileText, Pencil, Search } from 'lucide-react'
+import { ChevronRight, ExternalLink, FilePlus2, FileText, Pencil, Search } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Alerte, Badge, Bouton, Champ, EnTetePage, EtatVide, Pagination, Selecteur, Squelette } from '../../../components/ui'
@@ -6,7 +6,7 @@ import { useListe } from '../../../hooks/useListe'
 import { api } from '../../../lib/api'
 import { iconeCategorie } from '../../../lib/icones'
 import { STATUTS_PROCEDURE } from '../../../lib/procedures'
-import { dates } from '../../../lib/utils'
+import { dates, nombre } from '../../../lib/utils'
 
 /** RF-017 / UC-07 : référentiel des procédures. */
 export default function ProceduresAdmin() {
@@ -49,7 +49,33 @@ export default function ProceduresAdmin() {
             action={<Bouton vers="/espace/admin/procedures/nouvelle" variante="secondaire" icone={FilePlus2}>Créer une procédure</Bouton>}
           />
         ) : (
-          <div className="overflow-x-auto">
+          <>
+          {/* Téléphone : une carte par procédure, entièrement cliquable. */}
+          <ul className="divide-y divide-slate-100 sm:hidden">
+            {chargement
+              ? Array.from({ length: 5 }).map((_, i) => <li key={i} className="p-4"><Squelette className="h-14" /></li>)
+              : donnees.map((p) => {
+                  const Icone = iconeCategorie(p.categorie?.icone)
+                  const statut = STATUTS_PROCEDURE[p.statut]
+                  return (
+                    <li key={p.id}>
+                      <Link to={`/espace/admin/procedures/${p.id}`} className="flex items-center gap-3 px-4 py-3.5 active:bg-slate-50">
+                        <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-brand-50 text-brand-700"><Icone className="size-[1.1rem]" aria-hidden /></span>
+                        <span className="min-w-0 flex-1">
+                          <span className="block font-medium leading-snug text-slate-900">{p.titre}</span>
+                          <span className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-slate-500">
+                            <Badge className={statut.classe} point={statut.point}>{statut.libelle}</Badge>
+                            <span>{p.categorie?.nom}</span>
+                            {p.frais > 0 && <span className="font-medium text-slate-700">{nombre(p.frais)} F CFA</span>}
+                          </span>
+                        </span>
+                        <ChevronRight className="size-5 shrink-0 text-slate-300" aria-hidden />
+                      </Link>
+                    </li>
+                  )
+                })}
+          </ul>
+          <div className="hidden overflow-x-auto sm:block">
             <table className="w-full text-left text-sm">
               <thead className="bg-slate-50/80 text-xs font-semibold uppercase tracking-wide text-slate-500">
                 <tr>
@@ -100,6 +126,7 @@ export default function ProceduresAdmin() {
               </tbody>
             </table>
           </div>
+          </>
         )}
         <Pagination meta={meta} onPage={allerPage} />
       </div>

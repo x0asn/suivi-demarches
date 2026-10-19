@@ -130,8 +130,8 @@ export function BlocPaiement({ dossier, onVerifier, verification }) {
             </button>
           ))}
         </div>
-        <p className="mt-4 flex items-center gap-1.5 text-xs text-slate-500">
-          <Lock className="size-3.5" aria-hidden /> Paiement sécurisé par PayDunya. Aucun code secret n’est saisi sur cette application.
+        <p className="mt-4 flex items-start gap-1.5 text-xs leading-4 text-slate-500">
+          <Lock className="mt-px size-3.5 shrink-0" aria-hidden /> <span>Paiement sécurisé par PayDunya. Aucun code secret n’est saisi sur cette application.</span>
         </p>
       </div>
     </section>

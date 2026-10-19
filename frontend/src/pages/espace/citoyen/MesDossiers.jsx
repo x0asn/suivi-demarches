@@ -2,7 +2,7 @@ import { ArrowRight, FolderOpen, Plus, Search } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { BadgeStatut, Frise } from '../../../components/dossiers'
 import { IconeCategorie } from '../../../components/ui/Icones'
-import { Alerte, Bouton, EnTetePage, EtatVide, Pagination, Squelette } from '../../../components/ui'
+import { Alerte, Bouton, EnTetePage, EtatVide, Filtres, Pagination, Squelette } from '../../../components/ui'
 import { useListe } from '../../../hooks/useListe'
 import { STATUTS_DOSSIER } from '../../../lib/dossiers'
 import { cx, dates } from '../../../lib/utils'
@@ -29,22 +29,7 @@ export default function MesDossiers() {
       />
 
       <div className="mb-6 flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
-        <div className="onglets -mx-4 flex gap-1 px-4 lg:mx-0 lg:px-0" role="tablist" aria-label="Filtrer mes dossiers">
-          {ONGLETS.map((o) => (
-            <button
-              key={o.valeur}
-              role="tab"
-              aria-selected={filtres.statut === o.valeur}
-              onClick={() => filtrer({ statut: o.valeur })}
-              className={cx(
-                'shrink-0 rounded-lg px-3.5 py-2 text-sm font-medium transition',
-                filtres.statut === o.valeur ? 'bg-white text-brand-800 shadow-sm ring-1 ring-slate-200' : 'text-slate-600 hover:text-slate-900',
-              )}
-            >
-              {o.libelle}
-            </button>
-          ))}
-        </div>
+        <Filtres options={ONGLETS} valeur={filtres.statut} onChange={(statut) => filtrer({ statut })} label="Filtrer mes dossiers" />
         <div className="relative lg:w-72">
           <Search className="pointer-events-none absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-slate-400" aria-hidden />
           <input

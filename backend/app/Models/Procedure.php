@@ -72,6 +72,12 @@ class Procedure extends Model
         return $this->hasMany(EtapeProcedure::class)->orderBy('ordre');
     }
 
+    /** Coût présenté au citoyen : le montant payé en ligne s'il existe, sinon la mention saisie. */
+    public function coutAffiche(): ?string
+    {
+        return $this->frais > 0 ? number_format($this->frais, 0, ',', ' ').' F CFA (Wave ou Orange Money)' : $this->cout;
+    }
+
     public function dossiers(): HasMany
     {
         return $this->hasMany(Dossier::class);

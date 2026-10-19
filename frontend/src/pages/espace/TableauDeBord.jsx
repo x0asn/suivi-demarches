@@ -26,7 +26,7 @@ import { IconeCategorie } from '../../components/ui/Icones'
 import { Avatar, BandeWax, Bouton, Squelette } from '../../components/ui'
 import { useAuth } from '../../context/AuthContext'
 import { api } from '../../lib/api'
-import { libelleDelai } from '../../lib/icones'
+import { libelleCout, libelleDelai } from '../../lib/icones'
 import { ROLES } from '../../lib/roles'
 import { cx, dates, nombre, salutation } from '../../lib/utils'
 
@@ -189,7 +189,7 @@ function TableauCitoyen() {
                   <span className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-slate-100 text-slate-600 group-hover:bg-brand-700 group-hover:text-white"><IconeCategorie nom={p.categorie?.icone} className="size-4" /></span>
                   <span className="min-w-0 flex-1">
                     <span className="block truncate text-sm font-medium text-slate-800">{p.titre}</span>
-                    <span className="block text-xs text-slate-500">{libelleDelai(p.delai_jours)} · {p.cout}</span>
+                    <span className="block text-xs text-slate-500">{libelleDelai(p.delai_jours)} · {libelleCout(p)}</span>
                   </span>
                 </Link>
               </li>

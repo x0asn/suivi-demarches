@@ -4,7 +4,7 @@ import { Link, useSearchParams } from 'react-router-dom'
 import { Alerte, Pagination, Squelette } from '../../components/ui'
 import { api } from '../../lib/api'
 import { IconeCategorie } from '../../components/ui/Icones'
-import { iconeCategorie, libelleDelai } from '../../lib/icones'
+import { iconeCategorie, libelleCout, libelleDelai } from '../../lib/icones'
 import { cx } from '../../lib/utils'
 
 function CarteProcedure({ procedure }) {
@@ -33,7 +33,7 @@ function CarteProcedure({ procedure }) {
         </div>
         <div className="min-w-0">
           <dt className="flex items-center gap-1 text-slate-500"><Wallet className="size-3.5" aria-hidden /> Coût</dt>
-          <dd className="mt-0.5 truncate font-semibold text-slate-800" title={procedure.cout}>{procedure.cout ?? '—'}</dd>
+          <dd className="mt-0.5 truncate font-semibold text-slate-800" title={libelleCout(procedure)}>{libelleCout(procedure)}</dd>
         </div>
       </dl>
       {procedure.service && (

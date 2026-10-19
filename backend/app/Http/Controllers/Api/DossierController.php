@@ -10,13 +10,16 @@ use App\Http\Requests\Dossiers\StoreDossierRequest;
 use App\Http\Requests\Dossiers\UpdateDossierRequest;
 use App\Http\Resources\DossierResource;
 use App\Models\Dossier;
+use App\Models\Paiement;
 use App\Models\Procedure;
 use App\Services\Journal;
+use App\Services\PayDunya;
 use App\Services\Workflow;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
+use Throwable;
 
 /**
  * Module M03 — Dossiers du citoyen (RF-006, RF-007, RF-009, RF-011) et consultation d'un dossier autorisé.
@@ -142,9 +145,28 @@ class DossierController extends Controller
     {
         $this->authorize('delete', $dossier);
 
+        // Un paiement encore « en attente » a peut-être abouti : on le fait confirmer avant de supprimer.
+        foreach ($dossier->paiements()->where('statut', Paiement::EN_ATTENTE)->whereNotNull('reference_prestataire')->get() as $paiement) {
+            if (PayDunya::configure()) {
+                try {
+                    $etat = PayDunya::consulter($paiement->reference_prestataire);
+                    PaiementController::actualiser($paiement, $etat['statut'], $etat['recu']);
+                } catch (Throwable) {
+                    return $this->erreur('Un paiement de ce dossier n’a pas encore pu être vérifié. Réessayez dans quelques minutes.', 409);
+                }
+            }
+        }
+        if ($dossier->estPaye()) {
+            return $this->erreur('Les frais de ce dossier ont été payés : il ne peut pas être supprimé. Vous pouvez l’envoyer à l’administration.', 409);
+        }
+
         Journal::enregistrer('dossier.brouillon_supprime', $dossier, ['reference' => $dossier->reference]);
-        $dossier->documents->each->delete();
-        $dossier->delete();
+        DB::transaction(function () use ($dossier) {
+            // Tentatives sans argent versé (annulées, échouées, abandonnées) : rien à conserver.
+            $dossier->paiements()->delete();
+            $dossier->documents->each->delete();
+            $dossier->delete();
+        });
 
         return $this->succes(null, 'Le brouillon a été supprimé.');
     }

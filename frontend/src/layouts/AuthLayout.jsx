@@ -21,9 +21,9 @@ export default function AuthLayout() {
             <Outlet />
           </div>
         </main>
-        <p className="flex items-center justify-center gap-2 text-xs text-slate-500">
-          <ShieldCheck className="size-4 text-brand-600" aria-hidden />
-          Connexion sécurisée — vos données sont protégées et ne sont visibles que par les agents habilités.
+        <p className="flex items-start justify-center gap-2 text-xs leading-4 text-slate-500">
+          <ShieldCheck className="size-4 shrink-0 text-brand-600" aria-hidden />
+          <span>Connexion sécurisée — vos données sont protégées et ne sont visibles que par les agents habilités.</span>
         </p>
       </div>
 

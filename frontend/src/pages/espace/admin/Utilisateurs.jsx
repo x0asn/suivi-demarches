@@ -246,7 +246,47 @@ export default function Utilisateurs() {
         ) : !chargement && donnees.length === 0 ? (
           <EtatVide icone={Users} titre="Aucun utilisateur trouvé" description="Modifiez votre recherche ou vos filtres." />
         ) : (
-          <div className="overflow-x-auto">
+          <>
+          {/* Téléphone : une carte par compte, avec ses boutons d'action visibles. */}
+          <ul className="divide-y divide-slate-100 sm:hidden">
+            {chargement
+              ? Array.from({ length: 5 }).map((_, i) => <li key={i} className="p-4"><Squelette className="h-14" /></li>)
+              : donnees.map((u) => {
+                  const role = ROLES[u.role]
+                  const soiMeme = u.id === moi.id
+                  return (
+                    <li key={u.id} className={cx('flex items-start gap-3 px-4 py-3.5', !u.actif && 'opacity-60')}>
+                      <Avatar prenom={u.prenom} nom={u.nom} taille="sm" />
+                      <div className="min-w-0 flex-1">
+                        <p className="font-medium leading-snug text-slate-900">
+                          {u.nom_complet} {soiMeme && <span className="text-xs font-normal text-slate-400">(vous)</span>}
+                        </p>
+                        <p className="truncate text-xs text-slate-500">{u.email}</p>
+                        <div className="mt-1.5 flex flex-wrap items-center gap-1.5">
+                          <Badge className={role?.couleur}>{role?.libelle}</Badge>
+                          {!u.actif && <Badge className="bg-slate-100 text-slate-600 ring-slate-200" point="bg-slate-400">Désactivé</Badge>}
+                        </div>
+                        {u.service && <p className="mt-1 truncate text-xs text-slate-500">{u.service.nom}</p>}
+                      </div>
+                      <div className="flex shrink-0 gap-1">
+                        <button onClick={() => setFormulaire(u)} className="rounded-lg p-2.5 text-slate-500 ring-1 ring-slate-200 active:bg-slate-100" aria-label={`Modifier ${u.nom_complet}`}>
+                          <Pencil className="size-4" />
+                        </button>
+                        {!soiMeme && (
+                          <button
+                            onClick={() => setAConfirmer(u)}
+                            className={cx('rounded-lg p-2.5 ring-1', u.actif ? 'text-slate-500 ring-slate-200 active:bg-red-50' : 'text-brand-600 ring-brand-200 active:bg-brand-50')}
+                            aria-label={u.actif ? `Désactiver ${u.nom_complet}` : `Réactiver ${u.nom_complet}`}
+                          >
+                            <Power className="size-4" />
+                          </button>
+                        )}
+                      </div>
+                    </li>
+                  )
+                })}
+          </ul>
+          <div className="hidden overflow-x-auto sm:block">
             <table className="w-full text-left text-sm">
               <thead className="bg-slate-50/80 text-xs font-semibold tracking-wide text-slate-500 uppercase">
                 <tr>
@@ -322,6 +362,7 @@ export default function Utilisateurs() {
               </tbody>
             </table>
           </div>
+          </>
         )}
         <Pagination meta={meta} onPage={allerPage} />
       </div>

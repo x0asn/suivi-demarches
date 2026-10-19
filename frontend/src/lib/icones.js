@@ -34,3 +34,9 @@ export function libelleDelai(jours) {
   if (jours >= 30 && jours % 30 === 0) return `${jours / 30} mois`
   return `${jours} jours`
 }
+
+/** Coût affiché d'une démarche : le montant payé en ligne s'il existe, sinon la mention saisie (« Gratuit »…). */
+export function libelleCout(procedure) {
+  if (procedure?.frais > 0) return `${new Intl.NumberFormat('fr-FR').format(procedure.frais)} F CFA`
+  return procedure?.cout || '—'
+}

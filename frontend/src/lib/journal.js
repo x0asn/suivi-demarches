@@ -1,4 +1,4 @@
-/** Libellés lisibles des actions tracées. Les modules suivants complètent la liste. */
+/** Libellés lisibles des actions tracées dans le journal d'audit. */
 export const LIBELLES_ACTIONS = {
   'compte.inscription': 'Création de compte',
   'connexion.succes': 'Connexion',
@@ -10,4 +10,25 @@ export const LIBELLES_ACTIONS = {
   'mot_de_passe.reinitialise': 'Réinitialisation du mot de passe',
   'admin.utilisateur.cree': 'Compte créé par un administrateur',
   'admin.utilisateur.modifie': 'Compte modifié par un administrateur',
+  'admin.procedure.creee': 'Procédure créée',
+  'admin.procedure.modifiee': 'Procédure modifiée',
+  'admin.procedure.statut': 'Procédure publiée ou retirée',
+  'admin.service.cree': 'Service créé',
+  'admin.service.modifie': 'Service modifié',
+  'admin.notification.modele_modifie': 'Modèle de notification modifié',
+  'dossier.cree': 'Dossier créé',
+  'dossier.statut': 'Changement de statut du dossier',
+  'dossier.observation': 'Message sur un dossier',
+  'dossier.brouillon_supprime': 'Brouillon supprimé',
+  'dossier.accuse_telecharge': 'Accusé de réception téléchargé',
+  'dossier.retrait_refuse': 'Remise refusée (code de retrait incorrect)',
+  'document.depose': 'Pièce déposée',
+  'document.supprime': 'Pièce supprimée',
+  'document.verifie': 'Pièce contrôlée',
+  'reclamation.creee': 'Réclamation déposée',
+  'reclamation.traitee': 'Réclamation traitée',
+  'paiement.demarre': 'Paiement commencé',
+  'paiement.paye': 'Paiement confirmé',
+  'paiement.annule': 'Paiement annulé',
+  'paiement.echec': 'Paiement échoué',
 }

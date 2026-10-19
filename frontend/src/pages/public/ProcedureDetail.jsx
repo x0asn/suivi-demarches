@@ -19,7 +19,7 @@ import { Bouton, Chargement } from '../../components/ui'
 import { useAuth } from '../../context/AuthContext'
 import { api } from '../../lib/api'
 import { IconeCategorie, IconeService } from '../../components/ui/Icones'
-import { libelleDelai } from '../../lib/icones'
+import { libelleCout, libelleDelai } from '../../lib/icones'
 import NonTrouve from '../erreurs/NonTrouve'
 
 function Section({ titre, icone: Icone, children, id }) {
@@ -96,7 +96,7 @@ export default function ProcedureDetail() {
           <dl className="mt-8 grid max-w-3xl grid-cols-2 gap-3 sm:grid-cols-4">
             {[
               { icone: Timer, libelle: 'Délai indicatif', valeur: libelleDelai(procedure.delai_jours) },
-              { icone: Wallet, libelle: 'Coût', valeur: procedure.cout ?? '—' },
+              { icone: Wallet, libelle: 'Coût', valeur: libelleCout(procedure) },
               { icone: FileCheck2, libelle: 'Pièces', valeur: `${obligatoires.length} obligatoire${obligatoires.length > 1 ? 's' : ''}` },
               { icone: Clock, libelle: 'Étapes', valeur: procedure.etapes.length },
             ].map(({ icone: Icone, libelle, valeur }) => (

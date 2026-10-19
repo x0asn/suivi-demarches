@@ -33,9 +33,11 @@ class DossierPolicy
 
     public function delete(User $user, Dossier $dossier): bool
     {
+        // Un brouillon dont les frais sont payés est conservé : le paiement doit rester traçable.
         return $user->role === Role::Citoyen
             && $dossier->citoyen_id === $user->id
-            && $dossier->statut === StatutDossier::Brouillon;
+            && $dossier->statut === StatutDossier::Brouillon
+            && ! $dossier->estPaye();
     }
 
     /** Actions de traitement : changer le statut, contrôler une pièce. */
