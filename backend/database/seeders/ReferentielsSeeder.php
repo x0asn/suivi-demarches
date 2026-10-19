@@ -45,12 +45,18 @@ class ReferentielsSeeder extends Seeder
                     'cout' => $p['cout'],
                 ]
             );
-            // Montants illustratifs : à remplacer par les tarifs réels de la commune (Administration > Procédures).
+            // Tarifs moyens constatés (ils varient d'une commune à l'autre) : chaque mairie
+            // ajuste le sien dans Administration > Procédures.
             $procedure->frais = [
                 "Extrait d'acte de naissance" => 200,
                 'Certificat de résidence' => 500,
                 'Certificat de vie et d’entretien' => 500,
-                'Légalisation de signature' => 500,
+                'Légalisation de signature' => 200,
+                'Bulletin n°3 du casier judiciaire' => 1000,
+                'Certificat de nationalité sénégalaise' => 1000,
+                'Passeport ordinaire' => 20000,
+                'Création d’entreprise individuelle' => 10000,
+                'Équivalence de diplôme étranger' => 10000,
             ][$p['titre']] ?? 0;
             $procedure->statut = $this->production ? 'brouillon' : ($p['statut'] ?? 'publiee');
             $procedure->publiee_at = $procedure->statut === 'publiee' ? now()->subDays(rand(20, 120)) : null;
@@ -170,7 +176,7 @@ class ReferentielsSeeder extends Seeder
         return [
             [
                 'titre' => "Extrait d'acte de naissance",
-                'categorie' => 'etat-civil', 'service' => 'mairie-plateau', 'delai' => 3, 'cout' => 'Gratuit',
+                'categorie' => 'etat-civil', 'service' => 'mairie-plateau', 'delai' => 3, 'cout' => 'Timbre communal',
                 'public' => 'Toute personne née ou déclarée dans la commune',
                 'resume' => 'Obtenir une copie certifiée de son acte de naissance, indispensable pour la plupart des démarches.',
                 'description' => "L'extrait d'acte de naissance est délivré par le centre d'état civil où la naissance a été enregistrée. Il est demandé pour l'établissement d'une pièce d'identité, une inscription scolaire, un mariage ou un concours.",
