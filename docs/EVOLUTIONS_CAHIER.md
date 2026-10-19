@@ -69,11 +69,13 @@ Ajouter :
 | RG-016 | La remise du document n'est enregistrée que si l'agent saisit le bon code de retrait et confirme avoir vérifié l'identité du demandeur. |
 | RG-017 | Un dossier ne peut être adressé qu'à une administration habilitée à traiter la démarche ; la règle de compétence (lieu de résidence, lieu de naissance, lieu du bien, ou toute administration) désigne celle qui est compétente. |
 | RG-018 | Le suivi sans compte exige la référence du dossier et son code de suivi, et n'affiche que l'avancement, sans donnée personnelle. |
+| RG-019 | Une démarche payante n'est transmise qu'une fois ses frais réglés (Wave ou Orange Money). Le paiement n'est tenu pour acquis que sur confirmation du prestataire de paiement, jamais sur la seule déclaration du navigateur. Tant que le paiement en ligne n'est pas activé, les frais se règlent au guichet. |
 
 ## §14 — Données
 
 Ajouter à l'entité **Dossier** : code de suivi, code de retrait, date « prêt à retirer », date de remise.
-Ajouter à l'entité **Procédure** : règle de compétence.
+Ajouter à l'entité **Procédure** : règle de compétence, frais à payer en ligne (F CFA).
+Ajouter l'entité **Paiement** : montant, opérateur (Wave, Orange Money), statut (en attente, payé, annulé, échoué), référence du prestataire, reçu, mode (test ou réel), date de paiement. Un dossier a zéro ou plusieurs paiements ; un paiement concerne un seul dossier et est effectué par un utilisateur.
 Ajouter l'association **Procédure — Service** (« est traitée par ») : plusieurs à plusieurs.
 
 ## §16 — API

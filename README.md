@@ -91,6 +91,27 @@ ANTHROPIC_API_KEY=sk-ant-...
 Le modèle et le niveau de réflexion se règlent avec `ASSISTANT_MODELE` et `ASSISTANT_EFFORT`.
 La clé est un secret : elle ne doit jamais être publiée ni versionnée.
 
+### Paiement des frais (Wave, Orange Money)
+
+Les démarches payantes (montant réglé par l'administrateur, champ « Frais payés en ligne ») se paient
+avant l'envoi de la demande, par Wave ou Orange Money, via le prestataire **PayDunya**.
+
+- **Sans clés PayDunya**, le paiement en ligne est désactivé : le citoyen est informé que les frais se règlent au guichet.
+- **Avec les clés**, le citoyen choisit son opérateur, valide le paiement sur la page sécurisée de PayDunya,
+  puis revient sur l'application, qui fait confirmer le paiement par PayDunya avant d'autoriser l'envoi.
+
+Créer un compte sur https://paydunya.com, puis copier les clés (rubrique « Intégrer notre API ») dans `backend/.env` :
+
+```
+PAYDUNYA_MODE=test          # « live » pour encaisser réellement
+PAYDUNYA_MASTER_KEY=...
+PAYDUNYA_PRIVATE_KEY=...
+PAYDUNYA_TOKEN=...
+```
+
+En mode `test`, aucun argent n'est débité. Une fois l'application en ligne, PayDunya confirme aussi
+chaque paiement au serveur (`POST /api/paiements/notification`).
+
 ## 6. Comptes de démonstration
 
 Mot de passe commun : **`Demo2026`**. Sur la page de connexion, un encadré permet de remplir les identifiants en un clic.

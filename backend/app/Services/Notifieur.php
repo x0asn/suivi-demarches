@@ -29,6 +29,7 @@ class Notifieur
         'dossier.rejete' => ['Décision défavorable', 'Décision sur votre demande', 'Votre demande {reference} n’a pas pu aboutir. Motif : {commentaire}', true],
         'dossier.termine' => ['Démarche terminée', 'Démarche terminée', 'Votre document vous a été remis : la démarche {reference} est terminée. Merci d’avoir utilisé Suivi Démarches.', false],
         'dossier.cloture' => ['Dossier clôturé', 'Dossier clôturé', 'Le dossier {reference} a été clôturé.', false],
+        'paiement.paye' => ['Paiement confirmé', 'Paiement reçu', 'Votre paiement de {montant} F CFA par {operateur} pour le dossier {reference} ({procedure}) est confirmé. Vous pouvez maintenant envoyer votre demande.', true],
         'document.accepte' => ['Pièce acceptée', 'Pièce validée', 'Votre pièce « {piece} » a été acceptée (dossier {reference}).', false],
         'document.refuse' => ['Pièce refusée', 'Pièce refusée', 'Votre pièce « {piece} » a été refusée (dossier {reference}). Motif : {commentaire}', false],
         'document.a_corriger' => ['Pièce à corriger', 'Pièce à corriger', 'Votre pièce « {piece} » doit être corrigée (dossier {reference}) : {commentaire}', false],

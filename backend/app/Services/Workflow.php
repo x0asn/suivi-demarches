@@ -88,6 +88,12 @@ class Workflow
         // RG-004 : une demande ne peut être soumise si les éléments obligatoires manquent.
         if ($cible === StatutDossier::Soumis) {
             $erreurs = [];
+            // RG-019 : une démarche payante n'est transmise qu'une fois ses frais réglés en ligne
+            // (tant que le paiement en ligne n'est pas activé, ils se règlent au guichet).
+            $dossier->loadMissing('procedure');
+            if ($dossier->procedure->frais > 0 && PayDunya::configure() && ! $dossier->estPaye()) {
+                $erreurs['paiement'] = 'Réglez les frais de '.number_format($dossier->procedure->frais, 0, ',', ' ').' F CFA avant d’envoyer votre demande.';
+            }
             if (blank($dossier->motif)) {
                 $erreurs['motif'] = 'Précisez l’objet de votre demande avant de la soumettre.';
             }

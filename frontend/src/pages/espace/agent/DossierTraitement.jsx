@@ -16,7 +16,7 @@ import {
 } from 'lucide-react'
 import { useCallback, useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { ApercuDocument, BadgeDocument, BadgeStatut, BoutonApercu, FilEchanges, Frise, Historique, IconeFichier } from '../../../components/dossiers'
+import { ApercuDocument, BadgeDocument, BadgeStatut, BoutonApercu, FilEchanges, Frise, Historique, IconeFichier, ResumePaiement } from '../../../components/dossiers'
 import { Alerte, Avatar, Bouton, Chargement, Modale, ZoneTexte } from '../../../components/ui'
 import { useAuth } from '../../../context/AuthContext'
 import { useToast } from '../../../context/ToastContext'
@@ -396,6 +396,7 @@ export default function DossierTraitement() {
             <dl className="mt-4 space-y-3 text-sm">
               <div className="flex gap-3"><CalendarDays className="mt-0.5 size-4 shrink-0 text-slate-400" aria-hidden /><div><dt className="text-slate-500">Soumis le</dt><dd className="font-medium text-slate-900">{dates.heure(dossier.soumis_at)}</dd></div></div>
               <div className="flex gap-3"><AlarmClock className="mt-0.5 size-4 shrink-0 text-slate-400" aria-hidden /><div><dt className="text-slate-500">Délai indicatif</dt><dd className="font-medium text-slate-900">{libelleDelai(dossier.procedure.delai_jours)} · {dossier.jours_depuis_soumission ?? 0} j écoulé{dossier.jours_depuis_soumission > 1 ? 's' : ''}</dd></div></div>
+              <ResumePaiement dossier={dossier} />
               <div className="flex gap-3"><UserRound className="mt-0.5 size-4 shrink-0 text-slate-400" aria-hidden /><div><dt className="text-slate-500">Agent en charge</dt><dd className="font-medium text-slate-900">{dossier.agent?.nom_complet ?? 'Non attribué'}</dd></div></div>
               {dossier.motif_decision && <div className="flex gap-3"><ShieldAlert className="mt-0.5 size-4 shrink-0 text-red-400" aria-hidden /><div><dt className="text-slate-500">Motif de décision</dt><dd className="font-medium text-slate-900">{dossier.motif_decision}</dd></div></div>}
             </dl>

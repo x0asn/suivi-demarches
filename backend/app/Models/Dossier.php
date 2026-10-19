@@ -98,6 +98,17 @@ class Dossier extends Model
         return $this->belongsTo(Service::class);
     }
 
+    public function paiements(): HasMany
+    {
+        return $this->hasMany(Paiement::class)->latest('id');
+    }
+
+    /** Les frais du dossier sont-ils réglés (paiement confirmé par le prestataire) ? */
+    public function estPaye(): bool
+    {
+        return $this->paiements()->where('statut', Paiement::PAYE)->exists();
+    }
+
     public function documents(): HasMany
     {
         return $this->hasMany(Document::class)->latest();

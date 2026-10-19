@@ -193,6 +193,7 @@ class DossierController extends Controller
             'documents.verificateur',
             'historique.user',
             'observations.user',
+            'paiements',
         ]);
     }
 }

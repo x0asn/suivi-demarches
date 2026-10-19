@@ -5,6 +5,8 @@ namespace App\Http\Resources;
 use App\Enums\Role;
 use App\Enums\StatutDossier;
 use App\Models\Dossier;
+use App\Models\Paiement;
+use App\Services\PayDunya;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -24,6 +26,10 @@ class DossierResource extends JsonResource
             // Code de retrait : montré au seul citoyen, tant que le document l'attend. L'agent ne le voit jamais.
             'code_retrait' => $user && $user->id === $this->citoyen_id && $this->statut === StatutDossier::PretARetirer ? $this->code_retrait : null,
             'pret_at' => $this->pret_at?->toIso8601String(),
+            // Paiement des frais (Wave, Orange Money) : montant dû et dernier paiement.
+            'frais' => $this->whenLoaded('procedure', fn () => (int) $this->procedure->frais),
+            'paiement' => $this->whenLoaded('paiements', fn () => ($this->paiements->firstWhere('statut', Paiement::PAYE) ?? $this->paiements->first())?->versTableau()),
+            'paiement_en_ligne' => PayDunya::configure(),
             'retire_at' => $this->retire_at?->toIso8601String(),
             'statut' => $this->statut->value,
             'statut_libelle' => $this->statut->libelle(),

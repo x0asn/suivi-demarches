@@ -39,6 +39,13 @@ class ReferentielsSeeder extends Seeder
                     'cout' => $p['cout'],
                 ]
             );
+            // Montants illustratifs : à remplacer par les tarifs réels de la commune (Administration > Procédures).
+            $procedure->frais = [
+                "Extrait d'acte de naissance" => 200,
+                'Certificat de résidence' => 500,
+                'Certificat de vie et d’entretien' => 500,
+                'Légalisation de signature' => 500,
+            ][$p['titre']] ?? 0;
             $procedure->statut = $p['statut'] ?? 'publiee';
             $procedure->publiee_at = $procedure->statut === 'publiee' ? now()->subDays(rand(20, 120)) : null;
             [$regle, $habilites] = $competences[$p['titre']] ?? [RegleCompetence::Nationale, [$p['service']]];

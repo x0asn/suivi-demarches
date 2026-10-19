@@ -22,8 +22,8 @@ import {
   XCircle,
 } from 'lucide-react'
 import { useCallback, useEffect, useState } from 'react'
-import { Link, useNavigate, useParams } from 'react-router-dom'
-import { ApercuDocument, BadgeDocument, BadgeStatut, BoutonApercu, FilEchanges, Frise, Historique, PieceDepot } from '../../../components/dossiers'
+import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom'
+import { ApercuDocument, BadgeDocument, BadgeStatut, BlocPaiement, BoutonApercu, FilEchanges, Frise, Historique, PieceDepot, ResumePaiement } from '../../../components/dossiers'
 import { Bouton, Chargement, Modale, ZoneTexte } from '../../../components/ui'
 import { useAuth } from '../../../context/AuthContext'
 import { useToast } from '../../../context/ToastContext'
@@ -136,6 +136,8 @@ export default function DossierCitoyen() {
   const [erreurSoumission, setErreurSoumission] = useState(null)
   const [apercu, setApercu] = useState(null)
   const [accuse, setAccuse] = useState(false)
+  const [params, setParams] = useSearchParams()
+  const [verification, setVerification] = useState(false)
 
   const charger = useCallback(async () => {
     try {
@@ -156,6 +158,34 @@ export default function DossierCitoyen() {
       .catch(() => setIntrouvable(true))
   }, [id])
 
+  // Paiement : le serveur demande à PayDunya si c'est payé, puis on recharge le dossier.
+  const controlerPaiement = useCallback(
+    (paiementId) =>
+      api(`/paiements/${paiementId}`)
+        .then((r) => {
+          if (r.data.statut === 'paye') toast.succes('Vous pouvez maintenant envoyer votre demande.', 'Paiement confirmé')
+          else if (r.data.statut === 'en_attente') toast.info('Le paiement n’est pas encore confirmé. Validez-le sur votre téléphone, puis vérifiez à nouveau.')
+          else toast.erreur('Le paiement n’a pas abouti. Vous pouvez réessayer.')
+        })
+        .catch((err) => toast.erreur(err.message))
+        .then(charger),
+    [charger, toast],
+  )
+
+  const verifierPaiement = async (paiementId) => {
+    setVerification(true)
+    await controlerPaiement(paiementId)
+    setVerification(false)
+  }
+
+  // Retour depuis la page de paiement (?paiement=…) : vérification automatique.
+  const retourPaiement = params.get('paiement')
+  useEffect(() => {
+    if (!retourPaiement) return
+    setParams({}, { replace: true })
+    controlerPaiement(retourPaiement)
+  }, [retourPaiement, setParams, controlerPaiement])
+
   if (introuvable) return <NonTrouve integre titre="Dossier introuvable" message="Ce dossier n'existe pas ou ne vous appartient pas." retour="/espace/dossiers" libelleRetour="Mes dossiers" />
   if (!dossier) return <Chargement texte="Chargement du dossier…" />
 
@@ -165,7 +195,10 @@ export default function DossierCitoyen() {
   const obligatoires = pieces.filter((p) => p.obligatoire)
   const fournies = obligatoires.filter((p) => !dossier.pieces_manquantes.includes(p.id)).length
   const champsModifies = champs.motif !== (dossier.motif ?? '') || champs.precisions !== (dossier.precisions ?? '')
-  const pret = fournies === obligatoires.length && champs.motif.trim().length > 0
+  // Les frais ne sont exigés avant l'envoi que si le paiement en ligne est activé (sinon : au guichet).
+  const fraisEnLigne = dossier.frais > 0 && dossier.paiement_en_ligne
+  const paye = dossier.paiement?.statut === 'paye'
+  const pret = fournies === obligatoires.length && champs.motif.trim().length > 0 && (!fraisEnLigne || paye)
 
   const enregistrer = async () => {
     setSauvegarde(true)
@@ -294,6 +327,11 @@ export default function DossierCitoyen() {
             </ul>
           </Carte>
 
+          {/* Frais de la démarche (Wave, Orange Money) */}
+          {modifiable && dossier.statut === 'brouillon' && dossier.frais > 0 && (
+            <BlocPaiement dossier={dossier} onVerifier={verifierPaiement} verification={verification} />
+          )}
+
           {/* Soumission */}
           {modifiable && (
             <section className="overflow-hidden rounded-2xl bg-brand-900 text-white shadow-flottant">
@@ -303,6 +341,7 @@ export default function DossierCitoyen() {
                   {[
                     [champs.motif.trim().length > 0, 'Objet de la demande renseigné'],
                     [fournies === obligatoires.length, `Pièces obligatoires fournies (${fournies}/${obligatoires.length})`],
+                    ...(fraisEnLigne && dossier.statut === 'brouillon' ? [[paye, 'Frais de la démarche réglés']] : []),
                   ].map(([ok, texte]) => (
                     <li key={texte} className="flex items-center gap-2">
                       {ok ? <CheckCircle2 className="size-4 text-or-300" aria-hidden /> : <Circle className="size-4 text-brand-300" aria-hidden />}
@@ -377,6 +416,7 @@ export default function DossierCitoyen() {
               {dossier.soumis_at && <div className="flex gap-3"><Send className="mt-0.5 size-4 shrink-0 text-slate-400" aria-hidden /><div><dt className="text-slate-500">Soumis le</dt><dd className="font-medium text-slate-900">{dates.heure(dossier.soumis_at)}</dd></div></div>}
               <div className="flex gap-3"><History className="mt-0.5 size-4 shrink-0 text-slate-400" aria-hidden /><div><dt className="text-slate-500">Délai indicatif</dt><dd className="font-medium text-slate-900">{libelleDelai(dossier.procedure.delai_jours)}</dd></div></div>
               {dossier.service && <div className="flex gap-3"><Landmark className="mt-0.5 size-4 shrink-0 text-slate-400" aria-hidden /><div><dt className="text-slate-500">Service</dt><dd className="font-medium text-slate-900">{dossier.service.nom}</dd></div></div>}
+              {dossier.statut !== 'brouillon' && <ResumePaiement dossier={dossier} />}
               {dossier.agent && <div className="flex gap-3"><UserRound className="mt-0.5 size-4 shrink-0 text-slate-400" aria-hidden /><div><dt className="text-slate-500">Agent en charge</dt><dd className="font-medium text-slate-900">{dossier.agent.nom_complet}</dd></div></div>}
             </dl>
           </section>

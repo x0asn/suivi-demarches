@@ -21,6 +21,7 @@ class ProcedureResource extends JsonResource
             'public_concerne' => $this->public_concerne,
             'delai_jours' => $this->delai_jours,
             'cout' => $this->cout,
+            'frais' => (int) $this->frais,
             'statut' => $this->statut,
             'publiee_at' => $this->publiee_at?->toIso8601String(),
             'updated_at' => $this->updated_at?->toIso8601String(),

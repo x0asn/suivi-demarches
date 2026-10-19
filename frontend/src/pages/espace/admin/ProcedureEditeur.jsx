@@ -20,6 +20,7 @@ const VIDE = {
   public_concerne: '',
   delai_jours: '',
   cout: '',
+  frais: 0,
   pieces: [{ libelle: '', description: '', obligatoire: true }],
   etapes: [
     { titre: 'Dépôt en ligne', description: 'Vous remplissez le formulaire et joignez les pièces demandées.' },
@@ -105,6 +106,7 @@ export default function ProcedureEditeur() {
           public_concerne: p.public_concerne ?? '',
           delai_jours: p.delai_jours ?? '',
           cout: p.cout ?? '',
+          frais: p.frais ?? 0,
           pieces: p.pieces.map(({ libelle, description, obligatoire }) => ({ libelle, description: description ?? '', obligatoire })),
           etapes: p.etapes.map(({ titre, description }) => ({ titre, description: description ?? '' })),
         })
@@ -136,6 +138,7 @@ export default function ProcedureEditeur() {
       ...champs,
       service_id: champs.service_id || null,
       delai_jours: champs.delai_jours === '' ? null : Number(champs.delai_jours),
+      frais: Number(champs.frais) || 0,
       categorie_id: champs.categorie_id ? Number(champs.categorie_id) : null,
     }
     try {
@@ -237,6 +240,7 @@ export default function ProcedureEditeur() {
             <Champ className="sm:col-span-2" label="Public concerné" name="public_concerne" value={champs.public_concerne} onChange={modifier} erreur={err('public_concerne')} />
             <Champ label="Délai indicatif (jours)" name="delai_jours" type="number" min={0} max={365} value={champs.delai_jours} onChange={modifier} erreur={err('delai_jours')} />
             <Champ label="Coût" name="cout" value={champs.cout} onChange={modifier} erreur={err('cout')} placeholder="Ex. : Gratuit, Timbre fiscal" />
+            <Champ label="Frais payés en ligne (F CFA)" name="frais" type="number" min={0} max={1000000} step={50} value={champs.frais} onChange={modifier} erreur={err('frais')} aide="Réglés par Wave ou Orange Money avant l’envoi. 0 = démarche gratuite." />
           </div>
         </section>
 

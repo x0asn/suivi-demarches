@@ -1,6 +1,6 @@
 # Matrice de traçabilité — exigences → réalisation → preuve
 
-Les tests se trouvent dans `backend/tests/` (`Feature/` pour les parcours, `Unit/` pour les règles du workflow). Commande : `php artisan test` (104 tests, tous réussis).
+Les tests se trouvent dans `backend/tests/` (`Feature/` pour les parcours, `Unit/` pour les règles du workflow). Commande : `php artisan test` (112 tests, tous réussis).
 
 ## Exigences fonctionnelles
 
@@ -45,6 +45,7 @@ Les tests se trouvent dans `backend/tests/` (`Feature/` pour les parcours, `Unit
 | RG-010 Actions administratives journalisées | Service `Journal` | `test_rf018_l_admin_change_un_role_et_l_action_est_journalisee` |
 | RG-011 Notification sur événement | Service `Notifieur` appelé par le circuit | `test_rf007_*`, `test_uc05_*` |
 | RG-012 Statistiques cohérentes | Calcul direct à partir des dossiers | `test_rg012_indicateurs_coherents_avec_les_donnees` |
+| RG-019 Frais réglés avant l'envoi | Contrôle dans `Workflow`, confirmation par PayDunya (`PaiementController`, `PayDunya`) | `PaiementTest` (8 tests) |
 
 ## Exigences non fonctionnelles
 

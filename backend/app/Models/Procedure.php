@@ -18,7 +18,7 @@ class Procedure extends Model
 
     protected $fillable = [
         'categorie_id', 'service_id', 'regle_competence', 'titre', 'slug', 'resume', 'description', 'conditions',
-        'public_concerne', 'delai_jours', 'cout',
+        'public_concerne', 'delai_jours', 'cout', 'frais',
     ];
 
     /** Sans précision, une démarche peut être traitée par toute administration habilitée. */
@@ -30,6 +30,7 @@ class Procedure extends Model
     {
         return [
             'delai_jours' => 'integer',
+            'frais' => 'integer',
             'publiee_at' => 'datetime',
             'regle_competence' => RegleCompetence::class,
         ];

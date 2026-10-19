@@ -30,6 +30,8 @@ class ProcedureRequest extends FormRequest
             'public_concerne' => ['nullable', 'string', 'max:255'],
             'delai_jours' => ['nullable', 'integer', 'min:0', 'max:365'],
             'cout' => ['nullable', 'string', 'max:100'],
+            // Montant payé en ligne au dépôt (francs CFA) ; 0 pour une démarche gratuite.
+            'frais' => ['sometimes', 'integer', 'min:0', 'max:1000000'],
 
             'pieces' => ['array', 'max:30'],
             'pieces.*.libelle' => ['required', 'string', 'max:255'],
@@ -52,6 +54,7 @@ class ProcedureRequest extends FormRequest
             'resume' => 'résumé',
             'delai_jours' => 'délai',
             'cout' => 'coût',
+            'frais' => 'frais à payer en ligne',
             'pieces.*.libelle' => 'libellé de la pièce',
             'etapes.*.titre' => 'titre de l\'étape',
         ];

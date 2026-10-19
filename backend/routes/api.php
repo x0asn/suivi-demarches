@@ -12,6 +12,7 @@ use App\Http\Controllers\Api\DocumentController;
 use App\Http\Controllers\Api\DossierController;
 use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\Api\ObservationController;
+use App\Http\Controllers\Api\PaiementController;
 use App\Http\Controllers\Api\ProcedureController;
 use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\ReclamationController;
@@ -51,6 +52,9 @@ Route::get('suivi', [SuiviController::class, 'show'])->middleware('throttle:12,1
 // ---- Assistant IA : ouvert à tous, limité pour maîtriser le coût ----
 Route::post('assistant', [AssistantController::class, 'repondre'])->middleware('throttle:20,1');
 
+// ---- Paiement : avis envoyé par PayDunya (signé, puis revérifié auprès de PayDunya) ----
+Route::post('paiements/notification', [PaiementController::class, 'notification'])->middleware('throttle:60,1');
+
 // ---- Routes authentifiées ----
 Route::middleware(['auth:sanctum', 'actif'])->group(function () {
     Route::post('auth/logout', [AuthController::class, 'logout']);
@@ -63,6 +67,8 @@ Route::middleware(['auth:sanctum', 'actif'])->group(function () {
     Route::get('dossiers/resume', [DossierController::class, 'resume']);
     Route::apiResource('dossiers', DossierController::class);
     Route::get('dossiers/{dossier}/accuse', [AccuseController::class, 'telecharger']);
+    Route::post('dossiers/{dossier}/paiements', [PaiementController::class, 'demarrer'])->middleware('throttle:10,1');
+    Route::get('paiements/{paiement}', [PaiementController::class, 'verifier']);
     Route::post('dossiers/{dossier}/soumettre', [DossierController::class, 'soumettre']);
     Route::patch('dossiers/{dossier}/status', [DossierController::class, 'changerStatut']);
     Route::patch('dossiers/{dossier}/remise', [DossierController::class, 'remettre'])->middleware('throttle:10,1');
