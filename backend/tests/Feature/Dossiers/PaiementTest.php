@@ -25,6 +25,8 @@ class PaiementTest extends TestCase
 
     private const MASTER = 'cle-principale-de-test';
 
+    private const NUMERO = '77 123 45 67';
+
     private Procedure $procedure;
 
     private User $citoyen;
@@ -89,7 +91,7 @@ class PaiementTest extends TestCase
         config(['paiement.cles.master' => null]);
         $dossier = $this->dossier();
 
-        $this->postJson("/api/dossiers/{$dossier->id}/paiements", ['operateur' => 'wave'])->assertStatus(503);
+        $this->postJson("/api/dossiers/{$dossier->id}/paiements", ['operateur' => 'wave', 'telephone' => self::NUMERO])->assertStatus(503);
         $this->postJson("/api/dossiers/{$dossier->id}/soumettre")->assertOk();
     }
 
@@ -98,7 +100,7 @@ class PaiementTest extends TestCase
         $this->fauxPayDunya();
         $dossier = $this->dossier();
 
-        $this->postJson("/api/dossiers/{$dossier->id}/paiements", ['operateur' => 'orange_money'])
+        $this->postJson("/api/dossiers/{$dossier->id}/paiements", ['operateur' => 'orange_money', 'telephone' => self::NUMERO])
             ->assertCreated()
             ->assertJsonPath('data.url_paiement', 'https://paydunya.com/sandbox-checkout/invoice/test_jeton')
             ->assertJsonPath('data.paiement.statut', 'en_attente');
@@ -113,7 +115,7 @@ class PaiementTest extends TestCase
     {
         $this->fauxPayDunya('completed');
         $dossier = $this->dossier();
-        $id = $this->postJson("/api/dossiers/{$dossier->id}/paiements", ['operateur' => 'wave'])->json('data.paiement.id');
+        $id = $this->postJson("/api/dossiers/{$dossier->id}/paiements", ['operateur' => 'wave', 'telephone' => self::NUMERO])->json('data.paiement.id');
 
         $this->getJson("/api/paiements/{$id}")
             ->assertOk()
@@ -131,7 +133,7 @@ class PaiementTest extends TestCase
     {
         $this->fauxPayDunya('cancelled');
         $dossier = $this->dossier();
-        $id = $this->postJson("/api/dossiers/{$dossier->id}/paiements", ['operateur' => 'wave'])->json('data.paiement.id');
+        $id = $this->postJson("/api/dossiers/{$dossier->id}/paiements", ['operateur' => 'wave', 'telephone' => self::NUMERO])->json('data.paiement.id');
 
         $this->getJson("/api/paiements/{$id}")->assertJsonPath('data.statut', 'annule');
         $this->postJson("/api/dossiers/{$dossier->id}/soumettre")->assertStatus(422);
@@ -141,10 +143,10 @@ class PaiementTest extends TestCase
     {
         $this->fauxPayDunya();
         $dossier = $this->dossier();
-        $id = $this->postJson("/api/dossiers/{$dossier->id}/paiements", ['operateur' => 'wave'])->json('data.paiement.id');
+        $id = $this->postJson("/api/dossiers/{$dossier->id}/paiements", ['operateur' => 'wave', 'telephone' => self::NUMERO])->json('data.paiement.id');
 
         Sanctum::actingAs(User::factory()->create());
-        $this->postJson("/api/dossiers/{$dossier->id}/paiements", ['operateur' => 'wave'])->assertForbidden();
+        $this->postJson("/api/dossiers/{$dossier->id}/paiements", ['operateur' => 'wave', 'telephone' => self::NUMERO])->assertForbidden();
         $this->getJson("/api/paiements/{$id}")->assertForbidden();
     }
 
@@ -152,7 +154,7 @@ class PaiementTest extends TestCase
     {
         $this->fauxPayDunya('completed');
         $dossier = $this->dossier();
-        $id = $this->postJson("/api/dossiers/{$dossier->id}/paiements", ['operateur' => 'wave'])->json('data.paiement.id');
+        $id = $this->postJson("/api/dossiers/{$dossier->id}/paiements", ['operateur' => 'wave', 'telephone' => self::NUMERO])->json('data.paiement.id');
         $this->getJson("/api/paiements/{$id}");
 
         $this->getJson("/api/dossiers/{$dossier->id}")->assertJsonPath('data.permissions.supprimer', false);
@@ -164,7 +166,7 @@ class PaiementTest extends TestCase
     {
         $this->fauxPayDunya('completed');
         $dossier = $this->dossier();
-        $this->postJson("/api/dossiers/{$dossier->id}/paiements", ['operateur' => 'orange_money']);
+        $this->postJson("/api/dossiers/{$dossier->id}/paiements", ['operateur' => 'orange_money', 'telephone' => self::NUMERO]);
 
         // Le citoyen n'est pas revenu sur l'application, mais il a bien payé.
         $this->deleteJson("/api/dossiers/{$dossier->id}")->assertStatus(409);
@@ -175,7 +177,7 @@ class PaiementTest extends TestCase
     {
         $this->fauxPayDunya('cancelled');
         $dossier = $this->dossier();
-        $this->postJson("/api/dossiers/{$dossier->id}/paiements", ['operateur' => 'wave']);
+        $this->postJson("/api/dossiers/{$dossier->id}/paiements", ['operateur' => 'wave', 'telephone' => self::NUMERO]);
 
         $this->deleteJson("/api/dossiers/{$dossier->id}")->assertOk();
         $this->assertNull($dossier->fresh());
@@ -190,11 +192,91 @@ class PaiementTest extends TestCase
             ->assertStatus(422)->assertJsonValidationErrors('operateur');
     }
 
+    public function test_le_numero_de_telephone_est_obligatoire_et_doit_etre_senegalais(): void
+    {
+        $this->fauxPayDunya();
+        $dossier = $this->dossier();
+
+        $this->postJson("/api/dossiers/{$dossier->id}/paiements", ['operateur' => 'wave'])
+            ->assertStatus(422)->assertJsonValidationErrors('telephone');
+        $this->postJson("/api/dossiers/{$dossier->id}/paiements", ['operateur' => 'wave', 'telephone' => '33 800 10 10'])
+            ->assertStatus(422)->assertJsonValidationErrors('telephone');
+        $this->postJson("/api/dossiers/{$dossier->id}/paiements", ['operateur' => 'wave', 'telephone' => '+221 78 000 11 22'])
+            ->assertCreated();
+    }
+
+    public function test_en_mode_test_le_paiement_passe_par_la_page_pay_dunya(): void
+    {
+        $this->fauxPayDunya();
+        $dossier = $this->dossier();
+
+        $this->postJson("/api/dossiers/{$dossier->id}/paiements", ['operateur' => 'wave', 'telephone' => self::NUMERO])
+            ->assertJsonPath('data.direct', false);
+        Http::assertNotSent(fn (Request $r) => str_contains($r->url(), '/softpay/'));
+    }
+
+    public function test_en_mode_live_wave_s_ouvre_directement_avec_le_seul_numero(): void
+    {
+        config(['paiement.mode' => 'live']);
+        Http::fake([
+            '*/checkout-invoice/create' => Http::response(['response_code' => '00', 'response_text' => 'https://paydunya.com/checkout/invoice/jeton_live', 'token' => 'jeton_live']),
+            '*/softpay/wave-senegal' => Http::response(['success' => true, 'url' => 'https://pay.wave.com/c/cos-abc?a=200&c=XOF']),
+        ]);
+        $dossier = $this->dossier();
+
+        $this->postJson("/api/dossiers/{$dossier->id}/paiements", ['operateur' => 'wave', 'telephone' => self::NUMERO])
+            ->assertCreated()
+            ->assertJsonPath('data.direct', true)
+            ->assertJsonPath('data.url_paiement', 'https://pay.wave.com/c/cos-abc?a=200&c=XOF');
+
+        Http::assertSent(fn (Request $r) => $r->url() === 'https://app.paydunya.com/api/v1/softpay/wave-senegal'
+            && $r['wave_senegal_phone'] === '771234567'
+            && $r['wave_senegal_payment_token'] === 'jeton_live'
+            && $r['wave_senegal_email'] === $this->citoyen->email);
+    }
+
+    public function test_en_mode_live_orange_money_renvoie_le_lien_de_l_application(): void
+    {
+        config(['paiement.mode' => 'live']);
+        Http::fake([
+            '*/checkout-invoice/create' => Http::response(['response_code' => '00', 'response_text' => 'https://paydunya.com/checkout/invoice/jeton_om', 'token' => 'jeton_om']),
+            '*/softpay/new-orange-money-senegal' => Http::response([
+                'success' => true,
+                'url' => 'https://app.paydunya.com/recharge-orange-sn?qr=1',
+                'other_url' => ['om_url' => 'https://orangemoneysn.page.link/x', 'maxit_url' => 'https://sugu.orange-sonatel.com/mp/x'],
+            ]),
+        ]);
+        $dossier = $this->dossier();
+
+        $this->postJson("/api/dossiers/{$dossier->id}/paiements", ['operateur' => 'orange_money', 'telephone' => self::NUMERO])
+            ->assertJsonPath('data.direct', true)
+            ->assertJsonPath('data.url_paiement', 'https://app.paydunya.com/recharge-orange-sn?qr=1')
+            ->assertJsonPath('data.url_application', 'https://sugu.orange-sonatel.com/mp/x');
+
+        Http::assertSent(fn (Request $r) => str_ends_with($r->url(), '/softpay/new-orange-money-senegal')
+            && $r['phone_number'] === '771234567' && $r['invoice_token'] === 'jeton_om');
+    }
+
+    public function test_si_le_paiement_direct_echoue_la_page_pay_dunya_prend_le_relais(): void
+    {
+        config(['paiement.mode' => 'live']);
+        Http::fake([
+            '*/checkout-invoice/create' => Http::response(['response_code' => '00', 'response_text' => 'https://paydunya.com/checkout/invoice/jeton_live', 'token' => 'jeton_live']),
+            '*/softpay/*' => Http::response(['success' => false, 'message' => 'Numéro invalide'], 400),
+        ]);
+        $dossier = $this->dossier();
+
+        $this->postJson("/api/dossiers/{$dossier->id}/paiements", ['operateur' => 'wave', 'telephone' => self::NUMERO])
+            ->assertCreated()
+            ->assertJsonPath('data.direct', false)
+            ->assertJsonPath('data.url_paiement', 'https://paydunya.com/checkout/invoice/jeton_live');
+    }
+
     public function test_l_avis_de_pay_dunya_doit_etre_signe(): void
     {
         $this->fauxPayDunya('completed');
         $dossier = $this->dossier();
-        $this->postJson("/api/dossiers/{$dossier->id}/paiements", ['operateur' => 'wave']);
+        $this->postJson("/api/dossiers/{$dossier->id}/paiements", ['operateur' => 'wave', 'telephone' => self::NUMERO]);
 
         $this->post('/api/paiements/notification', ['data' => ['hash' => 'faux', 'invoice' => ['token' => 'test_jeton']]])
             ->assertForbidden();

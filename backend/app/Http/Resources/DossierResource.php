@@ -6,6 +6,7 @@ use App\Enums\Role;
 use App\Enums\StatutDossier;
 use App\Models\Dossier;
 use App\Models\Paiement;
+use App\Models\User;
 use App\Services\PayDunya;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -30,6 +31,7 @@ class DossierResource extends JsonResource
             'frais' => $this->whenLoaded('procedure', fn () => (int) $this->procedure->frais),
             'paiement' => $this->whenLoaded('paiements', fn () => ($this->paiements->firstWhere('statut', Paiement::PAYE) ?? $this->paiements->first())?->versTableau()),
             'paiement_en_ligne' => PayDunya::configure(),
+            'paiement_mode' => PayDunya::mode(),
             'retire_at' => $this->retire_at?->toIso8601String(),
             'statut' => $this->statut->value,
             'statut_libelle' => $this->statut->libelle(),
@@ -80,6 +82,12 @@ class DossierResource extends JsonResource
                 'region' => $estAdministration ? $this->citoyen->region : null,
                 'commune' => $estAdministration ? $this->citoyen->commune : null,
             ]),
+            // Démonstration uniquement (jamais en production) : comptes agents qui reçoivent ce dossier,
+            // pour savoir avec quel compte se connecter. Envoyé sur la page du dossier, pas dans les listes.
+            'agents_demo' => $this->when(
+                ! app()->isProduction() && $this->service_id && $this->relationLoaded('historique'),
+                fn () => User::where('service_id', $this->service_id)->where('role', Role::Agent)->where('actif', true)->pluck('email'),
+            ),
             'agent' => $this->whenLoaded('agent', fn () => $this->agent ? [
                 'id' => $this->agent->id,
                 'nom_complet' => $this->agent->nom_complet,

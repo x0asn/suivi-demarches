@@ -16,10 +16,10 @@ class Paiement extends Model
 
     public const ECHEC = 'echec';
 
-    /** Opérateurs proposés au citoyen, et leur code chez PayDunya. */
+    /** Opérateurs proposés au citoyen, leur code chez PayDunya et l'adresse de leur paiement direct. */
     public const OPERATEURS = [
-        'wave' => ['libelle' => 'Wave', 'canal' => 'wave-senegal'],
-        'orange_money' => ['libelle' => 'Orange Money', 'canal' => 'orange-money-senegal'],
+        'wave' => ['libelle' => 'Wave', 'canal' => 'wave-senegal', 'direct' => 'wave-senegal'],
+        'orange_money' => ['libelle' => 'Orange Money', 'canal' => 'orange-money-senegal', 'direct' => 'new-orange-money-senegal'],
     ];
 
     public const LIBELLES = [

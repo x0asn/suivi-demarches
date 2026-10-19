@@ -415,10 +415,20 @@ export default function DossierCitoyen() {
               <div className="flex gap-3"><CalendarDays className="mt-0.5 size-4 shrink-0 text-slate-400" aria-hidden /><div><dt className="text-slate-500">Créé le</dt><dd className="font-medium text-slate-900">{dates.longue(dossier.created_at)}</dd></div></div>
               {dossier.soumis_at && <div className="flex gap-3"><Send className="mt-0.5 size-4 shrink-0 text-slate-400" aria-hidden /><div><dt className="text-slate-500">Soumis le</dt><dd className="font-medium text-slate-900">{dates.heure(dossier.soumis_at)}</dd></div></div>}
               <div className="flex gap-3"><History className="mt-0.5 size-4 shrink-0 text-slate-400" aria-hidden /><div><dt className="text-slate-500">Délai indicatif</dt><dd className="font-medium text-slate-900">{libelleDelai(dossier.procedure.delai_jours)}</dd></div></div>
-              {dossier.service && <div className="flex gap-3"><Landmark className="mt-0.5 size-4 shrink-0 text-slate-400" aria-hidden /><div><dt className="text-slate-500">Service</dt><dd className="font-medium text-slate-900">{dossier.service.nom}</dd></div></div>}
+              {dossier.service && <div className="flex gap-3"><Landmark className="mt-0.5 size-4 shrink-0 text-slate-400" aria-hidden /><div><dt className="text-slate-500">{dossier.statut === 'brouillon' ? 'Sera envoyé à' : 'Envoyé à'}</dt><dd className="font-medium text-slate-900">{dossier.service.nom}</dd></div></div>}
               {dossier.statut !== 'brouillon' && <ResumePaiement dossier={dossier} />}
               {dossier.agent && <div className="flex gap-3"><UserRound className="mt-0.5 size-4 shrink-0 text-slate-400" aria-hidden /><div><dt className="text-slate-500">Agent en charge</dt><dd className="font-medium text-slate-900">{dossier.agent.nom_complet}</dd></div></div>}
             </dl>
+            {dossier.statut !== 'brouillon' && dossier.agents_demo?.length > 0 && (
+              <div className="mt-4 rounded-xl border border-dashed border-slate-300 bg-slate-50 p-3 text-xs text-slate-600">
+                <p className="font-semibold uppercase tracking-wide text-slate-500">Démonstration</p>
+                <p className="mt-1">Seuls les agents de ce service voient cette demande. Pour la traiter, connectez-vous avec :</p>
+                {dossier.agents_demo.map((email) => (
+                  <p key={email} className="mt-1 break-all font-mono font-semibold text-slate-800">{email}</p>
+                ))}
+                <p className="mt-1">Mot de passe : <b className="font-semibold text-slate-800">Demo2026</b></p>
+              </div>
+            )}
           </section>
 
           <section className="carte p-5">

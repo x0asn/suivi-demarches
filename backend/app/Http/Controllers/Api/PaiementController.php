@@ -17,7 +17,8 @@ use Throwable;
 /**
  * Paiement des frais d'une démarche par Wave ou Orange Money, via PayDunya.
  *
- * 1. Le citoyen choisit son opérateur : on crée la facture chez PayDunya et on le redirige vers sa page.
+ * 1. Le citoyen choisit son opérateur et donne son numéro : on crée la facture chez PayDunya, puis
+ *    (compte live) on demande à PayDunya d'ouvrir directement Wave ou Orange Money sur son téléphone.
  * 2. Il paie sur son téléphone, puis revient sur l'application : on demande à PayDunya si c'est payé.
  * 3. PayDunya prévient aussi lui-même le serveur (notification), une fois l'application en ligne.
  */
@@ -62,13 +63,26 @@ class PaiementController extends Controller
             return $this->erreur('Le service de paiement ne répond pas pour le moment. Réessayez dans quelques minutes.', 502);
         }
 
+        // Paiement direct : le citoyen n'a que son numéro à donner. En cas de refus, la page de PayDunya prend le relais.
+        $direct = null;
+        try {
+            $direct = PayDunya::payerDirect($paiement, $jeton, $request->telephone, $request->user());
+        } catch (Throwable $e) {
+            Log::warning('Paiement : paiement direct refusé, passage par la page PayDunya.', ['paiement' => $paiement->id, 'erreur' => $e->getMessage()]);
+        }
+
         $paiement->reference_prestataire = $jeton;
-        $paiement->url_paiement = $url;
+        $paiement->url_paiement = $direct['url'] ?? $url;
         $paiement->save();
 
-        Journal::enregistrer('paiement.demarre', $dossier, ['montant' => $montant, 'operateur' => $paiement->operateur, 'mode' => $paiement->mode]);
+        Journal::enregistrer('paiement.demarre', $dossier, ['montant' => $montant, 'operateur' => $paiement->operateur, 'mode' => $paiement->mode, 'direct' => $direct !== null]);
 
-        return $this->succes(['paiement' => $paiement->versTableau(), 'url_paiement' => $url], 'Redirection vers la page de paiement…', 201);
+        return $this->succes([
+            'paiement' => $paiement->versTableau(),
+            'url_paiement' => $paiement->url_paiement,
+            'url_application' => $direct['application'] ?? null,
+            'direct' => $direct !== null,
+        ], 'Redirection vers le paiement…', 201);
     }
 
     /** Au retour du citoyen : on demande à PayDunya où en est le paiement. */

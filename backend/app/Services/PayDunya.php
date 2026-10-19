@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Paiement;
+use App\Models\User;
 use Illuminate\Support\Facades\Http;
 use RuntimeException;
 
@@ -57,6 +58,55 @@ class PayDunya
         }
 
         return [$donnees['token'], $donnees['response_text']];
+    }
+
+    /**
+     * Paiement direct (SoftPay, mode live) : à partir du seul numéro du citoyen, PayDunya renvoie
+     * le lien qui ouvre Wave ou Orange Money sur son téléphone, où il valide avec son code secret.
+     * Renvoie null en mode test : PayDunya ne propose ce raccourci qu'avec un compte activé.
+     *
+     * @return array{url: string, application: ?string}|null
+     */
+    public static function payerDirect(Paiement $paiement, string $jeton, string $telephone, User $client): ?array
+    {
+        if (self::mode() !== 'live') {
+            return null;
+        }
+
+        $champs = $paiement->operateur === 'wave'
+            ? [
+                'wave_senegal_fullName' => $client->nom_complet,
+                'wave_senegal_email' => $client->email,
+                'wave_senegal_phone' => $telephone,
+                'wave_senegal_payment_token' => $jeton,
+            ]
+            : [
+                'customer_name' => $client->nom_complet,
+                'customer_email' => $client->email,
+                'phone_number' => $telephone,
+                'invoice_token' => $jeton,
+            ];
+
+        $reponse = self::client()->baseUrl(config('paiement.url_direct'))
+            ->post(Paiement::OPERATEURS[$paiement->operateur]['direct'], $champs);
+        $donnees = $reponse->json() ?? [];
+        if (! $reponse->successful() || ($donnees['success'] ?? false) !== true || empty($donnees['url'])) {
+            throw new RuntimeException('PayDunya a refusé le paiement direct : '.($donnees['message'] ?? $reponse->status()));
+        }
+
+        return [
+            'url' => $donnees['url'],
+            // Orange Money : lien qui ouvre directement l'application Max it sur le téléphone.
+            'application' => $donnees['other_url']['maxit_url'] ?? $donnees['other_url']['om_url'] ?? null,
+        ];
+    }
+
+    /** Numéro mobile sénégalais ramené à 9 chiffres (77 123 45 67, +221 77…, 00221 77…). */
+    public static function numero(string $saisie): string
+    {
+        $chiffres = preg_replace('/\D/', '', $saisie);
+
+        return preg_replace('/^(00)?221(?=\d{9}$)/', '', $chiffres);
     }
 
     /**

@@ -1,11 +1,12 @@
-import { BadgeCheck, ChevronRight, CreditCard, ExternalLink, Info, Lock, LoaderCircle, RefreshCw } from 'lucide-react'
+import { BadgeCheck, ChevronRight, CreditCard, ExternalLink, Info, Lock, LoaderCircle, RefreshCw, Smartphone } from 'lucide-react'
 import { useState } from 'react'
 import logoOrangeMoney from '../../assets/paiement/orange-money.svg'
 import logoWave from '../../assets/paiement/wave.png'
+import { useAuth } from '../../context/AuthContext'
 import { useToast } from '../../context/ToastContext'
 import { api } from '../../lib/api'
 import { cx, dates, nombre } from '../../lib/utils'
-import { Bouton } from '../ui'
+import { Bouton, Champ } from '../ui'
 
 /** Les deux opérateurs proposés, avec leur logo et leurs couleurs (le code correspond à celui du serveur). */
 const OPERATEURS = [
@@ -27,14 +28,24 @@ const OPERATEURS = [
 
 const fcfa = (montant) => `${nombre(montant)} F CFA`
 
+/** Numéro du profil sans l'indicatif, présenté « 77 123 45 67 » ; vide s'il n'est pas un mobile sénégalais. */
+function numeroLocal(numero) {
+  const chiffres = (numero ?? '').replace(/\D/g, '').replace(/^(00)?221(?=\d{9}$)/, '')
+  return /^7\d{8}$/.test(chiffres) ? chiffres.replace(/^(\d{2})(\d{3})(\d{2})(\d{2})$/, '$1 $2 $3 $4') : ''
+}
+
 /**
  * Règlement des frais de la démarche, avant l'envoi (RG-019).
- * Le citoyen choisit Wave ou Orange Money, paie sur la page sécurisée de PayDunya, puis revient ici :
+ * Le citoyen choisit Wave ou Orange Money, donne son numéro et valide sur son téléphone, puis revient ici :
  * c'est le serveur qui confirme le paiement auprès de PayDunya, jamais le navigateur.
  */
 export function BlocPaiement({ dossier, onVerifier, verification }) {
   const toast = useToast()
+  const { utilisateur } = useAuth()
   const [operateur, setOperateur] = useState(null)
+  const [telephone, setTelephone] = useState(() => numeroLocal(utilisateur?.telephone))
+  const [envoi, setEnvoi] = useState(false)
+  const [erreur, setErreur] = useState(null)
   const paiement = dossier.paiement
 
   if (paiement?.statut === 'paye') {
@@ -69,18 +80,24 @@ export function BlocPaiement({ dossier, onVerifier, verification }) {
     )
   }
 
-  const payer = async (code) => {
-    setOperateur(code)
+  const payer = async (e) => {
+    e.preventDefault()
+    setErreur(null)
+    setEnvoi(true)
     try {
-      const r = await api(`/dossiers/${dossier.id}/paiements`, { method: 'POST', body: { operateur: code } })
-      window.location.assign(r.data.url_paiement)
+      const r = await api(`/dossiers/${dossier.id}/paiements`, { method: 'POST', body: { operateur, telephone } })
+      // Sur téléphone, Orange Money s'ouvre directement dans l'application Max it ; ailleurs, page avec QR code.
+      const surTelephone = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent)
+      window.location.assign((surTelephone && r.data.url_application) || r.data.url_paiement)
     } catch (err) {
-      toast.erreur(err.message)
-      setOperateur(null)
+      if (err.champ?.('telephone')) setErreur(err.champ('telephone'))
+      else toast.erreur(err.message)
+      setEnvoi(false)
     }
   }
 
   const enAttente = paiement?.statut === 'en_attente'
+  const choisi = OPERATEURS.find((o) => o.code === operateur)
 
   return (
     <section className="carte overflow-hidden">
@@ -101,16 +118,57 @@ export function BlocPaiement({ dossier, onVerifier, verification }) {
           </div>
         ) : (
           <p className="mb-5 text-sm text-slate-600">
-            Réglez les frais avant d’envoyer votre demande. Vous serez dirigé vers une page sécurisée pour valider le paiement sur votre téléphone.
+            Réglez les frais avant d’envoyer votre demande : choisissez votre opérateur, donnez votre numéro, puis validez sur votre téléphone.
           </p>
         )}
+        {choisi ? (
+          <form onSubmit={payer} noValidate>
+            <div className="flex items-center gap-3">
+              <span className={cx('grid size-10 shrink-0 place-items-center overflow-hidden rounded-xl shadow-sm ring-1 ring-slate-200', choisi.tuile)}>
+                <img src={choisi.logo} alt="" className="size-full object-contain" />
+              </span>
+              <p className="min-w-0 flex-1 font-semibold text-slate-900">Payer avec {choisi.libelle}</p>
+              <button type="button" disabled={envoi} onClick={() => { setOperateur(null); setErreur(null) }} className="text-sm font-semibold text-brand-700 hover:text-brand-800 disabled:opacity-50">
+                Changer
+              </button>
+            </div>
+            <Champ
+              className="mt-4"
+              label={`Votre numéro ${choisi.libelle}`}
+              name="telephone"
+              type="tel"
+              inputMode="numeric"
+              autoComplete="tel-national"
+              icone={Smartphone}
+              placeholder="77 123 45 67"
+              value={telephone}
+              onChange={(e) => setTelephone(e.target.value)}
+              erreur={erreur}
+              aide={`Vous validerez ensuite le paiement sur ce téléphone, avec votre code secret ${choisi.libelle}.`}
+              obligatoire
+            />
+            <button
+              type="submit"
+              disabled={envoi}
+              className={cx('mt-4 flex h-12 w-full items-center justify-center gap-2 rounded-xl font-semibold shadow-sm transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:cursor-wait disabled:opacity-70', choisi.classe)}
+            >
+              {envoi && <LoaderCircle className="size-5 animate-spin" aria-hidden />}
+              Payer {fcfa(dossier.frais)}
+            </button>
+            {dossier.paiement_mode === 'test' && (
+              <p className="mt-3 rounded-lg bg-slate-50 p-2.5 text-xs text-slate-500 ring-1 ring-slate-200">
+                Mode essai : aucun argent réel. PayDunya demande ici le compte client de test (numéro, e-mail, mot de passe).
+                Avec le compte PayDunya activé, seuls le numéro et le code secret sur le téléphone seront demandés.
+              </p>
+            )}
+          </form>
+        ) : (
         <div className="grid gap-3 sm:grid-cols-2">
           {OPERATEURS.map((o) => (
             <button
               key={o.code}
               type="button"
-              disabled={operateur !== null}
-              onClick={() => payer(o.code)}
+              onClick={() => setOperateur(o.code)}
               aria-label={`Payer avec ${o.libelle}`}
               className={cx(
                 'group flex h-16 items-center gap-3.5 rounded-2xl pl-2.5 pr-4 text-left shadow-sm transition hover:-translate-y-0.5 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 active:translate-y-0 disabled:cursor-wait disabled:opacity-60 disabled:hover:translate-y-0',
@@ -124,12 +182,11 @@ export function BlocPaiement({ dossier, onVerifier, verification }) {
                 <span className="block text-xs font-medium opacity-80">Payer avec</span>
                 <span className="block truncate text-[1.05rem] font-semibold">{o.libelle}</span>
               </span>
-              {operateur === o.code
-                ? <LoaderCircle className="size-5 shrink-0 animate-spin" aria-hidden />
-                : <ChevronRight className="size-5 shrink-0 opacity-70 transition group-hover:translate-x-0.5 group-hover:opacity-100" aria-hidden />}
+              <ChevronRight className="size-5 shrink-0 opacity-70 transition group-hover:translate-x-0.5 group-hover:opacity-100" aria-hidden />
             </button>
           ))}
         </div>
+        )}
         <p className="mt-4 flex items-start gap-1.5 text-xs leading-4 text-slate-500">
           <Lock className="mt-px size-3.5 shrink-0" aria-hidden /> <span>Paiement sécurisé par PayDunya. Aucun code secret n’est saisi sur cette application.</span>
         </p>

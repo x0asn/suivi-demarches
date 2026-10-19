@@ -65,7 +65,7 @@ Les routes publiques d'authentification sont limitées à 10 requêtes par minut
 | PATCH | `/dossiers/{id}` | Propriétaire, brouillon ou correction | motif?, precisions? | Modifier |
 | DELETE | `/dossiers/{id}` | Propriétaire, brouillon | — | Supprimer le brouillon |
 | GET | `/dossiers/{id}/accuse` | Personnes habilitées à voir le dossier | — | Accusé de réception en PDF, avec QR code de suivi (dossier soumis uniquement) |
-| POST | `/dossiers/{id}/paiements` | Citoyen propriétaire (brouillon) | `operateur` (`wave`, `orange_money`) | Crée la facture PayDunya et renvoie `url_paiement` ; 503 si le paiement en ligne n'est pas activé |
+| POST | `/dossiers/{id}/paiements` | Citoyen propriétaire (brouillon) | `operateur` (`wave`, `orange_money`), `telephone` (mobile sénégalais, 9 chiffres) | Crée la facture PayDunya. En mode live, paiement direct (SoftPay) : renvoie le lien qui ouvre Wave ou Orange Money (`url_paiement`, `url_application`, `direct: true`) ; sinon page PayDunya. 503 si le paiement en ligne n’est pas activé |
 | GET | `/paiements/{id}` | Personnes habilitées à voir le dossier | — | Fait confirmer l'état du paiement par PayDunya et le renvoie |
 | POST | `/paiements/notification` | Public (PayDunya) | `data` signé (`hash`) | Avis de paiement : signature vérifiée, puis état revérifié auprès de PayDunya |
 | POST | `/dossiers/{id}/soumettre` | Propriétaire | — | Soumettre (RF-007, RG-004) |

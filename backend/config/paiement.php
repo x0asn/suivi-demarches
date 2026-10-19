@@ -33,6 +33,10 @@ return [
         'live' => 'https://app.paydunya.com/api/v1/checkout-invoice/',
     ],
 
+    // Paiement direct (« SoftPay ») : le citoyen donne seulement son numéro et valide sur son
+    // téléphone, sans passer par la page de PayDunya. Proposé par PayDunya en mode live uniquement.
+    'url_direct' => 'https://app.paydunya.com/api/v1/softpay/',
+
     // Nom affiché au citoyen sur la page de paiement.
     'boutique' => env('PAYDUNYA_BOUTIQUE', 'Suivi Démarches'),
 

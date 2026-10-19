@@ -99,6 +99,10 @@ export default function Connexion() {
           <p className="mt-1 text-xs text-slate-500">
             Mot de passe : <code className="rounded bg-white px-1.5 py-0.5 font-semibold text-slate-700 ring-1 ring-slate-200">Demo2026</code>
           </p>
+          <p className="mt-1 text-xs text-slate-500">
+            L’agent ci-dessous travaille à la Mairie de Dakar-Plateau et ne voit que ses demandes. Chaque mairie a son agent :
+            l’adresse à utiliser est indiquée sur la page de la demande, côté citoyen.
+          </p>
           <div className="mt-3 grid grid-cols-2 gap-2">
             {COMPTES_DEMO.map(({ role, email, icone: Icone }) => (
               <button
