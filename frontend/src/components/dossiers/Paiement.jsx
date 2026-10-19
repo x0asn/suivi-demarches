@@ -1,14 +1,28 @@
-import { BadgeCheck, CreditCard, ExternalLink, Info, Lock, RefreshCw, Smartphone } from 'lucide-react'
+import { BadgeCheck, ChevronRight, CreditCard, ExternalLink, Info, Lock, LoaderCircle, RefreshCw } from 'lucide-react'
 import { useState } from 'react'
+import logoOrangeMoney from '../../assets/paiement/orange-money.svg'
+import logoWave from '../../assets/paiement/wave.png'
 import { useToast } from '../../context/ToastContext'
 import { api } from '../../lib/api'
 import { cx, dates, nombre } from '../../lib/utils'
 import { Bouton } from '../ui'
 
-/** Les deux opérateurs proposés, avec leurs couleurs (le code correspond à celui du serveur). */
+/** Les deux opérateurs proposés, avec leur logo et leurs couleurs (le code correspond à celui du serveur). */
 const OPERATEURS = [
-  { code: 'wave', libelle: 'Wave', classe: 'bg-[#1dc8f1] text-slate-950 hover:bg-[#12b6de] focus-visible:ring-[#1dc8f1]' },
-  { code: 'orange_money', libelle: 'Orange Money', classe: 'bg-[#ff7900] text-white hover:bg-[#e86e00] focus-visible:ring-[#ff7900]' },
+  {
+    code: 'wave',
+    libelle: 'Wave',
+    logo: logoWave,
+    tuile: 'bg-[#1dc8f1]', // le logo Wave est déjà une tuile bleue
+    classe: 'bg-[#1dc8f1] text-slate-950 hover:bg-[#12b6de] focus-visible:ring-[#1dc8f1]',
+  },
+  {
+    code: 'orange_money',
+    libelle: 'Orange Money',
+    logo: logoOrangeMoney,
+    tuile: 'bg-white p-1.5',
+    classe: 'bg-[#ff7900] text-white hover:bg-[#ec6f00] focus-visible:ring-[#ff7900]',
+  },
 ]
 
 const fcfa = (montant) => `${nombre(montant)} F CFA`
@@ -97,13 +111,22 @@ export function BlocPaiement({ dossier, onVerifier, verification }) {
               type="button"
               disabled={operateur !== null}
               onClick={() => payer(o.code)}
+              aria-label={`Payer avec ${o.libelle}`}
               className={cx(
-                'flex h-14 items-center justify-center gap-2.5 rounded-xl text-base font-semibold shadow-sm transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:cursor-wait disabled:opacity-60',
+                'group flex h-16 items-center gap-3.5 rounded-2xl pl-2.5 pr-4 text-left shadow-sm transition hover:-translate-y-0.5 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 active:translate-y-0 disabled:cursor-wait disabled:opacity-60 disabled:hover:translate-y-0',
                 o.classe,
               )}
             >
-              {operateur === o.code ? <RefreshCw className="size-5 animate-spin" aria-hidden /> : <Smartphone className="size-5" aria-hidden />}
-              Payer avec {o.libelle}
+              <span className={cx('grid size-11 shrink-0 place-items-center overflow-hidden rounded-xl shadow-sm ring-2 ring-white/80', o.tuile)}>
+                <img src={o.logo} alt="" className="size-full object-contain" />
+              </span>
+              <span className="min-w-0 flex-1 leading-tight">
+                <span className="block text-xs font-medium opacity-80">Payer avec</span>
+                <span className="block truncate text-[1.05rem] font-semibold">{o.libelle}</span>
+              </span>
+              {operateur === o.code
+                ? <LoaderCircle className="size-5 shrink-0 animate-spin" aria-hidden />
+                : <ChevronRight className="size-5 shrink-0 opacity-70 transition group-hover:translate-x-0.5 group-hover:opacity-100" aria-hidden />}
             </button>
           ))}
         </div>
