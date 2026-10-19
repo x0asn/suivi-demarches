@@ -19,6 +19,12 @@ class AdresseDemo extends Command
 
     public function handle(): int
     {
+        if (app()->isProduction()) {
+            $this->error('Commande réservée à la démonstration : sur un vrai serveur, FRONTEND_URL se règle dans .env.');
+
+            return self::FAILURE;
+        }
+
         $adresse = 'http://localhost:5173';
 
         if ($this->option('reseau')) {

@@ -1,6 +1,6 @@
 # Matrice de traçabilité — exigences → réalisation → preuve
 
-Les tests se trouvent dans `backend/tests/` (`Feature/` pour les parcours, `Unit/` pour les règles du workflow). Commande : `php artisan test` (112 tests, tous réussis).
+Les tests se trouvent dans `backend/tests/` (`Feature/` pour les parcours, `Unit/` pour les règles du workflow). Commande : `php artisan test` (119 tests, tous réussis).
 
 ## Exigences fonctionnelles
 

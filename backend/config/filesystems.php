@@ -33,7 +33,8 @@ return [
         'local' => [
             'driver' => 'local',
             'root' => storage_path('app/private'),
-            'serve' => true,
+            // Pièces justificatives : jamais servies directement, seulement via DocumentController (droits vérifiés).
+            'serve' => false,
             'throw' => false,
             'report' => false,
         ],

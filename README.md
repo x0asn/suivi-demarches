@@ -158,6 +158,20 @@ Les noms des tests reprennent les codes du cahier des charges (`test_rf001_…`,
 - Pièces justificatives stockées hors du dossier public, avec un nom aléatoire, téléchargeables uniquement par les personnes habilitées ; formats PDF/JPG/PNG et 5 Mo maximum.
 - Limitation des tentatives de connexion, messages d'erreur génériques, journal d'audit des actions sensibles.
 - Le fichier `.env` (secrets) n'est jamais versionné.
+- En-têtes de sécurité sur chaque réponse (`EnTetesSecurite`), HTTPS imposé en production, connexions limitées dans le temps (`SANCTUM_EXPIRATION`).
+- Paiements confirmés uniquement par PayDunya (jamais par le navigateur) ; avis de paiement signés.
+
+## 9 bis. Mise en ligne
+
+L'application est **prête à être mise en ligne, mais ne l'est pas**. Tout est décrit dans
+[docs/DEPLOIEMENT.md](docs/DEPLOIEMENT.md) :
+
+- installation propre, sans aucune donnée fictive : `php artisan db:seed --class=ProductionSeeder --force` ;
+- création du premier administrateur : `php artisan admin:creer` ;
+- modèle de réglages du serveur : `backend/.env.production.example` ;
+- contrôle final : `php artisan production:verifier`.
+
+Le jeu de démonstration (comptes `Demo2026`) refuse de s'installer sur un serveur en mode production.
 
 ## 10. Données de démonstration
 
@@ -174,6 +188,7 @@ restent à compléter par l'administrateur.
 
 - [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) — organisation du code, dossier par dossier
 - [docs/API.md](docs/API.md) — contrats de l'API REST
+- [docs/DEPLOIEMENT.md](docs/DEPLOIEMENT.md) — mise en ligne sur un vrai serveur, sans données de démonstration
 - [docs/TRACABILITE.md](docs/TRACABILITE.md) — exigences → écrans → tests
 - [docs/EVOLUTIONS_CAHIER.md](docs/EVOLUTIONS_CAHIER.md) — ce qu'il faut reporter dans le cahier des charges (version 2.1)
 - [docs/conception/](docs/conception/) et [docs/maquettes/](docs/maquettes/) — UML, MCD/MLD et maquettes (à compléter)

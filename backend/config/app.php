@@ -55,6 +55,10 @@ return [
     'url' => env('APP_URL', 'http://localhost'),
     'frontend_url' => env('FRONTEND_URL', 'http://localhost:5173'),
 
+    // Derrière un proxy ou un hébergeur qui gère le HTTPS : adresses des proxys de confiance
+    // (séparées par des virgules, ou * pour tous). Vide sur un poste de développement.
+    'trusted_proxies' => env('TRUSTED_PROXIES'),
+
     /*
     |--------------------------------------------------------------------------
     | Application Timezone

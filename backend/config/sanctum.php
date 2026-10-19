@@ -50,7 +50,9 @@ return [
     |
     */
 
-    'expiration' => null,
+    // Durée de validité d'une connexion, en minutes (vide = illimitée, pour la démonstration).
+    // En production : 10080 (7 jours) ; le citoyen est alors invité à se reconnecter.
+    'expiration' => env('SANCTUM_EXPIRATION') ? (int) env('SANCTUM_EXPIRATION') : null,
 
     /*
     |--------------------------------------------------------------------------

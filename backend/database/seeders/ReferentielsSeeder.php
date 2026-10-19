@@ -18,6 +18,12 @@ use Illuminate\Support\Str;
  */
 class ReferentielsSeeder extends Seeder
 {
+    /**
+     * Installation réelle (ProductionSeeder) : aucune coordonnée inventée (téléphone, e-mail, horaires)
+     * et des démarches en brouillon, publiées par l'administrateur une fois vérifiées.
+     */
+    public bool $production = false;
+
     public function run(): void
     {
         $categories = $this->categories();
@@ -46,7 +52,7 @@ class ReferentielsSeeder extends Seeder
                 'Certificat de vie et d’entretien' => 500,
                 'Légalisation de signature' => 500,
             ][$p['titre']] ?? 0;
-            $procedure->statut = $p['statut'] ?? 'publiee';
+            $procedure->statut = $this->production ? 'brouillon' : ($p['statut'] ?? 'publiee');
             $procedure->publiee_at = $procedure->statut === 'publiee' ? now()->subDays(rand(20, 120)) : null;
             [$regle, $habilites] = $competences[$p['titre']] ?? [RegleCompetence::Nationale, [$p['service']]];
             $procedure->regle_competence = $regle;
@@ -119,7 +125,10 @@ class ReferentielsSeeder extends Seeder
         foreach ($liste as $cle => [$nom, $type, $adresse, $commune, $region, $tel, $horaires, $lat, $lng]) {
             $resultat[$cle] = Service::updateOrCreate(['nom' => $nom], [
                 'type' => $type, 'adresse' => $adresse, 'commune' => $commune, 'region' => $region,
-                'telephone' => $tel, 'email' => 'contact@'.Str::slug($nom).'.sn', 'horaires' => $horaires,
+                // Coordonnées de démonstration : jamais reprises dans une installation réelle.
+                'telephone' => $this->production ? null : $tel,
+                'email' => $this->production ? null : 'contact@'.Str::slug($nom).'.sn',
+                'horaires' => $this->production ? null : $horaires,
                 'latitude' => $lat, 'longitude' => $lng, 'actif' => true,
             ]);
         }
