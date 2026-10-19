@@ -57,6 +57,7 @@ class ReferentielsSeeder extends Seeder
                 'Passeport ordinaire' => 20000,
                 'Création d’entreprise individuelle' => 10000,
                 'Équivalence de diplôme étranger' => 10000,
+                'Autorisation de construire' => 25000,
             ][$p['titre']] ?? 0;
             $procedure->statut = $this->production ? 'brouillon' : ($p['statut'] ?? 'publiee');
             $procedure->publiee_at = $procedure->statut === 'publiee' ? now()->subDays(rand(20, 120)) : null;
@@ -299,7 +300,7 @@ class ReferentielsSeeder extends Seeder
             ],
             [
                 'titre' => 'Autorisation de construire',
-                'categorie' => 'urbanisme', 'service' => 'urbanisme', 'delai' => 30, 'cout' => 'Selon la surface',
+                'categorie' => 'urbanisme', 'service' => 'urbanisme', 'delai' => 30, 'cout' => 'Frais d’instruction',
                 'public' => 'Propriétaires ou titulaires d’un droit sur le terrain',
                 'resume' => 'Obtenir l’autorisation obligatoire avant tout projet de construction ou d’extension.',
                 'description' => 'L’autorisation de construire garantit que le projet respecte les règles d’urbanisme. Le dossier est examiné par une commission technique.',
