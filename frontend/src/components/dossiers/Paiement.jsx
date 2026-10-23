@@ -157,8 +157,7 @@ export function BlocPaiement({ dossier, onVerifier, verification }) {
             </button>
             {dossier.paiement_mode === 'test' && (
               <p className="mt-3 rounded-lg bg-slate-50 p-2.5 text-xs text-slate-500 ring-1 ring-slate-200">
-                Mode essai : aucun argent réel. PayDunya demande ici le compte client de test (numéro, e-mail, mot de passe).
-                Avec le compte PayDunya activé, seuls le numéro et le code secret sur le téléphone seront demandés.
+                Mode essai : aucun argent réel n’est prélevé.
               </p>
             )}
           </form>
@@ -188,7 +187,7 @@ export function BlocPaiement({ dossier, onVerifier, verification }) {
         </div>
         )}
         <p className="mt-4 flex items-start gap-1.5 text-xs leading-4 text-slate-500">
-          <Lock className="mt-px size-3.5 shrink-0" aria-hidden /> <span>Paiement sécurisé par PayDunya. Aucun code secret n’est saisi sur cette application.</span>
+          <Lock className="mt-px size-3.5 shrink-0" aria-hidden /> <span>Paiement sécurisé. Aucun code secret n’est saisi sur cette application.</span>
         </p>
       </div>
     </section>
